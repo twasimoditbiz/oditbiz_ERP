@@ -1,19 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:oditbiz/app/controller/ledger_report.dart';
+import 'package:oditbiz/app/controller/ledger_search.dart';
 import 'package:oditbiz/app/custom/textshadow.dart';
 import 'package:oditbiz/app/routes/pageroutes.dart';
+import 'package:provider/provider.dart';
 
 void main() {
   SystemChrome.setSystemUIOverlayStyle(
     const SystemUiOverlayStyle(
-        statusBarColor: Colors.transparent,
-        statusBarIconBrightness: Brightness.dark),
+      statusBarColor: Colors.transparent,
+      statusBarIconBrightness: Brightness.dark,
+    ),
   );
   WidgetsFlutterBinding.ensureInitialized();
-  SystemChrome.setPreferredOrientations(
-      [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]);
 
-  runApp(const MyApp());
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_)=> LedgerSearchController(_)),
+        ChangeNotifierProvider(create: (_)=>LedgerReportController()),
+      ],
+      child: const MyApp(),
+    ),
+    );
 }
 
 class MyApp extends StatelessWidget {
@@ -23,7 +37,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      initialRoute: '/BottomNavigationScreen',
+      initialRoute: '/login',
       routes: PageRoutes.routes,
       theme: ThemeData(
         fontFamily: "poppins",

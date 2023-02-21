@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:oditbiz/app/custom/sncakbarscreen.dart';
+import 'package:oditbiz/app/custom/sncakbar.dart';
 import 'package:oditbiz/app/page/recipts/receipt_field.dart';
 
 class ReceiptScreen extends StatefulWidget {

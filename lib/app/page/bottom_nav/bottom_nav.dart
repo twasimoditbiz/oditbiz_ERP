@@ -2,10 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:oditbiz/app/page/entries/entries_screen.dart';
 import 'package:oditbiz/app/page/home/homepage.dart';
-import 'package:oditbiz/app/page/login/login_page.dart';
 import 'package:oditbiz/app/page/profile/profile_screen.dart';
 import 'package:oditbiz/app/page/reports/reports_screen.dart';
-import 'package:oditbiz/app/page/sales_order/sales_order_detalis.dart';
 
 class BottomNavigationScreen extends StatefulWidget {
   const BottomNavigationScreen({super.key});
@@ -75,22 +73,6 @@ class BottomNavigationScreenState extends State<BottomNavigationScreen> {
                   child: AnimatedContainer(
                     duration: const Duration(milliseconds: 250),
                     width: MediaQuery.of(context).size.width * 0.145,
-                    // decoration: BoxDecoration(
-                    //    border: i == selectedIndex
-                    //        ? const Border(
-                    //            top: BorderSide(
-                    //              width: 3.0,
-                    //              color: Colors.white,
-                    //            ),
-                    //          )
-                    //        : null,
-                    //    gradient: i == selectedIndex
-                    //        ? LinearGradient(
-                    //            colors: [Colors.grey.shade800, Colors.black],
-                    //            begin: Alignment.topCenter,
-                    //            end: Alignment.bottomCenter)
-                    //        : null,
-                    // ),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -121,3 +103,5 @@ class BottomNavigationScreenState extends State<BottomNavigationScreen> {
     );
   }
 }
+
+

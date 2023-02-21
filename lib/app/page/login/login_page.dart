@@ -1,7 +1,7 @@
 import 'dart:developer';
 import 'package:animated_custom_dropdown/custom_dropdown.dart';
 import 'package:flutter/material.dart';
-import 'package:oditbiz/app/custom/sncakbarscreen.dart';
+import 'package:oditbiz/app/custom/sncakbar.dart';
 import 'package:oditbiz/app/page/recipts/receipt_field.dart';
 
 class LoginPage extends StatefulWidget {

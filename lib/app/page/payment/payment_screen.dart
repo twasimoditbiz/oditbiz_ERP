@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:oditbiz/app/custom/sncakbarscreen.dart';
+import 'package:oditbiz/app/custom/sncakbar.dart';
 import 'package:oditbiz/app/page/payment/payment_field.dart';
 
 class PaymentScreen extends StatelessWidget {

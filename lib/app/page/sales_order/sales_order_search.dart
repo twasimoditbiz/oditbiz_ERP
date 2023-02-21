@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:oditbiz/app/custom/sncakbarscreen.dart';
+import 'package:oditbiz/app/custom/sncakbar.dart';
 
 class SaleOrderSearchScreen extends StatelessWidget {
   const SaleOrderSearchScreen({Key? key}) : super(key: key);

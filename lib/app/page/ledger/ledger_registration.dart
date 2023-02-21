@@ -1,10 +1,12 @@
 import 'dart:developer';
-import 'package:custom_searchable_dropdown/custom_searchable_dropdown.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+import 'package:oditbiz/app/controller/ledger_report.dart';
+import 'package:oditbiz/app/controller/ledger_search.dart';
+import 'package:oditbiz/app/custom/alertbox.dart';
 import 'package:oditbiz/app/page/ledger/ledger_table_screen.dart';
+import 'package:provider/provider.dart';
 
-// ignore: must_be_immutable
 class LedgerRegistration extends StatefulWidget {
   const LedgerRegistration({Key? key}) : super(key: key);
 
@@ -13,29 +15,13 @@ class LedgerRegistration extends StatefulWidget {
 }
 
 class _LedgerRegistrationState extends State<LedgerRegistration> {
-  TextEditingController ledgercontroller = TextEditingController();
-  TextEditingController dateController = TextEditingController();
-  TextEditingController timecontroller = TextEditingController();
-
-  final formKee = GlobalKey<FormState>();
-
-  String fromandto = DateFormat('dd/MM/yyyy').format(DateTime.now());
-
-  final List<String> headlist = [
-    'may name',
-    'user name',
-    'first person',
-    'second person',
-    'head master',
-    'leader'
-  ];
-  String? selected;
-  bool agree = false;
-
   @override
   Widget build(BuildContext context) {
     final heigth = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.height;
+    final ledgerSearchController = context.watch<LedgerSearchController>();
+    final controllerRead = context.read<LedgerReportController>();
+    final controllerWatch = context.read<LedgerReportController>();
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -58,7 +44,7 @@ class _LedgerRegistrationState extends State<LedgerRegistration> {
       ),
       body: SingleChildScrollView(
         child: Form(
-          key: formKee,
+          key: controllerWatch.formKee,
           child: Column(
             children: [
               Padding(
@@ -74,41 +60,55 @@ class _LedgerRegistrationState extends State<LedgerRegistration> {
                         color: const Color(0xFF838383),
                       ),
                     ),
-                    SizedBox(
-                      height: heigth * 0.06,
-                      width: width * 0.3,
-                      child: CustomSearchableDropDown(
-                        items: headlist,
-                        dropdownHintText: "Search...",
-                        searchBarHeight: heigth * 0.1,
-                        menuPadding: const EdgeInsets.all(15),
-                        padding: const EdgeInsets.only(top: 5),
-                        dropdownItemStyle: TextStyle(
-                          fontWeight: FontWeight.w600,
-                          fontSize: heigth * 0.017,
-                          color: const Color(0xFF838383),
-                        ),
-                        label: 'Select Ledger',
+                    InkWell(
+                      onTap: () {
+                        showDialog(
+                          context: context,
+                          builder: (context) => const CustomAlertDialog(),
+                        );
+                      },
+                      child: Container(
+                        height: heigth * 0.056,
+                        width: width * 0.3,
                         decoration: BoxDecoration(
                           color: Colors.white,
                           boxShadow: [
                             BoxShadow(
                               color: Colors.grey.withOpacity(0.7),
-                              spreadRadius: 0.5,
-                              blurRadius: 0.5,
+                              spreadRadius: 0.8,
+                              blurRadius: 0.8,
                               offset: const Offset(0, 0.5),
                             ),
                           ],
                           borderRadius: BorderRadius.circular(15),
                         ),
-                        dropDownMenuItems: headlist,
-                        onChanged: (value) {
-                          if (value != null) {
-                            selected = value;
-                          } else {
-                            selected = null;
-                          }
-                        },
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  SizedBox(
+                                    width:
+                                        MediaQuery.of(context).size.width * 0.5,
+                                    child: Text(
+                                        ledgerSearchController
+                                                .selectedLedger?.label ??
+                                            "Select Branch",
+                                        overflow: TextOverflow.ellipsis),
+                                  ),
+                                  const Icon(
+                                    CupertinoIcons.chevron_down,
+                                    size: 15,
+                                  )
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
                       ),
                     ),
                   ],
@@ -150,24 +150,18 @@ class _LedgerRegistrationState extends State<LedgerRegistration> {
                               readOnly: true,
                               onTap: () async {
                                 DateTime? pickedDate = await showDatePicker(
-                                  context: context,
-                                  initialDate: DateTime.now(),
-                                  firstDate: DateTime(1900),
-                                  lastDate: DateTime(2200),
-                                );
+                                    context: context,
+                                    initialDate: DateTime.now(),
+                                    firstDate: DateTime(1800),
+                                    lastDate: DateTime(2100));
                                 if (pickedDate != null) {
-                                  String formattedDate =
-                                      DateFormat("dd/MM/yyyy")
-                                          .format(pickedDate);
-                                  setState(() {
-                                    dateController.text =
-                                        formattedDate.toString();
-                                  });
+                                  controllerRead.updateFromDate(pickedDate);
+                                  log(controllerWatch.fromTimeController.text);
                                 } else {
-                                  log("Not selected");
+                                  log("Date is not selected");
                                 }
                               },
-                              controller: dateController,
+                              controller: controllerWatch.fromTimeController,
                               decoration: InputDecoration(
                                 suffixIcon: const Icon(
                                   Icons.calendar_today_rounded,
@@ -176,7 +170,7 @@ class _LedgerRegistrationState extends State<LedgerRegistration> {
                                 ),
                                 contentPadding:
                                     const EdgeInsets.only(left: 10, top: 5),
-                                hintText: fromandto.toString(),
+                                hintText: controllerWatch.fromAndTo.toString(),
                                 hintStyle: const TextStyle(
                                   color: Colors.black,
                                   fontSize: 13,
@@ -185,7 +179,7 @@ class _LedgerRegistrationState extends State<LedgerRegistration> {
                               ),
                             ),
                           ),
-                        )
+                        ),
                       ],
                     ),
                     Padding(
@@ -221,35 +215,30 @@ class _LedgerRegistrationState extends State<LedgerRegistration> {
                               child: TextFormField(
                                 readOnly: true,
                                 onTap: () async {
-                                  DateTime? pickedDate = await showDatePicker(
-                                    context: context,
-                                    initialDate: DateTime.now(),
-                                    firstDate: DateTime(1900),
-                                    lastDate: DateTime(2200),
-                                  );
-                                  if (pickedDate != null) {
-                                    String formattedDate =
-                                        DateFormat("dd/MM/yyyy")
-                                            .format(pickedDate);
-                                    setState(() {
-                                      timecontroller.text =
-                                          formattedDate.toString();
-                                    });
+                                  DateTime? pickedDated = await showDatePicker(
+                                      context: context,
+                                      initialDate: DateTime.now(),
+                                      firstDate: DateTime(1800),
+                                      lastDate: DateTime(2100));
+                                  if (pickedDated != null) {
+                                    controllerRead.updateToDate(pickedDated);
+                                    log(controllerWatch.toTimeController.text);
                                   } else {
-                                    log("Not selected");
+                                    log("Date is not selected");
                                   }
                                 },
-                                controller: timecontroller,
-                                decoration:  InputDecoration(
-                                  suffixIcon:const Icon(
+                                controller: controllerWatch.toTimeController,
+                                decoration: InputDecoration(
+                                  suffixIcon: const Icon(
                                     Icons.calendar_today_rounded,
                                     color: Colors.black,
                                     size: 13,
                                   ),
                                   contentPadding:
-                                     const EdgeInsets.only(left: 10, top: 5),
-                                  hintText: fromandto.toString(),
-                                  hintStyle:const TextStyle(
+                                      const EdgeInsets.only(left: 10, top: 5),
+                                  hintText:
+                                      controllerWatch.fromAndTo.toString(),
+                                  hintStyle: const TextStyle(
                                     color: Colors.black,
                                     fontSize: 13,
                                   ),
@@ -264,10 +253,10 @@ class _LedgerRegistrationState extends State<LedgerRegistration> {
                     Row(
                       children: [
                         Checkbox(
-                          value: agree,
+                          value: controllerWatch.agree,
                           onChanged: (value) {
                             setState(() {
-                              agree = value ?? false;
+                              controllerWatch.agree = value ?? false;
                             });
                           },
                         ),
@@ -287,29 +276,23 @@ class _LedgerRegistrationState extends State<LedgerRegistration> {
                       child: Material(
                         color: const Color(0xFF680E2A),
                         elevation: 7,
-                        shadowColor: Colors.black,
+                        shadowColor:const Color(0xFF000000),
                         borderRadius: BorderRadius.circular(8),
                         child: MaterialButton(
                           height: MediaQuery.of(context).size.height * 0.05,
                           minWidth: width * 0.2,
                           onPressed: () {
-                            if (formKee.currentState!.validate()) {
-                              agree
-                                  ? Navigator.of(context).push(
-                                      MaterialPageRoute(
-                                          builder: (ctx) =>
-                                              LedgerTableScreen()))
-                                  : Navigator.of(context).push(
-                                      MaterialPageRoute(
-                                          builder: (ctx) =>
-                                              LedgerTableScreen()));
+                            if (controllerWatch.formKee.currentState!
+                                .validate()) {
+                              controllerRead.searchLedgerfuction(context);
+                              Navigator.pushNamed(
+                                  context, "/LedgerTableScreen");
                             }
                           },
                           child: const Text(
                             'Search',
                             style: TextStyle(
                               fontWeight: FontWeight.w600,
-                              fontFamily: "poppins",
                               color: Colors.white,
                             ),
                           ),
@@ -318,7 +301,7 @@ class _LedgerRegistrationState extends State<LedgerRegistration> {
                     ),
                   ],
                 ),
-              )
+              ),
             ],
           ),
         ),

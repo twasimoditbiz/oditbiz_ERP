@@ -6,7 +6,7 @@ import 'package:oditbiz/app/model/ledger_search_model.dart';
 import 'package:oditbiz/app/services/url/url_page.dart';
 
 class ApiserviceLedgerSearch extends Endpoints {
-  Future postLedgerSearchFunction(BuildContext context,String ledger) async {
+  Future postLedgerSearchFunction(BuildContext context, String ledger) async {
     try {
       log('search url =>$baseurl$ledgerSearch');
       final response = await Dio().post(

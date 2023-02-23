@@ -12,7 +12,9 @@ void showSnackBar(BuildContext context, String text) {
     backgroundColor: Colors.black,
     behavior: SnackBarBehavior.floating,
     shape: const RoundedRectangleBorder(
-      borderRadius: BorderRadius.all(Radius.circular(10.0)),
+      borderRadius: BorderRadius.all(
+        Radius.circular(10.0),
+      ),
     ),
   );
   ScaffoldMessenger.of(context).showSnackBar(snackBar);

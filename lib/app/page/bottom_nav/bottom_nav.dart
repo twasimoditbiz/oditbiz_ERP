@@ -1,9 +1,6 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:oditbiz/app/page/entries/entries_screen.dart';
-import 'package:oditbiz/app/page/home/homepage.dart';
-import 'package:oditbiz/app/page/profile/profile_screen.dart';
-import 'package:oditbiz/app/page/reports/reports_screen.dart';
+import 'package:oditbiz/app/controller/bottom_controller.dart';
+import 'package:provider/provider.dart';
 
 class BottomNavigationScreen extends StatefulWidget {
   const BottomNavigationScreen({super.key});
@@ -13,46 +10,12 @@ class BottomNavigationScreen extends StatefulWidget {
 }
 
 class BottomNavigationScreenState extends State<BottomNavigationScreen> {
-  int selectedIndex = 0;
-  int currentIndex = 0;
-  List<IconData> data = [
-    Icons.home_outlined,
-    Icons.add_box_outlined,
-    CupertinoIcons.chart_bar_square,
-    Icons.person_outline_rounded,
-  ];
-
-  List<IconData> selectedIcon = [
-    Icons.home,
-    Icons.add_box_rounded,
-    CupertinoIcons.chart_bar_square_fill,
-    Icons.person,
-  ];
-  List<String> items = [
-    "Home",
-    "Entries",
-    "Reports",
-    "Profile",
-  ];
-
-  List<Widget> page = [
-    const Homescreen(),
-    const EntriesScreen(),
-    const ReportScreen(),
-    const ProfileScreen(),
-  ];
-
-  selectecdIndexUpdate(int index) {
-    setState(() {
-      selectedIndex = index;
-      currentIndex = index;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
+    final watchController = context.watch<BottomNavigationController>();
+    final readController = context.read<BottomNavigationController>();
     return Scaffold(
-      body: page[currentIndex],
+      body: watchController.page[watchController.currentIndex],
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.only(left: 20, right: 20, bottom: 20),
         child: Material(
@@ -63,10 +26,10 @@ class BottomNavigationScreenState extends State<BottomNavigationScreen> {
             height: 70,
             width: double.infinity,
             child: ListView.builder(
-              itemCount: data.length,
+              itemCount: watchController.data.length,
               itemBuilder: (ctx, i) => GestureDetector(
                 onTap: () {
-                  selectecdIndexUpdate(i);
+                  readController.selectecdIndexUpdate(i);
                 },
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 15),
@@ -77,15 +40,17 @@ class BottomNavigationScreenState extends State<BottomNavigationScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Icon(
-                          i == selectedIndex ? selectedIcon[i] : data[i],
+                          i == watchController.selectedIndex
+                              ? watchController.selectedIcon[i]
+                              : watchController.data[i],
                           size: 35,
                           color: Colors.black,
                         ),
                         Text(
-                          items[i],
+                          watchController.items[i],
                           style: TextStyle(
                             fontWeight: FontWeight.w500,
-                            color: i == selectedIndex
+                            color: i == watchController.selectedIndex
                                 ? Colors.black
                                 : Colors.grey.shade600,
                           ),
@@ -103,5 +68,3 @@ class BottomNavigationScreenState extends State<BottomNavigationScreen> {
     );
   }
 }
-
-

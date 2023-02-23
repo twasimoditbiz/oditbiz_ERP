@@ -18,7 +18,8 @@ class LedgerReportModel {
   String toDate;
   bool ledgerExcludePending;
 
-  factory LedgerReportModel.fromJson(Map<String, dynamic> json) => LedgerReportModel(
+  factory LedgerReportModel.fromJson(Map<String, dynamic> json) =>
+      LedgerReportModel(
         asId: json["asId"],
         fromDate: json["fromDate"],
         toDate: json["toDate"],

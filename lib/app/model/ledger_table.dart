@@ -1,28 +1,57 @@
 import 'dart:convert';
 
-LedgerTable ledgerTableFromJson(String str) =>
-    LedgerTable.fromJson(json.decode(str));
+List<LedgerReportResponseModel> ledgerReportResponseModelFromJson(String str) =>
+    List<LedgerReportResponseModel>.from(
+        json.decode(str).map((x) => LedgerReportResponseModel.fromJson(x)));
 
-String ledgerTableToJson(LedgerTable data) => json.encode(data.toJson());
+String ledgerReportResponseModelToJson(List<LedgerReportResponseModel> data) =>
+    json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
-class LedgerTable {
-  LedgerTable({
-    required this.table,
-    required this.table1,
+class LedgerReportResponseModel {
+  LedgerReportResponseModel({
+    required this.entryNo,
+    required this.invNo,
+    required this.dDate,
+    required this.entryName,
+    required this.particulars,
+    required this.debit,
+    required this.credit,
+    required this.balance,
+    required this.remarks,
   });
 
-  List<dynamic> table;
-  List<Map<String, String>> table1;
+  String entryNo;
+  String invNo;
+  String dDate;
+  String entryName;
+  String particulars;
+  String debit;
+  String credit;
+  String balance;
+  String remarks;
 
-  factory LedgerTable.fromJson(Map<String, dynamic> json) => LedgerTable(
-        table: List<dynamic>.from(json["table"].map((x) => x)),
-        table1: List<Map<String, String>>.from(json["table1"].map(
-            (x) => Map.from(x).map((k, v) => MapEntry<String, String>(k, v)))),
+  factory LedgerReportResponseModel.fromJson(Map<String, dynamic> json) =>
+      LedgerReportResponseModel(
+        entryNo: json["EntryNo"],
+        invNo: json["InvNo"],
+        dDate: json["DDate"],
+        entryName: json["EntryName"],
+        particulars: json["Particulars"],
+        debit: json["Debit"],
+        credit: json["Credit"],
+        balance: json["Balance"],
+        remarks: json["Remarks"],
       );
 
   Map<String, dynamic> toJson() => {
-        "table": List<dynamic>.from(table.map((x) => x)),
-        "table1": List<dynamic>.from(table1.map(
-            (x) => Map.from(x).map((k, v) => MapEntry<String, dynamic>(k, v)))),
+        "EntryNo": entryNo,
+        "InvNo": invNo,
+        "DDate": dDate,
+        "EntryName": entryName,
+        "Particulars": particulars,
+        "Debit": debit,
+        "Credit": credit,
+        "Balance": balance,
+        "Remarks": remarks,
       };
 }

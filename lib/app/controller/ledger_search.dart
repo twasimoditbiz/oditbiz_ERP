@@ -9,7 +9,7 @@ class LedgerSearchController with ChangeNotifier {
   bool isLoading = false;
   List<LedgerSearch> ledgers = [];
   LedgerSearch? selectedLedger;
- static double? selectedLedgerValue;
+  static double? selectedLedgerValue;
 
   void legerSearch(BuildContext context, String ledger) async {
     startLoading(true);

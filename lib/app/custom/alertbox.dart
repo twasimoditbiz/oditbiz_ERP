@@ -1,13 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import '../controller/ledger_search.dart';
 
 class CustomAlertDialog extends StatefulWidget {
   const CustomAlertDialog({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _CustomAlertDialogState createState() => _CustomAlertDialogState();
 }
 
@@ -42,7 +42,6 @@ class _CustomAlertDialogState extends State<CustomAlertDialog>
             child: Column(
               children: [
                 TextFormField(
-
                   onChanged: (value) {
                     ledgerSearchController.legerSearch(context, value);
                   },
@@ -69,14 +68,18 @@ class _CustomAlertDialogState extends State<CustomAlertDialog>
                           )
                         : ledgerSearchController.ledgers.isEmpty
                             ? Column(
-                              children:const [
-                                SizedBox(height: 169),
-                                Text(
-                                  'Couldn\'t found !',
-                                  style: TextStyle(color: Colors.black,fontSize: 20,fontWeight: FontWeight.w600),
-                                ),
-                              ],
-                            )
+                                children: const [
+                                  SizedBox(height: 169),
+                                  Text(
+                                    'Couldn\'t found !',
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                ],
+                              )
                             : ListView.builder(
                                 itemCount:
                                     ledgerSearchController.ledgers.length,
@@ -84,15 +87,34 @@ class _CustomAlertDialogState extends State<CustomAlertDialog>
                                 itemBuilder: (BuildContext context, int index) {
                                   return GestureDetector(
                                     onTap: () {
-                                      ledgerSearchController.seletedLedger(index);
+                                      ledgerSearchController
+                                          .seletedLedger(index);
                                       Navigator.pop(context);
                                     },
                                     child: Column(
                                       children: [
-                                        SizedBox(
-                                          child: ListTile(
-                                            title: Text(ledgerSearchController
-                                                .ledgers[index].label,style:const TextStyle(color: Colors.black,fontSize: 16),),
+                                        // Text(
+                                        //   ledgerSearchController
+                                        //       .ledgers[index].label,
+                                        //   style: const TextStyle(
+                                        //     color: Colors.black,
+                                        //     fontSize: 16,
+                                        //   ),
+                                        // ),
+                                        ListTile(
+                                          dense: true,
+                                          contentPadding:
+                                              const EdgeInsets.symmetric(
+                                                  vertical: -9),
+                                          visualDensity: const VisualDensity(
+                                              horizontal: 4, vertical: -4),
+                                          title: Text(
+                                            ledgerSearchController
+                                                .ledgers[index].label,
+                                            style: const TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 16,
+                                            ),
                                           ),
                                         ),
                                         const Divider(thickness: 2),

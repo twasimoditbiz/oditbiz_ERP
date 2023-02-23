@@ -3,7 +3,8 @@ import 'package:oditbiz/app/page/bottom_nav/bottom_nav.dart';
 import 'package:oditbiz/app/page/home/homepage.dart';
 import 'package:oditbiz/app/page/ledger/ledger_registration.dart';
 import 'package:oditbiz/app/page/ledger/ledger_table_screen.dart';
-import 'package:oditbiz/app/page/login/login_page.dart';
+import 'package:oditbiz/app/page/login/login_account.dart';
+import 'package:oditbiz/app/page/login/login_app.dart';
 import 'package:oditbiz/app/page/payment/payment_screen.dart';
 import 'package:oditbiz/app/page/payment/payment_search.dart';
 import 'package:oditbiz/app/page/recipts/receipt_page.dart';
@@ -27,6 +28,7 @@ class PageRoutes {
     '/BottomNavigationScreen': (context) => const BottomNavigationScreen(),
     '/login': (context) => const LoginPage(),
     '/home': (context) => const Homescreen(),
+    "/LoginApp": (context) => const LoginApp(),
     '/LedgerRegistration': (context) => const LedgerRegistration(),
     '/ReceiptScreen': (context) => const ReceiptScreen(),
     '/PaymentScreen': (context) => PaymentScreen(),

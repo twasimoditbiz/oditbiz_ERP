@@ -1,45 +1,19 @@
-import 'dart:developer';
-import 'package:animated_custom_dropdown/custom_dropdown.dart';
 import 'package:flutter/material.dart';
-import 'package:oditbiz/app/custom/sncakbar.dart';
+import 'package:oditbiz/app/controller/login_page.dart';
 import 'package:oditbiz/app/page/recipts/receipt_field.dart';
+import 'package:provider/provider.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({Key? key}) : super(key: key);
-
-  @override
-  State<LoginPage> createState() => _LoginPageState();
-}
-
-class _LoginPageState extends State<LoginPage> {
-  void togglePasswordView() {
-    setState(() {
-      isHidden = !isHidden;
-    });
-  }
-
-  final formKey = GlobalKey<FormState>();
-
-  bool isHidden = true;
-
-  TextEditingController usernamecontroller = TextEditingController();
-  TextEditingController passwordcontroller = TextEditingController();
-  TextEditingController jobRoleSearchDropdownCtrl = TextEditingController();
-
-  final List<String> list = [
-    'Wayanad',
-    'Caliut',
-    'kanuur',
-    'Thiruvananthapuram',
-    'Alappuzha',
-    'Kochi'
-  ];
+class LoginApp extends StatelessWidget {
+  const LoginApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    // final formKeys = GlobalKey<FormState>();
+    final controllerWatch = context.watch<LoginPageController>();
+    final controllerRead = context.read<LoginPageController>();
     return Scaffold(
       body: Form(
-        key: formKey,
+        // key: formKeys,
         child: Center(
           child: SingleChildScrollView(
             child: Column(
@@ -52,10 +26,9 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 SizedBox(height: MediaQuery.of(context).size.height * 0.06),
                 const Text(
-                  "Login to your Account",
+                  "Login to your App",
                   style: TextStyle(
                     fontSize: 17,
-                    fontFamily: "poppins",
                     fontWeight: FontWeight.w600,
                     color: Color(0xFF383838),
                   ),
@@ -69,14 +42,14 @@ class _LoginPageState extends State<LoginPage> {
                             const EdgeInsets.only(right: 10, left: 10, top: 15),
                         child: TextFormField(
                           validator: validation,
-                          controller: usernamecontroller,
+                          controller: controllerWatch.clientController,
+                          textInputAction: TextInputAction.next,
                           decoration: const InputDecoration(
                             fillColor: Colors.white,
                             filled: true,
                             contentPadding: EdgeInsets.all(13),
                             hintText: "Username",
                             hintStyle: TextStyle(
-                              fontFamily: "poppins",
                               fontSize: 14,
                               color: Color(0xFF838383),
                             ),
@@ -88,64 +61,26 @@ class _LoginPageState extends State<LoginPage> {
                             const EdgeInsets.only(right: 10, left: 10, top: 15),
                         child: TextFormField(
                           validator: validation,
-                          obscureText: isHidden,
-                          controller: passwordcontroller,
+                          obscureText: controllerWatch.isHiddens,
+                          controller: controllerWatch.secretController,
                           decoration: InputDecoration(
                             filled: true,
                             fillColor: Colors.white,
                             contentPadding: const EdgeInsets.all(13),
                             hintText: "Password",
                             hintStyle: const TextStyle(
-                              fontFamily: "poppins",
                               fontSize: 14,
                               color: Color(0xFF838383),
                             ),
                             suffixIcon: InkWell(
-                              onTap: togglePasswordView,
+                              onTap: controllerRead.togglePasswordViewed,
                               child: Icon(
-                                isHidden
+                                controllerWatch.isHiddens
                                     ? Icons.visibility
                                     : Icons.visibility_off,
                                 color: Colors.black,
                               ),
                             ),
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding:
-                            const EdgeInsets.only(right: 10, left: 10, top: 15),
-                        child: Container(
-                          decoration: const BoxDecoration(
-                            boxShadow: [
-                              BoxShadow(
-                                color: Color.fromARGB(255, 214, 210, 210),
-                                blurRadius: 4.0,
-                                spreadRadius: 0.9,
-                              ),
-                            ],
-                          ),
-                          child: CustomDropdown.search(
-                            errorBorderSide: const BorderSide(
-                              color: Color.fromARGB(255, 237, 99, 89),
-                              width: 1,
-                            ),
-                            selectedStyle: const TextStyle(
-                              fontFamily: "poppins",
-                              fontSize: 14,
-                              fontWeight: FontWeight.w500,
-                              color: Colors.black,
-                            ),
-                            borderRadius: BorderRadius.circular(0),
-                            fillColor: Colors.white,
-                            hintText: 'Select Branch',
-                            hintStyle: const TextStyle(
-                              fontFamily: "poppins",
-                              fontSize: 14,
-                              color: Color(0xFF838383),
-                            ),
-                            items: list,
-                            controller: jobRoleSearchDropdownCtrl,
                           ),
                         ),
                       ),
@@ -162,16 +97,13 @@ class _LoginPageState extends State<LoginPage> {
                             height: MediaQuery.of(context).size.height * 0.068,
                             minWidth: MediaQuery.of(context).size.width * 1,
                             onPressed: () {
-                              log("message");
-                              if (formKey.currentState!.validate()) {
-                                showSnackBar(context, "Authentication success");
-                                Navigator.pushNamed(context, "/home");
-                              }
+                              // if (formKeys.currentState!.validate()) {
+                              controllerRead.appLoginFuncation(context);
+                              // }
                             },
                             child: const Text(
                               'Login',
                               style: TextStyle(
-                                fontFamily: "poppins",
                                 fontWeight: FontWeight.w600,
                                 color: Colors.white,
                               ),

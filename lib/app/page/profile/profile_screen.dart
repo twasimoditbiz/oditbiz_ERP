@@ -5,9 +5,13 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return  Scaffold(
       body: Center(
-        child: Text("profile screen"),
+        child: InkWell(
+          onTap: (){
+          //  UserServices().removeUserData();
+          },
+        child: Text("profile screen")),
       ),
     );
   }

@@ -54,7 +54,6 @@ headings(String heading) {
       style: const TextStyle(
         fontWeight: FontWeight.w600,
         fontSize: 13,
-        fontFamily: "poppins",
         color: Color(0xFF838383),
       ),
     ),

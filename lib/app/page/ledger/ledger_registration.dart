@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:oditbiz/app/controller/ledger_report.dart';
 import 'package:oditbiz/app/controller/ledger_search.dart';
 import 'package:oditbiz/app/custom/alertbox.dart';
-import 'package:oditbiz/app/page/ledger/ledger_table_screen.dart';
 import 'package:provider/provider.dart';
 
 class LedgerRegistration extends StatefulWidget {
@@ -276,7 +275,7 @@ class _LedgerRegistrationState extends State<LedgerRegistration> {
                       child: Material(
                         color: const Color(0xFF680E2A),
                         elevation: 7,
-                        shadowColor:const Color(0xFF000000),
+                        shadowColor: const Color(0xFF000000),
                         borderRadius: BorderRadius.circular(8),
                         child: MaterialButton(
                           height: MediaQuery.of(context).size.height * 0.05,
@@ -284,9 +283,7 @@ class _LedgerRegistrationState extends State<LedgerRegistration> {
                           onPressed: () {
                             if (controllerWatch.formKee.currentState!
                                 .validate()) {
-                              controllerRead.searchLedgerfuction(context);
-                              Navigator.pushNamed(
-                                  context, "/LedgerTableScreen");
+                              controllerRead.getLedgerDataTable(context);
                             }
                           },
                           child: const Text(

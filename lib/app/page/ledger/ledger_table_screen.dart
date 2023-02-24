@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:oditbiz/app/controller/ledger_report.dart';
+import 'package:oditbiz/app/model/ledger_table.dart';
 import 'package:provider/provider.dart';
 import 'package:zoom_widget/zoom_widget.dart';
 
@@ -12,22 +13,6 @@ class LedgerTableScreen extends StatefulWidget {
 }
 
 class _LedgerTableScreenState extends State<LedgerTableScreen> {
-  void rotationFunction() {
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.landscapeRight,
-      DeviceOrientation.landscapeLeft,
-    ]);
-  }
-
-  bool isRotation = true;
-
-  void rotationOFFfunction() {
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.portraitUp,
-      DeviceOrientation.portraitDown,
-    ]);
-  }
-
   @override
   dispose() {
     SystemChrome.setPreferredOrientations([
@@ -37,76 +22,10 @@ class _LedgerTableScreenState extends State<LedgerTableScreen> {
     super.dispose();
   }
 
-  final List<Map> _books = [
-    {
-      'id': 100,
-      'title': 'Flutter Basics',
-      'author': 'David John',
-      'thwasim': 'name',
-      'hello': 'iam'
-    },
-    {
-      'id': 102,
-      'title': 'Git and GitHub',
-      'author': 'Merlin Nick',
-      'thwasim': 'name',
-      'hello': 'iam'
-    },
-    {
-      'id': 101,
-      'title': 'Flutter Basics',
-      'author': 'David John',
-      'thwasim': 'name',
-      'hello': 'iam'
-    },
-    {
-      'id': 104,
-      'title': 'Flutter malaya',
-      'author': 'mahaver',
-      'thwasim': 'name',
-      'hello': 'iam'
-    },
-    {
-      'id': 104,
-      'title': 'Flutter malaya',
-      'author': 'mahaver',
-      'thwasim': 'name',
-      'hello': 'iam'
-    },
-    {
-      'id': 104,
-      'title': 'Flutter malaya',
-      'author': 'mahaver',
-      'thwasim': 'name',
-      'hello': 'iam'
-    },
-    {
-      'id': 104,
-      'title': 'Flutter malaya',
-      'author': 'mahaver',
-      'thwasim': 'name',
-      'hello': 'iam'
-    },
-    {
-      'id': 104,
-      'title': 'Flutter malaya',
-      'author': 'mahaver',
-      'thwasim': 'name',
-      'hello': 'iam'
-    },
-    {
-      'id': 104,
-      'title': 'Flutter malaya',
-      'author': 'mahaver',
-      'thwasim': 'name',
-      'hello': 'iam'
-    },
-  ];
-
   @override
   Widget build(BuildContext context) {
     final hegth = MediaQuery.of(context).size.height;
-    final watchController = context.watch<LedgerReportController>();
+    final ctrl = context.watch<LedgerReportController>();
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -151,7 +70,9 @@ class _LedgerTableScreenState extends State<LedgerTableScreen> {
                             Text(
                               "OPENING STOCK",
                               style: TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 17),
+                                fontWeight: FontWeight.bold,
+                                fontSize: 17,
+                              ),
                             ),
                           ],
                         ),
@@ -166,7 +87,7 @@ class _LedgerTableScreenState extends State<LedgerTableScreen> {
                               ),
                             ),
                             Text(
-                              "From : ${watchController.fromTimeController.text.isEmpty ? watchController.fromAndTo : watchController.fromTimeController.text}",
+                              "From : ${ctrl.fromTimeController.text.isEmpty ? ctrl.fromAndTo : ctrl.fromTimeController.text}",
                               style: const TextStyle(
                                 fontSize: 15,
                                 color: Color.fromARGB(255, 87, 86, 84),
@@ -185,7 +106,7 @@ class _LedgerTableScreenState extends State<LedgerTableScreen> {
                               ),
                             ),
                             Text(
-                              "To : ${watchController.toTimeController.text.isEmpty ? watchController.fromAndTo : watchController.toTimeController.text}",
+                              "To : ${ctrl.toTimeController.text.isEmpty ? ctrl.fromAndTo : ctrl.toTimeController.text}",
                               style: const TextStyle(
                                 fontSize: 15,
                                 color: Color.fromARGB(255, 87, 86, 84),
@@ -200,15 +121,22 @@ class _LedgerTableScreenState extends State<LedgerTableScreen> {
                     padding: const EdgeInsets.all(8.0),
                     child: SizedBox(
                       height: hegth * 1,
-                      child: Zoom(
-                        centerOnScale: false,
-                        initTotalZoomOut: true,
-                        enableScroll: true,
-                        doubleTapZoom: true,
-                        opacityScrollBars: 0,
-                        scrollWeight: 10,
-                        backgroundColor: Colors.transparent,
-                        child: _createDataTable(context),
+                      width: hegth * 2,
+                      child: InteractiveViewer(
+                        boundaryMargin: const EdgeInsets.all(20),
+                        minScale: 0.1,
+                        maxScale: 1.6,
+                        child: Zoom(
+                          centerOnScale: false,
+                          initTotalZoomOut: true,
+                          enableScroll: true,
+                          doubleTapZoom: true,
+                          opacityScrollBars: 0,
+                          scrollWeight: 10,
+                          backgroundColor: Colors.transparent,
+                          child:
+                              _createDataTable(context, ctrl.ledgerTableData),
+                        ),
                       ),
                     ),
                   ),
@@ -225,15 +153,21 @@ class _LedgerTableScreenState extends State<LedgerTableScreen> {
                     padding: const EdgeInsets.all(8.0),
                     child: SizedBox(
                       height: hegth,
-                      child: Zoom(
-                        centerOnScale: false,
-                        initTotalZoomOut: true,
-                        enableScroll: true,
-                        doubleTapZoom: true,
-                        opacityScrollBars: 0,
-                        scrollWeight: 10,
-                        backgroundColor: Colors.transparent,
-                        child: _createDataTable(context),
+                      child: InteractiveViewer(
+                        boundaryMargin: const EdgeInsets.all(20),
+                        minScale: 0.1,
+                        maxScale: 1.6,
+                        child: Zoom(
+                          centerOnScale: false,
+                          initTotalZoomOut: true,
+                          enableScroll: true,
+                          doubleTapZoom: true,
+                          opacityScrollBars: 0,
+                          scrollWeight: 10,
+                          backgroundColor: Colors.transparent,
+                          child:
+                              _createDataTable(context, ctrl.ledgerTableData),
+                        ),
                       ),
                     ),
                   ),
@@ -248,8 +182,10 @@ class _LedgerTableScreenState extends State<LedgerTableScreen> {
         child: FloatingActionButton(
           onPressed: () {
             setState(() {
-              isRotation = !isRotation;
-              isRotation ? rotationFunction() : rotationOFFfunction();
+              ctrl.isRotation = !ctrl.isRotation;
+              ctrl.isRotation
+                  ? ctrl.rotationFunction()
+                  : ctrl.rotationOFFfunction();
             });
           },
           backgroundColor: const Color(0xFF680E2A),
@@ -262,7 +198,8 @@ class _LedgerTableScreenState extends State<LedgerTableScreen> {
     );
   }
 
-  DataTable _createDataTable(BuildContext context) {
+  DataTable _createDataTable(
+      BuildContext context, List<LedgerReportResponseModel> ledgerTableData) {
     return DataTable(
         columns: _createColumns(),
         border: TableBorder.all(color: Colors.grey),
@@ -271,96 +208,87 @@ class _LedgerTableScreenState extends State<LedgerTableScreen> {
             (states) => const Color.fromARGB(255, 245, 247, 248)),
         headingRowColor: MaterialStateColor.resolveWith(
             (states) => const Color.fromARGB(255, 74, 82, 89)),
-        rows: _createRows());
+        rows: _createRows(ledgerTableData));
   }
 
   List<DataColumn> _createColumns() {
+    const textStyle = TextStyle(
+      fontWeight: FontWeight.bold,
+      color: Colors.white,
+      fontSize: 12,
+    );
     return [
       const DataColumn(
         label: Text(
           'EntryNo',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            color: Colors.white,
-            fontSize: 12,
-          ),
+          style: textStyle,
         ),
       ),
       const DataColumn(
         label: Text(
           'InvNo',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            color: Colors.white,
-            fontSize: 12,
-          ),
+          style: textStyle,
         ),
       ),
       const DataColumn(
         label: Text(
           'DDate',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            color: Colors.white,
-            fontSize: 12,
-          ),
+          style: textStyle,
         ),
       ),
       const DataColumn(
         label: Text(
           'EntryName',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            color: Colors.white,
-            fontSize: 12,
-          ),
+          style: textStyle,
         ),
       ),
       const DataColumn(
         label: Text(
           "Particulars",
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            color: Colors.white,
-            fontSize: 12,
-          ),
+          style: textStyle,
         ),
       ),
       const DataColumn(
         label: Text(
           "Debit",
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            color: Colors.white,
-            fontSize: 12,
-          ),
+          style: textStyle,
         ),
       ),
       const DataColumn(
         label: Text(
           "Credit",
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            color: Colors.white,
-            fontSize: 12,
-          ),
+          style: textStyle,
+        ),
+      ),
+      const DataColumn(
+        label: Text(
+          "Balance",
+          style: textStyle,
+        ),
+      ),
+      const DataColumn(
+        label: Text(
+          "Remark",
+          style: textStyle,
         ),
       ),
     ];
   }
 
-  List<DataRow> _createRows() {
-    return _books
+  List<DataRow> _createRows(List<LedgerReportResponseModel> ledgerTableData) {
+    return ledgerTableData
         .map(
-          (book) => const DataRow(
+          (e) => DataRow(
             cells: [
-              DataCell(FlutterLogo()),
-              DataCell(Text("")),
-              DataCell(Text("")),
-              DataCell(Text('')),
-              DataCell(Text('')),
-              DataCell(Text('')),
-              DataCell(FlutterLogo()),
+              DataCell(Text(e.entryNo.toString())),
+              DataCell(Text(e.invNo.toString())),
+              DataCell(Text(e.dDate.toString())),
+              DataCell(Text(e.entryName.toString())),
+              DataCell(Text(e.particulars.toString())),
+              DataCell(Text(e.debit.toString())),
+              DataCell(Text(e.credit.toString())),
+              DataCell(Text(e.balance.toString())),
+              DataCell(Text(e.remarks.toString())),
             ],
           ),
         )

@@ -25,9 +25,9 @@ void main() {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => LedgerSearchController(_)),
-        ChangeNotifierProvider(create: (_) => LedgerReportController()),
+        ChangeNotifierProvider(create: (_) => LedgerReportController(_)),
         ChangeNotifierProvider(create: (_) => LoginPageController(_)),
-        ChangeNotifierProvider(create: (_) => BottomNavigationController())
+        ChangeNotifierProvider(create: (_) => BottomNavigationController()),
       ],
       child: const MyApp(),
     ),

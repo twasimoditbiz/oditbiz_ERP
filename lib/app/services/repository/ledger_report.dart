@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:oditbiz/app/custom/sncakbar.dart';
 import 'package:oditbiz/app/model/ledger_report_model.dart';
+import 'package:oditbiz/app/model/ledger_table.dart';
 import 'package:oditbiz/app/services/url/url_page.dart';
 
 class ApiserviceLedgerReport extends Endpoints {
@@ -26,7 +27,7 @@ class ApiserviceLedgerReport extends Endpoints {
       if (response.statusCode! >= 200 || response.statusCode! <= 299) {
         log(response.data.toString());
         Navigator.pushNamed(context, "/LedgerTableScreen");
-        return ledgerReportFromJson(response.data);
+        return ledgerReportResponseModelFromJson(response.data);
       }
     } on DioError catch (e) {
       log(e.toString());

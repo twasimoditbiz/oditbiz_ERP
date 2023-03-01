@@ -4,10 +4,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class UserServices {
   Future<bool> setUserDataApp(String data) async {
-    log("setUserData");
     try {
       final prefs = await SharedPreferences.getInstance();
-      log("setUserData1");
       return prefs.setString(PrefResources.TOKENAPP, data);
     } catch (e) {
       log(e.toString());
@@ -16,10 +14,8 @@ class UserServices {
   }
 
   Future<bool> removeAppData() async {
-    log("removeUserData");
     try {
       final prefs = await SharedPreferences.getInstance();
-      log("removeUserData1");
       return await prefs.remove('value');
     } catch (e) {
       log(e.toString());
@@ -31,7 +27,7 @@ class UserServices {
   //   log("getUserData");
   //   try {
   //     final prefs = await SharedPreferences.getInstance();
-  //     final res = prefs.getString('value');
+  //    final res = prefs.getString('value');
   //     log("getUserData1");
   //     return res != null
   //         ? loginAppModelFromJson(jsonDecode(res.toString()))

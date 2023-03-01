@@ -1,8 +1,10 @@
 import 'dart:convert';
+import 'dart:developer';
 
-List<LedgerReportResponseModel> ledgerReportResponseModelFromJson(String str) =>
-    List<LedgerReportResponseModel>.from(
-        json.decode(str).map((x) => LedgerReportResponseModel.fromJson(x)));
+List<LedgerReportResponseModel> ledgerReportResponseModelFromJson(List data) {
+  log(data.toString());
+  return data.map((x) => LedgerReportResponseModel.fromJson(x)).toList();
+}
 
 String ledgerReportResponseModelToJson(List<LedgerReportResponseModel> data) =>
     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
@@ -30,17 +32,17 @@ class LedgerReportResponseModel {
   String balance;
   String remarks;
 
-  factory LedgerReportResponseModel.fromJson(Map<String, dynamic> json) =>
+  factory LedgerReportResponseModel.fromJson(dynamic json) =>
       LedgerReportResponseModel(
-        entryNo: json["EntryNo"],
-        invNo: json["InvNo"],
-        dDate: json["DDate"],
-        entryName: json["EntryName"],
-        particulars: json["Particulars"],
-        debit: json["Debit"],
-        credit: json["Credit"],
-        balance: json["Balance"],
-        remarks: json["Remarks"],
+        entryNo: json["EntryNo"].toString(),
+        invNo: json["InvNo"].toString(),
+        dDate: json["DDate"].toString(),
+        entryName: json["EntryName"].toString(),
+        particulars: json["Particulars"].toString(),
+        debit: json["Debit"].toString(),
+        credit: json["Credit"].toString(),
+        balance: json["Balance"].toString(),
+        remarks: json["Remarks"].toString(),
       );
 
   Map<String, dynamic> toJson() => {

@@ -8,12 +8,12 @@ class LoginApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // final formKeys = GlobalKey<FormState>();
+    final formKeys = GlobalKey<FormState>();
     final controllerWatch = context.watch<LoginPageController>();
     final controllerRead = context.read<LoginPageController>();
     return Scaffold(
       body: Form(
-        // key: formKeys,
+        key: formKeys,
         child: Center(
           child: SingleChildScrollView(
             child: Column(

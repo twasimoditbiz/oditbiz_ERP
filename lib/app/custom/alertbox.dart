@@ -30,7 +30,7 @@ class _CustomAlertDialogState extends State<CustomAlertDialog>
 
   @override
   Widget build(BuildContext context) {
-    final ledgerSearchController = context.watch<LedgerSearchController>();
+    final ledgerSearchController = context.read<LedgerSearchController>();
     return ScaleTransition(
       scale: _animation,
       child: Dialog(
@@ -62,67 +62,60 @@ class _CustomAlertDialogState extends State<CustomAlertDialog>
                   child: SizedBox(
                     width: double.infinity,
                     height: MediaQuery.of(context).size.height,
-                    child: ledgerSearchController.isLoading
-                        ? const Center(
-                            child: CircularProgressIndicator(),
-                          )
-                        : ledgerSearchController.ledgers.isEmpty
-                            ? Column(
-                                children: const [
-                                  SizedBox(height: 169),
-                                  Text(
-                                    'Couldn\'t found !',
-                                    style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                  ),
-                                ],
-                              )
-                            : ListView.builder(
-                                itemCount:
-                                    ledgerSearchController.ledgers.length,
-                                shrinkWrap: true,
-                                itemBuilder: (BuildContext context, int index) {
-                                  return GestureDetector(
-                                    onTap: () {
-                                      ledgerSearchController
-                                          .seletedLedger(index);
-                                      Navigator.pop(context);
-                                    },
-                                    child: Column(
-                                      children: [
-                                        // Text(
-                                        //   ledgerSearchController
-                                        //       .ledgers[index].label,
-                                        //   style: const TextStyle(
-                                        //     color: Colors.black,
-                                        //     fontSize: 16,
-                                        //   ),
-                                        // ),
-                                        ListTile(
-                                          dense: true,
-                                          contentPadding:
-                                              const EdgeInsets.symmetric(
-                                                  vertical: -9),
-                                          visualDensity: const VisualDensity(
-                                              horizontal: 4, vertical: -4),
-                                          title: Text(
-                                            ledgerSearchController
-                                                .ledgers[index].label,
-                                            style: const TextStyle(
-                                              color: Colors.black,
-                                              fontSize: 16,
-                                            ),
-                                          ),
-                                        ),
-                                        const Divider(thickness: 2),
-                                      ],
-                                    ),
-                                  );
-                                },
+                    child: ledgerSearchController.ledgers.isEmpty
+                        ? Column(
+                            children: const [
+                              SizedBox(height: 169),
+                              Text(
+                                'Couldn\'t found !',
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w600,
+                                ),
                               ),
+                            ],
+                          )
+                        : ListView.builder(
+                            itemCount: ledgerSearchController.ledgers.length,
+                            shrinkWrap: true,
+                            itemBuilder: (BuildContext context, int index) {
+                              return GestureDetector(
+                                onTap: () {
+                                  ledgerSearchController.seletedLedger(index);
+                                  Navigator.pop(context);
+                                },
+                                child: Column(
+                                  children: [
+                                    // Text(
+                                    //   ledgerSearchController
+                                    //       .ledgers[index].label,
+                                    //   style: const TextStyle(
+                                    //     color: Colors.black,
+                                    //     fontSize: 16,
+                                    //   ),
+                                    // ),
+                                    ListTile(
+                                      contentPadding:
+                                          const EdgeInsets.symmetric(
+                                              vertical: -9),
+                                      visualDensity: const VisualDensity(
+                                          horizontal: 4, vertical: -4),
+                                      title: Text(
+                                        ledgerSearchController
+                                            .ledgers[index].label,
+                                        style: const TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 16,
+                                        ),
+                                      ),
+                                    ),
+                                    const Divider(thickness: 2),
+                                  ],
+                                ),
+                              );
+                            },
+                          ),
                   ),
                 )
               ],

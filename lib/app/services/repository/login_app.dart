@@ -23,7 +23,6 @@ class ApiserviceloginApp extends Endpoints {
       log('ledger response => ${response.statusCode}');
       if (response.statusCode! >= 200 || response.statusCode! <= 299) {
         Navigator.pushReplacementNamed(context, "/login");
-
         log(response.data.toString());
         final responseData = jsonDecode(response.data["token"]);
         return await UserServices().setUserDataApp(responseData[0]["value"])
@@ -38,6 +37,7 @@ class ApiserviceloginApp extends Endpoints {
         showSnackBar(context, "Username and Password don't Match");
       } else {
         log("${e.message}".toString());
+        
         log(e.requestOptions.toString());
       }
 
@@ -47,6 +47,8 @@ class ApiserviceloginApp extends Endpoints {
       } else {
         log(' =>$e');
       }
+    } catch (e) {
+      log(e.toString());
     }
   }
 }

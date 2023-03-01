@@ -11,7 +11,7 @@ class ApiserviceLoginUserLocation extends Endpoints {
     try {
       final sp = await SharedPreferences.getInstance();
       final token = sp.getString(PrefResources.TOKENAPP);
-      log('token ==>$token');
+      log('USER TOKEN ==> $token');
       final response = await Dio().get(
         "$baseurl$userLocation",
         options: Options(
@@ -21,7 +21,7 @@ class ApiserviceLoginUserLocation extends Endpoints {
           },
         ),
       );
-      log(" statusCode ${response.statusCode}");
+      log("StatusCode =====> ${response.statusCode}");
       if (response.statusCode! >= 200 || response.statusCode! <= 299) {
         log("sucess : ${response.data.toString()}");
         return loginLocationModelFromJson(response.data);

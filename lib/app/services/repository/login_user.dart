@@ -20,10 +20,10 @@ class ApiserviceloginUser extends Endpoints {
       );
       log('login response => ${response.statusCode}');
       if (response.statusCode! >= 200 || response.statusCode! <= 299) {
-        // if (response.statusCode! >= 200 || response.statusCode! <= 299) {
+        if (response.statusCode! >= 200 || response.statusCode! <= 299) {
           Navigator.pushReplacementNamed(context, "/BottomNavigationScreen");
           showSnackBar(context, "Authentication Success");
-        // }
+        }
         log(response.data.toString());
         return await UserServicesUser().setUserDataUser(response.data["tokens"])
             ? "success"
@@ -31,10 +31,9 @@ class ApiserviceloginUser extends Endpoints {
       }
     } on DioError catch (e) {
       log(e.toString());
-      // showSnackBar(context, e.response!.data.toString());
       if (e.response!.statusCode == 401) {
         log(e.response!.statusCode.toString());
-        showSnackBar(context, "Username and Password don't Match");
+        showSnackBar(context, "Check Your Login Detalis");
       } else {
         log("${e.message}".toString());
         log(e.requestOptions.toString());

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
@@ -8,9 +10,8 @@ import 'package:oditbiz/app/model/ledger_table.dart';
 import 'package:oditbiz/app/services/repository/ledger_report.dart';
 
 class LedgerReportController extends StateProvider {
-  LedgerReportController(BuildContext context) {
-    getLedgerDataTable(context);
-  }
+  // getLedgerDataTable(context);
+
   TextEditingController fromTimeController = TextEditingController();
   TextEditingController toTimeController = TextEditingController();
   bool agree = false;
@@ -36,10 +37,14 @@ class LedgerReportController extends StateProvider {
 
   getLedgerDataTable(BuildContext context) async {
     update(() => isLoading = true);
-    await ApiserviceLedgerReport().postLedgerReportFunction(
+    log("ledgder selected value ${LedgerSearchController.selectedLedgerValue?.toInt()}");
+    log("Selected from time ${fromTimeController.text.isEmpty ? fromAndTo : fromTimeController.text}");
+    log(" Select to Time${toTimeController.text.isEmpty ? fromAndTo : toTimeController.text}");
+    log("Select true or false $agree");
+    final res = await ApiserviceLedgerReport().postLedgerReportFunction(
       context,
       ledger.LedgerReportModel(
-        asId: LedgerSearchController.selectedLedgerValue?.toInt() ?? 0,
+        asId: LedgerSearchController.selectedLedgerValue!.toInt(),
         fromDate: fromTimeController.text.isEmpty
             ? fromAndTo
             : fromTimeController.text,
@@ -48,6 +53,9 @@ class LedgerReportController extends StateProvider {
         ledgerExcludePending: agree,
       ),
     );
+    ledgerTableData
+      ..clear()
+      ..addAll(res);
     update(() => isLoading = false);
   }
 

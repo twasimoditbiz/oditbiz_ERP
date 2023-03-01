@@ -1,6 +1,8 @@
+import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:oditbiz/app/controller/ledger_report.dart';
+import 'package:oditbiz/app/custom/table_heading.dart';
 import 'package:oditbiz/app/model/ledger_table.dart';
 import 'package:provider/provider.dart';
 import 'package:zoom_widget/zoom_widget.dart';
@@ -201,7 +203,7 @@ class _LedgerTableScreenState extends State<LedgerTableScreen> {
   DataTable _createDataTable(
       BuildContext context, List<LedgerReportResponseModel> ledgerTableData) {
     return DataTable(
-        columns: _createColumns(),
+        columns: createColumns(),
         border: TableBorder.all(color: Colors.grey),
         headingRowHeight: MediaQuery.of(context).size.height * 0.07,
         dataRowColor: MaterialStateColor.resolveWith(
@@ -211,71 +213,8 @@ class _LedgerTableScreenState extends State<LedgerTableScreen> {
         rows: _createRows(ledgerTableData));
   }
 
-  List<DataColumn> _createColumns() {
-    const textStyle = TextStyle(
-      fontWeight: FontWeight.bold,
-      color: Colors.white,
-      fontSize: 12,
-    );
-    return [
-      const DataColumn(
-        label: Text(
-          'EntryNo',
-          style: textStyle,
-        ),
-      ),
-      const DataColumn(
-        label: Text(
-          'InvNo',
-          style: textStyle,
-        ),
-      ),
-      const DataColumn(
-        label: Text(
-          'DDate',
-          style: textStyle,
-        ),
-      ),
-      const DataColumn(
-        label: Text(
-          'EntryName',
-          style: textStyle,
-        ),
-      ),
-      const DataColumn(
-        label: Text(
-          "Particulars",
-          style: textStyle,
-        ),
-      ),
-      const DataColumn(
-        label: Text(
-          "Debit",
-          style: textStyle,
-        ),
-      ),
-      const DataColumn(
-        label: Text(
-          "Credit",
-          style: textStyle,
-        ),
-      ),
-      const DataColumn(
-        label: Text(
-          "Balance",
-          style: textStyle,
-        ),
-      ),
-      const DataColumn(
-        label: Text(
-          "Remark",
-          style: textStyle,
-        ),
-      ),
-    ];
-  }
-
   List<DataRow> _createRows(List<LedgerReportResponseModel> ledgerTableData) {
+    log('Ledger datas => $ledgerTableData');
     return ledgerTableData
         .map(
           (e) => DataRow(

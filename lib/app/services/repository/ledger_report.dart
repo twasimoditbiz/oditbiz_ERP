@@ -1,4 +1,5 @@
 // ignore_for_file: use_build_context_synchronously
+import 'dart:convert';
 import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +12,7 @@ class ApiserviceLedgerReport extends Endpoints {
   Future postLedgerReportFunction(
       BuildContext context, LedgerReportModel object) async {
     try {
-      log('Report url =>$baseurl$ledgerReport');
+      log('Report url => ${baseurl + ledgerReport}');
       final response = await Dio().post(
         "$baseurl$ledgerReport",
         options: Options(
@@ -25,9 +26,9 @@ class ApiserviceLedgerReport extends Endpoints {
       );
       log('ledger response => ${response.statusCode}');
       if (response.statusCode! >= 200 || response.statusCode! <= 299) {
-        log(response.data.toString());
         Navigator.pushNamed(context, "/LedgerTableScreen");
-        return ledgerReportResponseModelFromJson(response.data);
+        return ledgerReportResponseModelFromJson(
+            jsonDecode(response.toString())['table'] as List);
       }
     } on DioError catch (e) {
       log(e.toString());
@@ -37,6 +38,8 @@ class ApiserviceLedgerReport extends Endpoints {
       } else {
         log(' =>$e');
       }
+    } catch (e) {
+      log(e.toString());
     }
   }
 }

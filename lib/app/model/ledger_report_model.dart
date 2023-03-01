@@ -1,9 +1,11 @@
 import 'dart:convert';
 
-LedgerReportModel ledgerReportFromJson(String str) =>
-    LedgerReportModel.fromJson(json.decode(str));
+List<LedgerReportModel> ledgerReportModelFromJson(String str) =>
+    List<LedgerReportModel>.from(
+        json.decode(str).map((x) => LedgerReportModel.fromJson(x)));
 
-String ledgerReportToJson(LedgerReportModel data) => json.encode(data.toJson());
+String ledgerReportModelToJson(List<LedgerReportModel> data) =>
+    json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
 class LedgerReportModel {
   LedgerReportModel({

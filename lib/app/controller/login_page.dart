@@ -11,6 +11,7 @@ import 'package:oditbiz/app/services/repository/login_user_location.dart';
 class LoginPageController with ChangeNotifier {
   LoginPageController(context) {
     getLoginUserLocation(context);
+    getUserLocation(context);
   }
   final formKey = GlobalKey<FormState>();
   void togglePasswordView() {
@@ -28,7 +29,7 @@ class LoginPageController with ChangeNotifier {
 
   String? validate(value) {
     RegExp regex = RegExp(r'^.{0,}$');
-    if (value!.isEmpty) {
+    if (value == null) {
       return ("Enter The Field");
     }
     if (!regex.hasMatch(value)) {
@@ -50,7 +51,7 @@ class LoginPageController with ChangeNotifier {
   TextEditingController secretController = TextEditingController();
 
   appLoginFuncation(BuildContext context) {
-    log("message");
+    log("Login App");
     ApiserviceloginApp().loginAppFunction(
       context,
       LoginAppModel(
@@ -64,32 +65,35 @@ class LoginPageController with ChangeNotifier {
   TextEditingController passwordcontroller = TextEditingController();
   TextEditingController selectBrachController = TextEditingController();
 
-  userLoginFuncation(context) {
+  void userLoginFuncation(context) {
     ApiserviceloginUser().loginUserFunction(
-        context,
-        LoginUserModel(
-          username: usernamecontroller.text,
-          password: passwordcontroller.text,
-          location: selectBrachController.text,
-        ));
-  }
-
-  getLoginUserLocation(context) {
-    ApiserviceLoginUserLocation().loginUserLoctionFunction(context);
+      context,
+      LoginUserModel(
+        username: usernamecontroller.text,
+        password: passwordcontroller.text,
+        location: selectBrachController.text,
+      ),
+    );
   }
 
   List<LoginLocationModel> location = [];
   LoginLocationModel? selectedlocationID;
   String? locationID;
 
-  getUserLocation(context) async {
+  getLoginUserLocation(context) {
+    ApiserviceLoginUserLocation().loginUserLoctionFunction(context);
+  }
+
+  void getUserLocation(context) async {
     final response = await getLoginUserLocation(context);
     location.addAll(response);
     notifyListeners();
+    log("Location respone$response");
   }
 
   selectedLocation() {
     locationID = selectedlocationID?.glId;
     notifyListeners();
+    log("Location ID $locationID");
   }
 }

@@ -22,6 +22,7 @@ class LoginLocationModel {
         glName: json["gl_name"],
       );
 
+
   Map<String, dynamic> toJson() => {
         "gl_id": glId,
         "gl_name": glName,

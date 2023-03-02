@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:oditbiz/app/custom/sncakbar.dart';
@@ -23,10 +24,9 @@ class ApiserviceLoginUserLocation extends Endpoints {
       );
       log("StatusCode =====> ${response.statusCode}");
       if (response.statusCode! >= 200 || response.statusCode! <= 299) {
-        log("sucess : ${response.data.toString()}");
-        return loginLocationModelFromJson(response.data);
+        return loginLocationModelFromJson(json.decode(response.data));
       } else {
-        log(response.data.toString());
+        log(response.data);
       }
     } on DioError catch (e) {
       log(e.toString());

@@ -11,7 +11,6 @@ import 'package:oditbiz/app/services/repository/login_user_location.dart';
 class LoginPageController with ChangeNotifier {
   LoginPageController(context) {
     getLoginUserLocation(context);
-    getUserLocation(context);
   }
   final formKey = GlobalKey<FormState>();
   void togglePasswordView() {
@@ -82,6 +81,7 @@ class LoginPageController with ChangeNotifier {
 
   getLoginUserLocation(context) {
     ApiserviceLoginUserLocation().loginUserLoctionFunction(context);
+    log(selectedlocationID?.glId.toString()??"NOT FOUND");
   }
 
   void getUserLocation(context) async {

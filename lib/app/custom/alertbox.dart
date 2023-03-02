@@ -43,7 +43,9 @@ class _CustomAlertDialogState extends State<CustomAlertDialog>
               children: [
                 TextFormField(
                   onChanged: (value) {
-                    ledgerSearchController.legerSearch(context, value);
+                    setState(() {
+                      ledgerSearchController.legerSearch(context, value);
+                    });
                   },
                   decoration: InputDecoration(
                     hintText: "Search...",

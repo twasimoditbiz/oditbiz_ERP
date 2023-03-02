@@ -1,10 +1,12 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:lottie/lottie.dart';
 import 'package:oditbiz/app/controller/ledger_report.dart';
 import 'package:oditbiz/app/custom/table_heading.dart';
 import 'package:oditbiz/app/model/ledger_table.dart';
 import 'package:provider/provider.dart';
+import 'package:sizer/sizer.dart';
 import 'package:zoom_widget/zoom_widget.dart';
 
 class LedgerTableScreen extends StatefulWidget {
@@ -47,138 +49,175 @@ class _LedgerTableScreenState extends State<LedgerTableScreen> {
         backgroundColor: Colors.white,
         elevation: 0,
       ),
-      body: OrientationBuilder(
-        builder: (context, orientation) {
-          if (orientation == Orientation.portrait) {
-            return SingleChildScrollView(
+      body: ctrl.ledgerTableData.isEmpty
+          ? SingleChildScrollView(
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.only(left: 16, top: 1, right: 16),
+                    padding: const EdgeInsets.only(
+                        left: 20, right: 20, bottom: 20, top: 50),
+                    child: Lottie.asset(
+                        "assets/animation/97434-no-data-available.json"),
+                  ),
+                  InkWell(
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                          color: Colors.black,
+                          borderRadius: BorderRadius.circular(15)),
+                      child: const Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Text(
+                          "Check Another Date",
+                          style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w400,
+                              color: Colors.white),
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 30)
+                ],
+              ),
+            )
+          : OrientationBuilder(
+              builder: (context, orientation) {
+                if (orientation == Orientation.portrait) {
+                  return Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding:
+                            const EdgeInsets.only(left: 16, top: 1, right: 16),
+                        child: Column(
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: const [
+                                Text(
+                                  "7",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 17,
+                                  ),
+                                ),
+                                Text(
+                                  "OPENING STOCK",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 17,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                const Text(
+                                  "Total Rows",
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                    color: Color.fromARGB(255, 87, 86, 84),
+                                  ),
+                                ),
+                                Text(
+                                  "From : ${ctrl.fromTimeController.text.isEmpty ? ctrl.fromAndTo : ctrl.fromTimeController.text}",
+                                  style: const TextStyle(
+                                    fontSize: 15,
+                                    color: Color.fromARGB(255, 87, 86, 84),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                const Text(
+                                  "Showing 7-7",
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                    color: Color.fromARGB(255, 87, 86, 84),
+                                  ),
+                                ),
+                                Text(
+                                  "To : ${ctrl.toTimeController.text.isEmpty ? ctrl.fromAndTo : ctrl.toTimeController.text}",
+                                  style: const TextStyle(
+                                    fontSize: 15,
+                                    color: Color.fromARGB(255, 87, 86, 84),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        height: 75.6.h,
+                        width: double.infinity,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: SizedBox(
+                            height: hegth * 1,
+                            width: hegth * 2,
+                            child: InteractiveViewer(
+                              boundaryMargin: const EdgeInsets.all(20),
+                              minScale: 0.1,
+                              maxScale: 1.6,
+                              child: Zoom(
+                                centerOnScale: false,
+                                initTotalZoomOut: false,
+                                enableScroll: true,
+                                doubleTapZoom: true,
+                                opacityScrollBars: 0,
+                                scrollWeight: 10,
+                                backgroundColor: Colors.transparent,
+                                child: _createDataTable(
+                                    context, ctrl.ledgerTableData),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  );
+                } else {
+                  return SizedBox(
                     child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: const [
-                            Text(
-                              "7",
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 17,
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: SizedBox(
+                            height: 40.h,
+                            child: InteractiveViewer(
+                              boundaryMargin: const EdgeInsets.all(20),
+                              minScale: 0.1,
+                              maxScale: 1.6,
+                              child: Zoom(
+                                centerOnScale: false,
+                                initTotalZoomOut: false,
+                                enableScroll: true,
+                                doubleTapZoom: true,
+                                opacityScrollBars: 0,
+                                scrollWeight: 10,
+                                backgroundColor: Colors.transparent,
+                                child: _createDataTable(
+                                    context, ctrl.ledgerTableData),
                               ),
                             ),
-                            Text(
-                              "OPENING STOCK",
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 17,
-                              ),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            const Text(
-                              "Total Rows",
-                              style: TextStyle(
-                                fontSize: 15,
-                                color: Color.fromARGB(255, 87, 86, 84),
-                              ),
-                            ),
-                            Text(
-                              "From : ${ctrl.fromTimeController.text.isEmpty ? ctrl.fromAndTo : ctrl.fromTimeController.text}",
-                              style: const TextStyle(
-                                fontSize: 15,
-                                color: Color.fromARGB(255, 87, 86, 84),
-                              ),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            const Text(
-                              "Showing 7-7",
-                              style: TextStyle(
-                                fontSize: 15,
-                                color: Color.fromARGB(255, 87, 86, 84),
-                              ),
-                            ),
-                            Text(
-                              "To : ${ctrl.toTimeController.text.isEmpty ? ctrl.fromAndTo : ctrl.toTimeController.text}",
-                              style: const TextStyle(
-                                fontSize: 15,
-                                color: Color.fromARGB(255, 87, 86, 84),
-                              ),
-                            ),
-                          ],
+                          ),
                         ),
                       ],
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: SizedBox(
-                      height: hegth * 1,
-                      width: hegth * 2,
-                      child: InteractiveViewer(
-                        boundaryMargin: const EdgeInsets.all(20),
-                        minScale: 0.1,
-                        maxScale: 1.6,
-                        child: Zoom(
-                          centerOnScale: false,
-                          initTotalZoomOut: true,
-                          enableScroll: true,
-                          doubleTapZoom: true,
-                          opacityScrollBars: 0,
-                          scrollWeight: 10,
-                          backgroundColor: Colors.transparent,
-                          child:
-                              _createDataTable(context, ctrl.ledgerTableData),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            );
-          } else {
-            return SingleChildScrollView(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: SizedBox(
-                      height: hegth,
-                      child: InteractiveViewer(
-                        boundaryMargin: const EdgeInsets.all(20),
-                        minScale: 0.1,
-                        maxScale: 1.6,
-                        child: Zoom(
-                          centerOnScale: false,
-                          initTotalZoomOut: true,
-                          enableScroll: true,
-                          doubleTapZoom: true,
-                          opacityScrollBars: 0,
-                          scrollWeight: 10,
-                          backgroundColor: Colors.transparent,
-                          child:
-                              _createDataTable(context, ctrl.ledgerTableData),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            );
-          }
-        },
-      ),
+                  );
+                }
+              },
+            ),
       floatingActionButton: Padding(
         padding: const EdgeInsets.all(8.0),
         child: FloatingActionButton(
@@ -219,15 +258,15 @@ class _LedgerTableScreenState extends State<LedgerTableScreen> {
         .map(
           (e) => DataRow(
             cells: [
-              DataCell(Text(e.entryNo.toString())),
-              DataCell(Text(e.invNo.toString())),
-              DataCell(Text(e.dDate.toString())),
-              DataCell(Text(e.entryName.toString())),
-              DataCell(Text(e.particulars.toString())),
-              DataCell(Text(e.debit.toString())),
-              DataCell(Text(e.credit.toString())),
-              DataCell(Text(e.balance.toString())),
-              DataCell(Text(e.remarks.toString())),
+              DataCell(Text(e.entryNo.toString().trim())),
+              DataCell(Text(e.invNo.toString().trim())),
+              DataCell(Text(e.dDate.toString().trim())),
+              DataCell(Text(e.entryName.toString().trim())),
+              DataCell(Text(e.particulars.toString().trim())),
+              DataCell(Text(e.debit.toString().trim())),
+              DataCell(Text(e.credit.toString().trim())),
+              DataCell(Text(e.balance.toString().trim())),
+              DataCell(Text(e.remarks.toString().trim())),
             ],
           ),
         )

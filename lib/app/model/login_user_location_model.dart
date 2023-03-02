@@ -1,8 +1,10 @@
 import 'dart:convert';
+import 'dart:developer';
 
-List<LoginLocationModel> loginLocationModelFromJson(String str) =>
-    List<LoginLocationModel>.from(
-        json.decode(str).map((x) => LoginLocationModel.fromJson(x)));
+List<LoginLocationModel> loginLocationModelFromJson(List data) {
+  log(data.toString());
+  return data.map((x) => LoginLocationModel.fromJson(x)).toList();
+}
 
 String loginLocationModelToJson(List<LoginLocationModel> data) =>
     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
@@ -21,7 +23,6 @@ class LoginLocationModel {
         glId: json["gl_id"],
         glName: json["gl_name"],
       );
-
 
   Map<String, dynamic> toJson() => {
         "gl_id": glId,

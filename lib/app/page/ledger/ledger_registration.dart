@@ -59,61 +59,6 @@ class _LedgerRegistrationState extends State<LedgerRegistration> {
                         color: const Color(0xFF838383),
                       ),
                     ),
-                    // Container(
-                    //   height: heigth * 0.056,
-                    //   width: width * 0.3,
-                    //   decoration: BoxDecoration(
-                    //     color: Colors.white,
-                    //     boxShadow: [
-                    //       BoxShadow(
-                    //         color: Colors.grey.withOpacity(0.7),
-                    //         spreadRadius: 0.8,
-                    //         blurRadius: 0.8,
-                    //         offset: const Offset(0, 0.5),
-                    //       ),
-                    //     ],
-                    //     borderRadius: BorderRadius.circular(15),
-                    //   ),
-                    //   child: TextFormField(
-                    //     readOnly: true,
-                    //     onTap: () {
-                    //       showDialog(
-                    //         context: context,
-                    //         builder: (context) => const CustomAlertDialog(),
-                    //       );
-                    //     },
-                    //     // onChanged: (value) {
-                    //     //   setState(() {
-                    //     //     ledgerSearchController.selectedLedger?.label = value;
-                    //     //   });
-                    //     //   log(ledgerSearchController.selectedLedger!.label = value.toString());
-                    //     // },
-                    //     validator: (value) {
-                    //       if (value == null || value.isEmpty) {
-                    //         showSnackBar(context, "Please Select Branch");
-                    //       }
-                    //       return null;
-                    //     },
-                    //     decoration: InputDecoration(
-                    //       border: OutlineInputBorder(
-                    //         borderRadius: BorderRadius.circular(15),
-                    //         borderSide: BorderSide.none,
-                    //       ),
-                    //       contentPadding:
-                    //           const EdgeInsets.only(top: 10, left: 6),
-                    //       hintText:
-                    //           ledgerSearchController.selectedLedger?.label ??
-                    //               "Select Branch",
-                    //       hintStyle: const TextStyle(
-                    //           color: Colors.black,
-                    //           overflow: TextOverflow.ellipsis),
-                    //       suffixIcon: const Icon(
-                    //         CupertinoIcons.chevron_down,
-                    //         size: 16,
-                    //       ),
-                    //     ),
-                    //   ),
-                    // )
                     InkWell(
                       onTap: () {
                         showDialog(
@@ -151,7 +96,7 @@ class _LedgerRegistrationState extends State<LedgerRegistration> {
                                     child: Text(
                                         ledgerSearchController
                                                 .selectedLedger?.label ??
-                                            "Select Branch",
+                                            "Select Ledger",
                                         overflow: TextOverflow.ellipsis),
                                   ),
                                   const Icon(

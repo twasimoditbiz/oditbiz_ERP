@@ -1,17 +1,15 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:oditbiz/app/controller/ledger_search.dart';
 import 'package:oditbiz/app/controller/state_update.dart';
+import 'package:oditbiz/app/custom/loading.dart';
 import 'package:oditbiz/app/model/ledger_report_model.dart' as ledger;
 import 'package:oditbiz/app/model/ledger_table.dart';
 import 'package:oditbiz/app/services/repository/ledger_report.dart';
 
-class LedgerReportController extends StateProvider {
-  // getLedgerDataTable(context);
 
+class LedgerReportController extends StateProvider {
   TextEditingController fromTimeController = TextEditingController();
   TextEditingController toTimeController = TextEditingController();
   bool agree = false;
@@ -36,11 +34,9 @@ class LedgerReportController extends StateProvider {
   }
 
   getLedgerDataTable(BuildContext context) async {
+    // showAlertDialog(context);
     update(() => isLoading = true);
-    log("ledgder selected value ${LedgerSearchController.selectedLedgerValue?.toInt()}");
-    log("Selected from time ${fromTimeController.text.isEmpty ? fromAndTo : fromTimeController.text}");
-    log(" Select to Time${toTimeController.text.isEmpty ? fromAndTo : toTimeController.text}");
-    log("Select true or false $agree");
+    notifyListeners();
     final res = await ApiserviceLedgerReport().postLedgerReportFunction(
       context,
       ledger.LedgerReportModel(
@@ -56,7 +52,9 @@ class LedgerReportController extends StateProvider {
     ledgerTableData
       ..clear()
       ..addAll(res);
+
     update(() => isLoading = false);
+    notifyListeners();
   }
 
   void rotationFunction() {

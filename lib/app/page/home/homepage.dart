@@ -1,4 +1,6 @@
+import 'package:drift_db_viewer/drift_db_viewer.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:oditbiz/app/db/database_helper.dart';
 import 'package:oditbiz/app/di/di.dart';
 
@@ -29,6 +31,7 @@ class _HomescreenState extends State<Homescreen> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           final db = getIt<MyDatabase>();
+          Get.to(() => DriftDbViewer(db));
         },
       ),
       body: const Center(

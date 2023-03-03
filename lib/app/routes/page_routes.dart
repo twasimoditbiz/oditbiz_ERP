@@ -147,23 +147,22 @@ class Routes {
 class PageRoutes {
   static const String bottomNavigationScreen = "/bottomNavigationScreen";
   static const String login = "/login";
-
   static const String home = '/home';
   static const String loginApp = "/loginApp";
   static const String ledgerRegistration = '/ledgerRegistration';
   static const String receiptScreen = '/receiptScreen';
   static const String paymentScreen = '/paymentScreen';
-  static const String addSalesOrderScreen = '/AddSalesOrderScreen';
-  static const String addProductScreen = '/AddProductScreen';
-  static const String reciptsSearchScreen = '/ReciptsSearchScreen';
-  static const String paymentSearchScreen = '/PaymentSearchScreen';
-  static const String saleOrderSearchScreen = '/SaleOrderSearchScreen';
-  static const String cartScreen = '/CartScreen';
-  static const String saleOrderDetalisScreen = "/SaleOrderDetalisScreen";
-  static const String groupReportScreen = "/GroupReportScreen";
-  static const String cashBookScreen = "/CashBookScreen";
-  static const String balanceSheetScreen = "/BalanceSheetScreen";
-  static const String profitandLossScreen = "/ProfitandLossScreen";
+  static const String addSalesOrderScreen = '/addSalesOrderScreen';
+  static const String addProductScreen = '/addProductScreen';
+  static const String reciptsSearchScreen = '/reciptsSearchScreen';
+  static const String paymentSearchScreen = '/paymentSearchScreen';
+  static const String saleOrderSearchScreen = '/saleOrderSearchScreen';
+  static const String cartScreen = '/cartScreen';
+  static const String saleOrderDetalisScreen = "/saleOrderDetalisScreen";
+  static const String groupReportScreen = "/groupReportScreen";
+  static const String cashBookScreen = "/cashBookScreen";
+  static const String balanceSheetScreen = "/balanceSheetScreen";
+  static const String profitandLossScreen = "/profitandLossScreen";
   static const String dayBookScreen = "/DayBookScreen";
   static const String stockReportScreen = "/stockReportScreen";
   static const String salesReportScreen = "/salesReportScreen";

@@ -26,7 +26,7 @@ import 'package:oditbiz/app/page/sales_order/sales_order_search.dart';
 class PageRoutes {
   static Map<String, Widget Function(BuildContext context)> routes = {
     '/BottomNavigationScreen': (context) => const BottomNavigationScreen(),
-    '/login': (context) => const LoginPage(),
+    '/login': (context) =>  LoginPage(),
     '/home': (context) => const Homescreen(),
     "/LoginApp": (context) => const LoginApp(),
     '/LedgerRegistration': (context) => const LedgerRegistration(),

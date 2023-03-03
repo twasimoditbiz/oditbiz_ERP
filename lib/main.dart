@@ -5,11 +5,15 @@ import 'package:oditbiz/app/controller/ledger_report.dart';
 import 'package:oditbiz/app/controller/ledger_search.dart';
 import 'package:oditbiz/app/controller/login_page.dart';
 import 'package:oditbiz/app/custom/textshadow.dart';
+import 'package:oditbiz/app/page/login/bloc/location/location_cubit.dart';
 import 'package:oditbiz/app/routes/pageroutes.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'di/di.dart' as di;
 
 void main() {
+  di.setup();
   SystemChrome.setSystemUIOverlayStyle(
     const SystemUiOverlayStyle(
       statusBarColor: Colors.transparent,
@@ -25,14 +29,18 @@ void main() {
   runApp(Sizer(
     builder: (context, orientation, deviceType) {
       return MultiProvider(
-        providers: [
-          ChangeNotifierProvider(create: (_) => LedgerSearchController(_)),
-          ChangeNotifierProvider(create: (_) => LedgerReportController()),
-          ChangeNotifierProvider(create: (_) => LoginPageController(_)),
-          ChangeNotifierProvider(create: (_) => BottomNavigationController()),
-        ],
-        child: const MyApp(),
-      );
+          providers: [
+            ChangeNotifierProvider(create: (_) => LedgerSearchController(_)),
+            ChangeNotifierProvider(create: (_) => LedgerReportController()),
+            ChangeNotifierProvider(create: (_) => LoginPageController(_)),
+            ChangeNotifierProvider(create: (_) => BottomNavigationController()),
+          ],
+          child: MultiBlocProvider(
+            providers: [
+              BlocProvider.value(value: di.getIt.get<LocationCubit>())
+            ],
+            child: const MyApp(),
+          ));
     },
   ));
 }
@@ -44,7 +52,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      initialRoute: '/BottomNavigationScreen',
+      initialRoute: '/login',
       routes: PageRoutes.routes,
       theme: ThemeData(
         fontFamily: "poppins",

@@ -171,8 +171,7 @@ class _LoginPageState extends State<LoginPage> {
                             const EdgeInsets.only(right: 10, left: 10, top: 15),
                         child: TextFormField(
                           validator: validation,
-                          obscureText: controllerWatch.isHidden,
-                          controller: controllerWatch.passwordcontroller,
+                          controller: controllerWatch.areaController,
                           decoration: const InputDecoration(
                             filled: true,
                             fillColor: Colors.white,
@@ -198,11 +197,10 @@ class _LoginPageState extends State<LoginPage> {
                             height: MediaQuery.of(context).size.height * 0.068,
                             minWidth: MediaQuery.of(context).size.width * 1,
                             onPressed: () {
-                              // if (controllerWatch.formKey.currentState!
-                              //     .validate()) {
-                              //    controllerRead.userLoginFuncation(context);
-                              // }
-                             
+                              if (controllerWatch.formKey.currentState!
+                                  .validate()) {
+                                controllerRead.userLoginFuncation(context);
+                              }
                             },
                             child: const Text(
                               'Login',

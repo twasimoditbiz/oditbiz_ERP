@@ -54,6 +54,7 @@ class LoginPageController with ChangeNotifier {
   TextEditingController usernamecontroller = TextEditingController();
   TextEditingController passwordcontroller = TextEditingController();
   TextEditingController selectBrachController = TextEditingController();
+  TextEditingController areaController = TextEditingController();
 
   void userLoginFuncation(context) {
     ApiserviceloginUser().loginUserFunction(

@@ -1,17 +1,33 @@
+import 'dart:developer';
+
 import 'package:animated_custom_dropdown/custom_dropdown.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:oditbiz/app/controller/login_page.dart';
+import 'package:oditbiz/app/page/login/bloc/location/location_cubit.dart';
 import 'package:oditbiz/app/page/recipts/receipt_field.dart';
 import 'package:provider/provider.dart';
+import 'package:sizer/sizer.dart';
 
-class LoginPage extends StatelessWidget {
-  const LoginPage({Key? key}) : super(key: key);
+class LoginPage extends StatefulWidget {
+  LoginPage({Key? key}) : super(key: key);
 
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     final controllerRead = context.read<LoginPageController>();
     final controllerWatch = context.watch<LoginPageController>();
     return Scaffold(
+      //   floatingActionButton: FloatingActionButton(
+      //   onPressed: () {
+      //     BlocProvider.of<LocationCubit>(context).getLocation(context);
+      //   },
+      //  child: Icon(Icons.abc),
+      //   ),
       body: Form(
         key: controllerWatch.formKey,
         child: Center(
@@ -103,25 +119,48 @@ class LoginPage extends StatelessWidget {
                               ),
                             ],
                           ),
-                          child: CustomDropdown.search(
-                            errorBorderSide: const BorderSide(
-                              color: Color.fromARGB(255, 237, 99, 89),
-                              width: 1,
-                            ),
-                            selectedStyle: const TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w500,
-                              color: Colors.black,
-                            ),
-                            borderRadius: BorderRadius.circular(0),
-                            fillColor: Colors.white,
-                            hintText: 'Select Branch',
-                            hintStyle: const TextStyle(
-                              fontSize: 14,
-                              color: Color(0xFF838383),
-                            ),
-                            items: controllerWatch.list,
-                            controller: controllerWatch.selectBrachController,
+                          child: BlocBuilder<LocationCubit, LocationState>(
+                            builder: (context, state) {
+                              if (state is LocationLoaded) {
+                                final locationdata = state.loginLocationModel;
+                                List<String> location = [];
+                                for (var i = 0; i < locationdata.length; i++) {
+                                  location
+                                      .add(locationdata[i].glName.toString());
+                                }
+                                return CustomDropdown.search(
+                                  errorBorderSide: const BorderSide(
+                                    color: Color.fromARGB(255, 237, 99, 89),
+                                    width: 1,
+                                  ),
+                                  selectedStyle: const TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.black,
+                                  ),
+                                  borderRadius: BorderRadius.circular(0),
+                                  fillColor: Colors.white,
+                                  hintText: 'Select Branch',
+                                  hintStyle: const TextStyle(
+                                    fontSize: 14,
+                                    color: Color(0xFF838383),
+                                  ),
+                                  items: location,
+                                  controller:
+                                      controllerWatch.selectBrachController,
+                                  onChanged: (String? value) {
+                                    log("SELECTED LOCATION IS =====>>$value");
+                                    controllerWatch.chosenlocation = value;
+                                    final data = locationdata.singleWhere(
+                                        (element) => element.glId == value);
+                                    controllerWatch.selectedLocationid =
+                                        data.glId;
+                                    setState(() {});
+                                  },
+                                );
+                              }
+                              return const SizedBox.shrink();
+                            },
                           ),
                         ),
                       ),

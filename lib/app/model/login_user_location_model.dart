@@ -1,31 +1,18 @@
-import 'dart:convert';
-import 'dart:developer';
-
-List<LoginLocationModel> loginLocationModelFromJson(List data) {
-  log(data.toString());
-  return data.map((x) => LoginLocationModel.fromJson(x)).toList();
-}
-
-String loginLocationModelToJson(List<LoginLocationModel> data) =>
-    json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
-
 class LoginLocationModel {
-  LoginLocationModel({
-    required this.glId,
-    required this.glName,
-  });
+  String? glId;
+  String? glName;
 
-  String glId;
-  String glName;
+  LoginLocationModel({this.glId, this.glName});
 
-  factory LoginLocationModel.fromJson(Map<String, dynamic> json) =>
-      LoginLocationModel(
-        glId: json["gl_id"],
-        glName: json["gl_name"],
-      );
+  LoginLocationModel.fromJson(Map<String, dynamic> json) {
+      glId = json['gl_id'];
+      glName = json['gl_name'];
+  }
 
-  Map<String, dynamic> toJson() => {
-        "gl_id": glId,
-        "gl_name": glName,
-      };
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['gl_id'] = this.glId;
+    data['gl_name'] = this.glName;
+    return data;
+  }
 }

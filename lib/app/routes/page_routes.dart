@@ -38,7 +38,7 @@ class Routes {
     ),
     GetPage(
       name: PageRoutes.login,
-      page: () => const LoginPage(),
+      page: () =>  LoginPage(),
       transition: navigationTransition,
     ),
     GetPage(

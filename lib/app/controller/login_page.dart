@@ -75,13 +75,15 @@ class LoginPageController with ChangeNotifier {
     );
   }
 
-  List<LoginLocationModel> location = [];
+  List<String> location = [""];
   LoginLocationModel? selectedlocationID;
-  String? locationID;
+  // String? locationID;
+  String? chosenlocation;
+  String? selectedLocationid;
 
   getLoginUserLocation(context) {
     ApiserviceLoginUserLocation().loginUserLoctionFunction(context);
-    log(selectedlocationID?.glId.toString()??"NOT FOUND");
+    log(selectedlocationID?.glId.toString() ?? "NOT FOUND");
   }
 
   void getUserLocation(context) async {
@@ -89,11 +91,5 @@ class LoginPageController with ChangeNotifier {
     location.addAll(response);
     notifyListeners();
     log("Location respone$response");
-  }
-
-  selectedLocation() {
-    locationID = selectedlocationID?.glId;
-    notifyListeners();
-    log("Location ID $locationID");
   }
 }

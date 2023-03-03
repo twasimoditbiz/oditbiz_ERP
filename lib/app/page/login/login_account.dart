@@ -148,10 +148,10 @@ class _LoginPageState extends State<LoginPage> {
                                     log(controllerWatch.chosenlocation
                                         .toString());
                                     controllerWatch.chosenlocation = value;
-                                    final data = state.loginLocationModel
-                                        .singleWhere(
-                                            (element) => element.glId == value);
-                                    controllerWatch.selectedLocationid = data.glId;
+                                    // final data = state.loginLocationModel
+                                    //     .singleWhere(
+                                    //         (element) => element.glId == value);
+                                    // controllerWatch.selectedLocationid = data.glId;
                                     log("chosen location id ===>${controllerWatch.chosenlocation}");
                                     setState(() {});
                                   },

@@ -3,9 +3,11 @@ import 'dart:developer';
 import 'package:animated_custom_dropdown/custom_dropdown.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
 import 'package:oditbiz/app/controller/login_page.dart';
 import 'package:oditbiz/app/page/login/bloc/location/location_cubit.dart';
 import 'package:oditbiz/app/page/recipts/receipt_field.dart';
+import 'package:oditbiz/app/routes/page_routes.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
@@ -43,7 +45,7 @@ class _LoginPageState extends State<LoginPage> {
                 SizedBox(height: MediaQuery.of(context).size.height * 0.06),
                 InkWell(
                   onTap: () {
-                    Navigator.pushNamed(context, "/LoginApp");
+                    Get.toNamed(PageRoutes.loginApp);
                   },
                   child: const Text(
                     "Login to your Account",

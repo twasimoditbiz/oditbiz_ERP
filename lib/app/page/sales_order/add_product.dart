@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:oditbiz/app/routes/page_routes.dart';
 
 class AddProductScreen extends StatelessWidget {
   const AddProductScreen({Key? key}) : super(key: key);
@@ -148,7 +150,7 @@ class AddProductScreen extends StatelessWidget {
             height: MediaQuery.of(context).size.height * 0.07,
             padding: const EdgeInsets.fromLTRB(10, 11, 10, 10),
             onPressed: () {
-              Navigator.pushNamed(context, "/CartScreen");
+              Get.toNamed(PageRoutes.cartScreen);
             },
             child: const Text(
               'Add to Cart ',

@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 import 'package:oditbiz/app/controller/bottom_controller.dart';
 import 'package:oditbiz/app/controller/ledger_report.dart';
 import 'package:oditbiz/app/controller/ledger_search.dart';
 import 'package:oditbiz/app/controller/login_page.dart';
 import 'package:oditbiz/app/custom/textshadow.dart';
 import 'package:oditbiz/app/page/login/bloc/location/location_cubit.dart';
+import 'package:oditbiz/app/routes/page_routes.dart';
 import 'package:oditbiz/app/routes/pageroutes.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
@@ -50,10 +52,10 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      initialRoute: '/login',
-      routes: PageRoutes.routes,
+      initialRoute: PageRoutes.login,
+      getPages: Routes.routes,
       theme: ThemeData(
         fontFamily: "poppins",
         primarySwatch: Colors.blue,

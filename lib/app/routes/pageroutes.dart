@@ -23,30 +23,30 @@ import 'package:oditbiz/app/page/sales_order/sales_order.dart';
 import 'package:oditbiz/app/page/sales_order/sales_order_detalis.dart';
 import 'package:oditbiz/app/page/sales_order/sales_order_search.dart';
 
-class PageRoutes {
-  static Map<String, Widget Function(BuildContext context)> routes = {
-    '/BottomNavigationScreen': (context) => const BottomNavigationScreen(),
-    '/login': (context) =>  LoginPage(),
-    '/home': (context) => const Homescreen(),
-    "/LoginApp": (context) => const LoginApp(),
-    '/LedgerRegistration': (context) => const LedgerRegistration(),
-    '/ReceiptScreen': (context) => const ReceiptScreen(),
-    '/PaymentScreen': (context) => PaymentScreen(),
-    '/AddSalesOrderScreen': (context) => AddSalesOrderScreen(),
-    '/AddProductScreen': (context) => const AddProductScreen(),
-    '/ReciptsSearchScreen': (context) => const ReciptsSearchScreen(),
-    '/PaymentSearchScreen': (context) => const PaymentSearchScreen(),
-    '/SaleOrderSearchScreen': (context) => const SaleOrderSearchScreen(),
-    '/CartScreen': (context) => const CartScreen(),
-    "/SaleOrderDetalisScreen": (context) => const SaleOrderDetalisScreen(),
-    "/GroupReportScreen": (context) => const GroupReportScreen(),
-    "/CashBookScreen": (context) => const CashBookScreen(),
-    "/BalanceSheetScreen": (context) => const BalanceSheetScreen(),
-    "/ProfitandLossScreen": (context) => const ProfitandLossScreen(),
-    "/DayBookScreen": (context) => const DayBookScreen(),
-    "/StockReportScreen": (context) => const StockReportScreen(),
-    "/SalesReportScreen": (context) => const SalesReportScreen(),
-    "/DaySheetScreen": (context) => const DaySheetScreen(),
-    "/LedgerTableScreen": (context) => const LedgerTableScreen(),
-  };
-}
+// class PageRoutes {
+//   static Map<String, Widget Function(BuildContext context)> routes = {
+//     '/BottomNavigationScreen': (context) => const BottomNavigationScreen(),
+//     '/login': (context) =>  LoginPage(),
+//     '/home': (context) => const Homescreen(),
+//     "/LoginApp": (context) => const LoginApp(),
+//     '/LedgerRegistration': (context) => const LedgerRegistration(),
+//     '/ReceiptScreen': (context) => const ReceiptScreen(),
+//     '/PaymentScreen': (context) => PaymentScreen(),
+//     '/AddSalesOrderScreen': (context) => AddSalesOrderScreen(),
+//     '/AddProductScreen': (context) => const AddProductScreen(),
+//     '/ReciptsSearchScreen': (context) => const ReciptsSearchScreen(),
+//     '/PaymentSearchScreen': (context) => const PaymentSearchScreen(),
+//     '/SaleOrderSearchScreen': (context) => const SaleOrderSearchScreen(),
+//     '/CartScreen': (context) => const CartScreen(),
+//     "/SaleOrderDetalisScreen": (context) => const SaleOrderDetalisScreen(),
+//     "/GroupReportScreen": (context) => const GroupReportScreen(),
+//     "/CashBookScreen": (context) => const CashBookScreen(),
+//     "/BalanceSheetScreen": (context) => const BalanceSheetScreen(),
+//     "/ProfitandLossScreen": (context) => const ProfitandLossScreen(),
+//     "/DayBookScreen": (context) => const DayBookScreen(),
+//     "/StockReportScreen": (context) => const StockReportScreen(),
+//     "/SalesReportScreen": (context) => const SalesReportScreen(),
+//     "/DaySheetScreen": (context) => const DaySheetScreen(),
+//     "/LedgerTableScreen": (context) => const LedgerTableScreen(),
+//   };
+// }

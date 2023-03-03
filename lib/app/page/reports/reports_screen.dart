@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:oditbiz/app/routes/page_routes.dart';
 
 class ReportScreen extends StatelessWidget {
   const ReportScreen({super.key});
@@ -15,7 +17,7 @@ class ReportScreen extends StatelessWidget {
             context,
             "Ledger Report",
             () {
-              Navigator.pushNamed(context, "/LedgerRegistration");
+              Get.toNamed(PageRoutes.ledgerRegistration);
             },
             const Color.fromARGB(255, 39, 78, 235),
           ),
@@ -23,7 +25,7 @@ class ReportScreen extends StatelessWidget {
             context,
             "Group Report",
             () {
-              Navigator.pushNamed(context, "/GroupReportScreen");
+              Get.toNamed(PageRoutes.groupReportScreen);
             },
             const Color.fromARGB(255, 39, 78, 235),
           ),
@@ -31,7 +33,7 @@ class ReportScreen extends StatelessWidget {
             context,
             "Cash Book",
             () {
-              Navigator.pushNamed(context, "/CashBookScreen");
+              Get.toNamed(PageRoutes.cashBookScreen);
             },
             const Color.fromARGB(255, 39, 78, 235),
           ),
@@ -39,7 +41,7 @@ class ReportScreen extends StatelessWidget {
             context,
             "Balance Sheet",
             () {
-              Navigator.pushNamed(context, "/BalanceSheetScreen");
+              Get.toNamed(PageRoutes.balanceSheetScreen);
             },
             const Color.fromARGB(255, 39, 78, 235),
           ),
@@ -47,7 +49,7 @@ class ReportScreen extends StatelessWidget {
             context,
             "Profit and Loss",
             () {
-              Navigator.pushNamed(context, "/ProfitandLossScreen");
+              Get.toNamed(PageRoutes.profitandLossScreen);
             },
             const Color.fromARGB(255, 39, 78, 235),
           ),
@@ -55,7 +57,7 @@ class ReportScreen extends StatelessWidget {
             context,
             "Day Book",
             () {
-              Navigator.pushNamed(context, "/DayBookScreen");
+              Get.toNamed(PageRoutes.dayBookScreen);
             },
             const Color.fromARGB(255, 39, 78, 235),
           ),
@@ -63,7 +65,7 @@ class ReportScreen extends StatelessWidget {
             context,
             "Stock Report",
             () {
-              Navigator.pushNamed(context, "/StockReportScreen");
+              Get.toNamed(PageRoutes.stockReportScreen);
             },
             const Color.fromARGB(255, 39, 78, 235),
           ),
@@ -71,7 +73,7 @@ class ReportScreen extends StatelessWidget {
             context,
             "Sales Report",
             () {
-              Navigator.pushNamed(context, "/SalesReportScreen");
+              Get.toNamed(PageRoutes.salesReportScreen);
             },
             const Color.fromARGB(255, 39, 78, 235),
           ),
@@ -79,7 +81,7 @@ class ReportScreen extends StatelessWidget {
             context,
             "Day Sheet",
             () {
-              Navigator.pushNamed(context, "/DaySheetScreen");
+              Get.toNamed(PageRoutes.daySheetScreen);
             },
             const Color.fromARGB(255, 39, 78, 235),
           ),

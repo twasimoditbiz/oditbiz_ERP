@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:animated_custom_dropdown/custom_dropdown.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,7 +11,7 @@ import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
 class LoginPage extends StatefulWidget {
-  LoginPage({Key? key}) : super(key: key);
+  const LoginPage({Key? key}) : super(key: key);
 
   @override
   State<LoginPage> createState() => _LoginPageState();
@@ -20,16 +19,16 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   @override
+  void initState() {
+    super.initState();
+    context.read<LocationCubit>().getLocation(context);
+  }
+
+  @override
   Widget build(BuildContext context) {
     final controllerRead = context.read<LoginPageController>();
     final controllerWatch = context.watch<LoginPageController>();
     return Scaffold(
-      //   floatingActionButton: FloatingActionButton(
-      //   onPressed: () {
-      //     BlocProvider.of<LocationCubit>(context).getLocation(context);
-      //   },
-      //  child: Icon(Icons.abc),
-      //   ),
       body: Form(
         key: controllerWatch.formKey,
         child: Center(
@@ -51,7 +50,6 @@ class _LoginPageState extends State<LoginPage> {
                     "Login to your Account",
                     style: TextStyle(
                       fontSize: 17,
-                      fontFamily: "poppins",
                       fontWeight: FontWeight.w600,
                       color: Color(0xFF383838),
                     ),
@@ -73,7 +71,6 @@ class _LoginPageState extends State<LoginPage> {
                             contentPadding: EdgeInsets.all(13),
                             hintText: "Username",
                             hintStyle: TextStyle(
-                              fontFamily: "poppins",
                               fontSize: 14,
                               color: Color(0xFF838383),
                             ),
@@ -123,13 +120,9 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                           child: BlocBuilder<LocationCubit, LocationState>(
                             builder: (context, state) {
+                              log(state.toString());
                               if (state is LocationLoaded) {
                                 final locationdata = state.loginLocationModel;
-                                List<String> location = [];
-                                for (var i = 0; i < locationdata.length; i++) {
-                                  location
-                                      .add(locationdata[i].glName.toString());
-                                }
                                 return CustomDropdown.search(
                                   errorBorderSide: const BorderSide(
                                     color: Color.fromARGB(255, 237, 99, 89),
@@ -147,22 +140,47 @@ class _LoginPageState extends State<LoginPage> {
                                     fontSize: 14,
                                     color: Color(0xFF838383),
                                   ),
-                                  items: location,
+                                  items: locationdata
+                                      .map((e) => e.loactions[0].glName)
+                                      .toList(),
                                   controller:
                                       controllerWatch.selectBrachController,
                                   onChanged: (String? value) {
-                                    log("SELECTED LOCATION IS =====>>$value");
                                     controllerWatch.chosenlocation = value;
                                     final data = locationdata.singleWhere(
-                                        (element) => element.glId == value);
+                                        (element) =>
+                                            element.loactions[0].glName ==
+                                            value);
                                     controllerWatch.selectedLocationid =
-                                        data.glId;
+                                        data.loactions[0].glId;
+                                    log("chosen location id ===> ${controllerWatch.selectedLocationid}");
                                     setState(() {});
                                   },
                                 );
                               }
+                              if (state is LocationError) {
+                                log(state.error);
+                              }
                               return const SizedBox.shrink();
                             },
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding:
+                            const EdgeInsets.only(right: 10, left: 10, top: 15),
+                        child: TextFormField(
+                          validator: validation,
+                          controller: controllerWatch.areaController,
+                          decoration: const InputDecoration(
+                            filled: true,
+                            fillColor: Colors.white,
+                            contentPadding: EdgeInsets.all(13),
+                            hintText: "Select Area",
+                            hintStyle: TextStyle(
+                              fontSize: 14,
+                              color: Color(0xFF838383),
+                            ),
                           ),
                         ),
                       ),

@@ -22,10 +22,10 @@ class ApiserviceLoginUserLocation extends Endpoints {
           },
         ),
       );
-      log("StatusCode =====> ${response.statusCode}");
+      log("location StatusCode =====> ${response.statusCode}");
       if (response.statusCode! >= 200 || response.statusCode! <= 299) {
-        final data = json.decode(response.data);
-        return data.map((e) => LoginLocationModel.fromJson(e));
+        log(response.data);
+        return loginLocationModelFromJson(json.decode(response.data));
       } else {
         log(response.data);
       }

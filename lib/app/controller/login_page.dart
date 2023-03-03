@@ -37,15 +37,6 @@ class LoginPageController with ChangeNotifier {
     return null;
   }
 
-  final List<String> list = [
-    'Wayanad',
-    'Caliut',
-    'kanuur',
-    'Thiruvananthapuram',
-    'Alappuzha',
-    'Kochi',
-  ];
-
   TextEditingController clientController = TextEditingController();
   TextEditingController secretController = TextEditingController();
 
@@ -63,6 +54,7 @@ class LoginPageController with ChangeNotifier {
   TextEditingController usernamecontroller = TextEditingController();
   TextEditingController passwordcontroller = TextEditingController();
   TextEditingController selectBrachController = TextEditingController();
+  TextEditingController areaController = TextEditingController();
 
   void userLoginFuncation(context) {
     ApiserviceloginUser().loginUserFunction(
@@ -70,26 +62,20 @@ class LoginPageController with ChangeNotifier {
       LoginUserModel(
         username: usernamecontroller.text,
         password: passwordcontroller.text,
-        location: selectBrachController.text,
+        location: selectedLocationid.toString(),
       ),
     );
+    log("USER NAME => ${usernamecontroller.text}");
+    log("PASSWORD=> ${passwordcontroller.text}");
+    log("LOCATION=> $selectedLocationid");
   }
-
-  List<String> location = [""];
-  LoginLocationModel? selectedlocationID;
-  // String? locationID;
-  String? chosenlocation;
-  String? selectedLocationid;
 
   getLoginUserLocation(context) {
     ApiserviceLoginUserLocation().loginUserLoctionFunction(context);
-    log(selectedlocationID?.glId.toString() ?? "NOT FOUND");
-  }
+    }
 
-  void getUserLocation(context) async {
-    final response = await getLoginUserLocation(context);
-    location.addAll(response);
-    notifyListeners();
-    log("Location respone$response");
-  }
+      List<String> location = [""];
+  String? chosenlocation;
+  String? selectedLocationid;
+
 }

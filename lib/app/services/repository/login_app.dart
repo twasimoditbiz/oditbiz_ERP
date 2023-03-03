@@ -3,8 +3,10 @@ import 'dart:convert';
 import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:oditbiz/app/custom/sncakbar.dart';
 import 'package:oditbiz/app/model/login_app_model.dart';
+import 'package:oditbiz/app/routes/page_routes.dart';
 import 'package:oditbiz/app/services/url/url_page.dart';
 import 'package:oditbiz/app/services/user_service_app.dart';
 
@@ -22,7 +24,7 @@ class ApiserviceloginApp extends Endpoints {
       );
       log('ledger response => ${response.statusCode}');
       if (response.statusCode! >= 200 || response.statusCode! <= 299) {
-        Navigator.pushReplacementNamed(context, "/login");
+        Get.offAllNamed(PageRoutes.login);
         log(response.data.toString());
         final responseData = jsonDecode(response.data["token"]);
         return await UserServices().setUserDataApp(responseData[0]["value"])
@@ -31,7 +33,6 @@ class ApiserviceloginApp extends Endpoints {
       }
     } on DioError catch (e) {
       log(e.toString());
-      // showSnackBar(context, e.response!.data.toString());
       if (e.response?.statusCode == 401) {
         log(e.response!.statusCode.toString());
         showSnackBar(context, "Username and Password don't Match");

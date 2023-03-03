@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-
+import 'package:get/get.dart';
+import 'package:oditbiz/app/routes/page_routes.dart';
 
 class IntroductionScreen extends StatelessWidget {
   const IntroductionScreen({Key? key}) : super(key: key);
@@ -15,7 +16,7 @@ class IntroductionScreen extends StatelessWidget {
             context,
             "Ledger",
             () {
-              Navigator.pushNamed(context, "/LedgerRegistration");
+              Get.toNamed(PageRoutes.ledgerRegistration);
             },
             const Color.fromARGB(255, 39, 78, 235),
           ),
@@ -23,18 +24,18 @@ class IntroductionScreen extends StatelessWidget {
             context,
             "Recipts",
             () {
-              Navigator.pushNamed(context, "/ReceiptScreen");
+              Get.toNamed(PageRoutes.receiptScreen);
             },
             const Color.fromARGB(255, 39, 78, 235),
           ),
           buttons(context, "Login", () {
-            Navigator.pushNamed(context, '/login');
+            Get.toNamed(PageRoutes.login);
           }, const Color(0xFF680E2A)),
           buttons(
             context,
             "payment",
             () {
-              Navigator.pushNamed(context, "/PaymentScreen");
+              Get.toNamed(PageRoutes.paymentScreen);
             },
             const Color.fromARGB(255, 39, 78, 235),
           ),
@@ -42,14 +43,14 @@ class IntroductionScreen extends StatelessWidget {
             context,
             "sales order",
             () {
-              Navigator.pushNamed(context, "/AddSalesOrderScreen");
+              Get.toNamed(PageRoutes.addSalesOrderScreen);
             },
             const Color.fromARGB(255, 39, 78, 235),
           ),
           buttons(
             context,
             "add product",
-            () => Navigator.pushNamed(context, "/AddProductScreen"),
+            () => Get.toNamed(PageRoutes.addProductScreen),
             const Color.fromARGB(255, 39, 78, 235),
           )
         ],

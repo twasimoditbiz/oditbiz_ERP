@@ -61,9 +61,12 @@ class LoginPageController with ChangeNotifier {
       LoginUserModel(
         username: usernamecontroller.text,
         password: passwordcontroller.text,
-        location: chosenlocation.toString(),
+        location: selectedLocationid.toString(),
       ),
     );
+    log("USER NAME => ${usernamecontroller.text}");
+    log("PASSWORD=> ${passwordcontroller.text}");
+    log("LOCATION=> $selectedLocationid");
   }
 
   getLoginUserLocation(context) {

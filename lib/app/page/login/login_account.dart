@@ -2,9 +2,13 @@ import 'dart:developer';
 import 'package:animated_custom_dropdown/custom_dropdown.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
 import 'package:oditbiz/app/controller/login_page.dart';
 import 'package:oditbiz/app/page/login/bloc/location/location_cubit.dart';
 import 'package:oditbiz/app/page/recipts/receipt_field.dart';
+import 'package:oditbiz/app/routes/page_routes.dart';
+import 'package:provider/provider.dart';
+import 'package:sizer/sizer.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -40,7 +44,7 @@ class _LoginPageState extends State<LoginPage> {
                 SizedBox(height: MediaQuery.of(context).size.height * 0.06),
                 InkWell(
                   onTap: () {
-                    Navigator.pushNamed(context, "/LoginApp");
+                    Get.toNamed(PageRoutes.loginApp);
                   },
                   child: const Text(
                     "Login to your Account",
@@ -119,11 +123,6 @@ class _LoginPageState extends State<LoginPage> {
                               log(state.toString());
                               if (state is LocationLoaded) {
                                 final locationdata = state.loginLocationModel;
-                                List<String> location = [];
-                                for (var i = 0; i < locationdata.length; i++) {
-                                  location
-                                      .add(locationdata[i].glName.toString());
-                                }
                                 return CustomDropdown.search(
                                   errorBorderSide: const BorderSide(
                                     color: Color.fromARGB(255, 237, 99, 89),
@@ -141,18 +140,20 @@ class _LoginPageState extends State<LoginPage> {
                                     fontSize: 14,
                                     color: Color(0xFF838383),
                                   ),
-                                  items: location,
+                                  items: locationdata
+                                      .map((e) => e.loactions[0].glName)
+                                      .toList(),
                                   controller:
                                       controllerWatch.selectBrachController,
                                   onChanged: (String? value) {
-                                    log(controllerWatch.chosenlocation
-                                        .toString());
                                     controllerWatch.chosenlocation = value;
-                                    // final data = state.loginLocationModel
-                                    //     .singleWhere(
-                                    //         (element) => element.glId == value);
-                                    // controllerWatch.selectedLocationid = data.glId;
-                                    log("chosen location id ===>${controllerWatch.chosenlocation}");
+                                    final data = locationdata.singleWhere(
+                                        (element) =>
+                                            element.loactions[0].glName ==
+                                            value);
+                                    controllerWatch.selectedLocationid =
+                                        data.loactions[0].glId;
+                                    log("chosen location id ===> ${controllerWatch.selectedLocationid}");
                                     setState(() {});
                                   },
                                 );
@@ -162,6 +163,25 @@ class _LoginPageState extends State<LoginPage> {
                               }
                               return const SizedBox.shrink();
                             },
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding:
+                            const EdgeInsets.only(right: 10, left: 10, top: 15),
+                        child: TextFormField(
+                          validator: validation,
+                          obscureText: controllerWatch.isHidden,
+                          controller: controllerWatch.passwordcontroller,
+                          decoration: const InputDecoration(
+                            filled: true,
+                            fillColor: Colors.white,
+                            contentPadding: EdgeInsets.all(13),
+                            hintText: "Select Area",
+                            hintStyle: TextStyle(
+                              fontSize: 14,
+                              color: Color(0xFF838383),
+                            ),
                           ),
                         ),
                       ),
@@ -178,10 +198,11 @@ class _LoginPageState extends State<LoginPage> {
                             height: MediaQuery.of(context).size.height * 0.068,
                             minWidth: MediaQuery.of(context).size.width * 1,
                             onPressed: () {
-                              if (controllerWatch.formKey.currentState!
-                                  .validate()) {
-                                controllerRead.userLoginFuncation(context);
-                              }
+                              // if (controllerWatch.formKey.currentState!
+                              //     .validate()) {
+                              //    controllerRead.userLoginFuncation(context);
+                              // }
+                             
                             },
                             child: const Text(
                               'Login',
@@ -202,6 +223,97 @@ class _LoginPageState extends State<LoginPage> {
           ),
         ),
       ),
+    );
+  }
+}
+
+
+
+class CustomMultiSelectDropdown extends StatefulWidget {
+  const CustomMultiSelectDropdown({super.key});
+
+  @override
+  _CustomMultiSelectDropdownState createState() =>
+      _CustomMultiSelectDropdownState();
+}
+
+class _CustomMultiSelectDropdownState extends State<CustomMultiSelectDropdown> {
+  bool _isOpen = false;
+  List<String> _selectedValues = [];
+
+  final List<String> _options = [    'Option 1',    'Option 2',    'Option 3',    'Option 4',    'Option 5',  ];
+
+  void _toggleDropdown() {
+    setState(() {
+      _isOpen = !_isOpen;
+    });
+  }
+
+  void _toggleOption(String option) {
+    setState(() {
+      if (_selectedValues.contains(option)) {
+        _selectedValues.remove(option);
+      } else {
+        _selectedValues.add(option);
+      }
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        GestureDetector(
+          onTap: _toggleDropdown,
+          child: Container(
+            padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(4),
+              border: Border.all(
+                color: Colors.grey[300]!,
+                width: 1,
+              ),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  _selectedValues.isNotEmpty
+                      ? _selectedValues.join(', ')
+                      : 'Select options',
+                ),
+                Icon(
+                  _isOpen ? Icons.arrow_drop_up : Icons.arrow_drop_down,
+                  size: 24,
+                  color: Colors.grey[600],
+                ),
+              ],
+            ),
+          ),
+        ),
+        if (_isOpen)
+          Container(
+            margin: EdgeInsets.only(top: 8),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(4),
+              border: Border.all(
+                color: Colors.grey[300]!,
+                width: 1,
+              ),
+            ),
+            child: Column(
+              children: _options.map((option) {
+                return CheckboxListTile(
+                  title: Text(option),
+                  value: _selectedValues.contains(option),
+                  onChanged: (bool? value) => _toggleOption(option),
+                  controlAffinity: ListTileControlAffinity.leading,
+                );
+              }).toList(),
+            ),
+          ),
+      ],
     );
   }
 }

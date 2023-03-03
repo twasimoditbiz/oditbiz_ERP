@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:oditbiz/app/custom/sncakbar.dart';
 import 'package:oditbiz/app/page/recipts/receipt_field.dart';
+import 'package:oditbiz/app/routes/page_routes.dart';
 
 class ReceiptScreen extends StatefulWidget {
   const ReceiptScreen({Key? key}) : super(key: key);
@@ -47,7 +49,7 @@ class _ReceiptScreenState extends State<ReceiptScreen> {
                   ),
                   GestureDetector(
                     onTap: () {
-                      Navigator.pushNamed(context, "/ReciptsSearchScreen");
+                      Get.toNamed(PageRoutes.reciptsSearchScreen);
                     },
                     child: Container(
                       height: MediaQuery.of(context).size.height * 0.05,

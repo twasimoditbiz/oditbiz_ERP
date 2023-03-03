@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:oditbiz/app/page/sales_order/sales_order_fields.dart';
+import 'package:oditbiz/app/routes/page_routes.dart';
 
 class AddSalesOrderScreen extends StatelessWidget {
   AddSalesOrderScreen({Key? key}) : super(key: key);
@@ -116,7 +118,7 @@ class AddSalesOrderScreen extends StatelessWidget {
             height: MediaQuery.of(context).size.height * 0.07,
             padding: const EdgeInsets.fromLTRB(10, 11, 10, 10),
             onPressed: () {
-              Navigator.pushNamed(context, "/SaleOrderSearchScreen");
+              Get.toNamed(PageRoutes.saleOrderSearchScreen);
             },
             child: const Text(
               'Next ',

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:oditbiz/app/custom/sncakbar.dart';
 import 'package:oditbiz/app/page/payment/payment_field.dart';
+import 'package:oditbiz/app/routes/page_routes.dart';
 
 class PaymentScreen extends StatelessWidget {
   PaymentScreen({Key? key}) : super(key: key);
@@ -43,7 +45,7 @@ class PaymentScreen extends StatelessWidget {
                   ),
                   GestureDetector(
                     onTap: () {
-                      Navigator.pushNamed(context, "/PaymentSearchScreen");
+                      Get.toNamed(PageRoutes.paymentSearchScreen);
                     },
                     child: Container(
                       height: MediaQuery.of(context).size.height * 0.05,

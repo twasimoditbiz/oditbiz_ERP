@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:oditbiz/app/db/database_helper.dart';
+import 'package:oditbiz/app/di/di.dart';
 
 class Homescreen extends StatefulWidget {
   const Homescreen({Key? key}) : super(key: key);
@@ -23,6 +25,11 @@ class _HomescreenState extends State<Homescreen> {
             color: Color(0xFF383838),
           ),
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          final db = getIt<MyDatabase>();
+        },
       ),
       body: const Center(
         child: Text('home Screen'),

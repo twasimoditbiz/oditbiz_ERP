@@ -1,14 +1,55 @@
 import 'dart:convert';
 
-List<LoginLocationModel> loginLocationModelFromJson(String str) =>
-    List<LoginLocationModel>.from(
-        json.decode(str).map((x) => LoginLocationModel.fromJson(x)));
+LoginLocationModel loginLocationModelFromJson(String str) =>
+    LoginLocationModel.fromJson(json.decode(str));
 
-String loginLocationModelToJson(List<LoginLocationModel> data) =>
-    json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
+String loginLocationModelToJson(LoginLocationModel data) =>
+    json.encode(data.toJson());
 
 class LoginLocationModel {
   LoginLocationModel({
+    required this.loactions,
+    required this.area,
+  });
+
+  List<Loaction> loactions;
+  List<Area> area;
+
+  factory LoginLocationModel.fromJson(Map<String, dynamic> json) =>
+      LoginLocationModel(
+        loactions: List<Loaction>.from(
+            json["loactions"].map((x) => Loaction.fromJson(x))),
+        area: List<Area>.from(json["area"].map((x) => Area.fromJson(x))),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "loactions": List<dynamic>.from(loactions.map((x) => x.toJson())),
+        "area": List<dynamic>.from(area.map((x) => x.toJson())),
+      };
+}
+
+class Area {
+  Area({
+    required this.value,
+    required this.label,
+  });
+
+  String value;
+  String label;
+
+  factory Area.fromJson(Map<String, dynamic> json) => Area(
+        value: json["value"],
+        label: json["label"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "value": value,
+        "label": label,
+      };
+}
+
+class Loaction {
+  Loaction({
     required this.glId,
     required this.glName,
   });
@@ -16,8 +57,7 @@ class LoginLocationModel {
   String glId;
   String glName;
 
-  factory LoginLocationModel.fromJson(Map<String, dynamic> json) =>
-      LoginLocationModel(
+  factory Loaction.fromJson(Map<String, dynamic> json) => Loaction(
         glId: json["gl_id"],
         glName: json["gl_name"],
       );

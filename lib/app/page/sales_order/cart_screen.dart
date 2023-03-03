@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:oditbiz/app/page/sales_order/cart_screen_listview.dart';
+import 'package:oditbiz/app/routes/page_routes.dart';
 
 class CartScreen extends StatelessWidget {
   const CartScreen({Key? key}) : super(key: key);
@@ -153,7 +155,7 @@ class CartScreen extends StatelessWidget {
               elevation: 3,
               child: GestureDetector(
                 onTap: () {
-                  Navigator.pushNamed(context, "/SaleOrderDetalisScreen");
+                  Get.toNamed(PageRoutes.saleOrderDetalisScreen);
                 },
                 child: Container(
                   width: 160,

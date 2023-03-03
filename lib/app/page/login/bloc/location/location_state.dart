@@ -1,9 +1,5 @@
 part of 'location_cubit.dart';
 
-
-
-
-
 @immutable
 abstract class LocationState {}
 

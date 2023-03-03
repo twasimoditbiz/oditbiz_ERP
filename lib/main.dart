@@ -44,7 +44,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      initialRoute: '/BottomNavigationScreen',
+      initialRoute: "/login",
+      // initialRoute: '/BottomNavigationScreen',
       routes: PageRoutes.routes,
       theme: ThemeData(
         fontFamily: "poppins",

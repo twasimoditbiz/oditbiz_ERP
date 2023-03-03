@@ -4,12 +4,12 @@ import 'package:oditbiz/app/page/recipts/receipt_field.dart';
 import 'package:provider/provider.dart';
 
 class LoginApp extends StatelessWidget {
-  const LoginApp({Key? key}) : super(key: key);
+   LoginApp({Key? key}) : super(key: key);
+
+  final formKeys = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
-    final formKeys = GlobalKey<FormState>();
-    final controllerWatch = context.watch<LoginPageController>();
     final controllerRead = context.read<LoginPageController>();
     return Scaffold(
       body: Form(
@@ -42,7 +42,7 @@ class LoginApp extends StatelessWidget {
                             const EdgeInsets.only(right: 10, left: 10, top: 15),
                         child: TextFormField(
                           validator: validation,
-                          controller: controllerWatch.clientController,
+                          controller: controllerRead.clientController,
                           textInputAction: TextInputAction.next,
                           decoration: const InputDecoration(
                             fillColor: Colors.white,
@@ -61,8 +61,8 @@ class LoginApp extends StatelessWidget {
                             const EdgeInsets.only(right: 10, left: 10, top: 15),
                         child: TextFormField(
                           validator: validation,
-                          obscureText: controllerWatch.isHiddens,
-                          controller: controllerWatch.secretController,
+                          obscureText: controllerRead.isHiddens,
+                          controller: controllerRead.secretController,
                           decoration: InputDecoration(
                             filled: true,
                             fillColor: Colors.white,
@@ -75,7 +75,7 @@ class LoginApp extends StatelessWidget {
                             suffixIcon: InkWell(
                               onTap: controllerRead.togglePasswordViewed,
                               child: Icon(
-                                controllerWatch.isHiddens
+                                controllerRead.isHiddens
                                     ? Icons.visibility
                                     : Icons.visibility_off,
                                 color: Colors.black,

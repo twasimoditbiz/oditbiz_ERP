@@ -3,13 +3,19 @@ import 'package:oditbiz/app/controller/login_page.dart';
 import 'package:oditbiz/app/page/recipts/receipt_field.dart';
 import 'package:provider/provider.dart';
 
-class LoginApp extends StatelessWidget {
-   LoginApp({Key? key}) : super(key: key);
+class LoginApp extends StatefulWidget {
+ const LoginApp({Key? key}) : super(key: key);
 
+  @override
+  State<LoginApp> createState() => _LoginAppState();
+}
+
+class _LoginAppState extends State<LoginApp> {
   final formKeys = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
+    final controllerWatch = context.watch<LoginPageController>();
     final controllerRead = context.read<LoginPageController>();
     return Scaffold(
       body: Form(
@@ -42,7 +48,7 @@ class LoginApp extends StatelessWidget {
                             const EdgeInsets.only(right: 10, left: 10, top: 15),
                         child: TextFormField(
                           validator: validation,
-                          controller: controllerRead.clientController,
+                          controller: controllerWatch.clientController,
                           textInputAction: TextInputAction.next,
                           decoration: const InputDecoration(
                             fillColor: Colors.white,
@@ -61,8 +67,8 @@ class LoginApp extends StatelessWidget {
                             const EdgeInsets.only(right: 10, left: 10, top: 15),
                         child: TextFormField(
                           validator: validation,
-                          obscureText: controllerRead.isHiddens,
-                          controller: controllerRead.secretController,
+                          obscureText: controllerWatch.isHiddens,
+                          controller: controllerWatch.secretController,
                           decoration: InputDecoration(
                             filled: true,
                             fillColor: Colors.white,
@@ -75,7 +81,7 @@ class LoginApp extends StatelessWidget {
                             suffixIcon: InkWell(
                               onTap: controllerRead.togglePasswordViewed,
                               child: Icon(
-                                controllerRead.isHiddens
+                                controllerWatch.isHiddens
                                     ? Icons.visibility
                                     : Icons.visibility_off,
                                 color: Colors.black,

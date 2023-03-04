@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:get/get.dart';
 import 'package:oditbiz/app/custom/sncakbar.dart';
-import 'package:oditbiz/app/model/login_user_model.dart';
+import 'package:oditbiz/app/page/login/model/login_user_model.dart';
 import 'package:oditbiz/app/routes/page_routes.dart';
 import 'package:oditbiz/app/services/url/url_page.dart';
 import 'package:oditbiz/app/services/user_service_user.dart';

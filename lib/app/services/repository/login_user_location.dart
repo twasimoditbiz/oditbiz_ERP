@@ -1,8 +1,9 @@
+
 import 'dart:convert';
 import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:oditbiz/app/custom/sncakbar.dart';
-import 'package:oditbiz/app/model/login_user_location_model.dart';
+import 'package:oditbiz/app/page/login/bloc/model/login_user_location_model.dart';
 import 'package:oditbiz/app/resources/pref_resources.dart';
 import 'package:oditbiz/app/services/url/url_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -25,7 +26,7 @@ class ApiserviceLoginUserLocation extends Endpoints {
       log("location StatusCode =====> ${response.statusCode}");
       if (response.statusCode! >= 200 || response.statusCode! <= 299) {
         log(response.data);
-        return loginLocationModelFromJson(json.decode(response.data));
+        return LoginLocationModel.fromJson(jsonDecode(response.data));
       } else {
         log(response.data);
       }

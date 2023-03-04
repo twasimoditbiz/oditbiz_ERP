@@ -8,7 +8,7 @@ class LocationInitial extends LocationState {}
 class LocationLoading extends LocationState {}
 
 class LocationLoaded extends LocationState {
-  final List<LoginLocationModel> loginLocationModel;
+  final LoginLocationModel loginLocationModel;
 
   LocationLoaded(this.loginLocationModel);
 }

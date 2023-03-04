@@ -4,9 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:oditbiz/app/controller/login_page.dart';
+import 'package:oditbiz/app/custom/location_area_serach.dart';
+import 'package:oditbiz/app/custom/sncakbar.dart';
 import 'package:oditbiz/app/page/login/bloc/location/location_cubit.dart';
 import 'package:oditbiz/app/page/recipts/receipt_field.dart';
 import 'package:oditbiz/app/routes/page_routes.dart';
+import '../../../services/repository/login_user_location.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -19,28 +22,8 @@ class _LoginPageState extends State<LoginPage> {
   @override
   void initState() {
     super.initState();
+    ApiserviceLoginUserLocation().loginUserLoctionFunction(context);
     context.read<LocationCubit>().getLocation(context);
-  }
-
-    final List<String> _selectedItems = [];
-
-  void _itemChange(String itemValue, bool isSelected) {
-    setState(() {
-      if (isSelected) {
-        _selectedItems.add(itemValue);
-      } else {
-        _selectedItems.remove(itemValue);
-      }
-    });
-  }
-
-  void _cancel() {
-    Navigator.pop(context);
-  }
-
-// this function is called when the Submit button is tapped
-  void _submit() {
-    Navigator.pop(context, _selectedItems);
   }
 
   @override
@@ -141,7 +124,8 @@ class _LoginPageState extends State<LoginPage> {
                             builder: (context, state) {
                               log(state.toString());
                               if (state is LocationLoaded) {
-                                final locationdata = state.loginLocationModel;
+                                final locationdata =
+                                    state.loginLocationModel.loactions;
                                 return CustomDropdown.search(
                                   errorBorderSide: const BorderSide(
                                     color: Color.fromARGB(255, 237, 99, 89),
@@ -160,25 +144,29 @@ class _LoginPageState extends State<LoginPage> {
                                     color: Color(0xFF838383),
                                   ),
                                   items: locationdata
-                                      .map((e) => e.loactions[0].glName)
+                                      .map((e) => e.glName)
                                       .toList(),
                                   controller:
                                       controllerWatch.selectBrachController,
                                   onChanged: (String? value) {
                                     controllerWatch.chosenlocation = value;
                                     final data = locationdata.singleWhere(
-                                        (element) =>
-                                            element.loactions[0].glName ==
-                                            value);
+                                        (element) => element.glName == value);
                                     controllerWatch.selectedLocationid =
-                                        data.loactions[0].glId;
+                                        data.glId;
                                     log("chosen location id ===> ${controllerWatch.selectedLocationid}");
                                     setState(() {});
                                   },
                                 );
                               }
                               if (state is LocationError) {
-                                log(state.error);
+                                if (state.error
+                                    .toString()
+                                    .contains('SocketException')) {
+                                  showSnackBar(context, 'Connection refused !');
+                                } else {
+                                  log(state.error..toString());
+                                }
                               }
                               return const SizedBox.shrink();
                             },
@@ -190,6 +178,13 @@ class _LoginPageState extends State<LoginPage> {
                             const EdgeInsets.only(right: 10, left: 10, top: 15),
                         child: TextFormField(
                           validator: validation,
+                          readOnly: true,
+                          onTap: () {
+                                showDialog(
+                              context: context,
+                              builder: (context) => const CustomLoactionArea(),
+                            );
+                          },
                           controller: controllerWatch.areaController,
                           decoration: const InputDecoration(
                             filled: true,
@@ -216,11 +211,10 @@ class _LoginPageState extends State<LoginPage> {
                             height: MediaQuery.of(context).size.height * 0.068,
                             minWidth: MediaQuery.of(context).size.width * 1,
                             onPressed: () {
-                              // if (controllerWatch.formKey.currentState!
-                              //     .validate()) {
-                              //   controllerRead.userLoginFuncation(context);
-                              // }
-                              // Get.to(MultiSelect(items: ["items","wrger","erger","regeqwra"]));
+                              if (controllerWatch.formKey.currentState!
+                                  .validate()) {
+                                // controllerRead.userLoginFuncation(context);
+                              }
                             },
                             child: const Text(
                               'Login',
@@ -243,122 +237,4 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
   }
-
-
 }
-
-
-
-
-// class MultiSelect extends StatefulWidget {
-//   final List<String> items;
-//   const MultiSelect({Key? key, required this.items}) : super(key: key);
-
-//   @override
-//   State<StatefulWidget> createState() => _MultiSelectState();
-// }
-
-// class _MultiSelectState extends State<MultiSelect> {
-
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return AlertDialog(
-//       title: const Text('Select Topics'),
-//       content: SingleChildScrollView(
-//         child: ListBody(
-//           children: widget.items
-//               .map((item) => CheckboxListTile(
-//                     value: _selectedItems.contains(item),
-//                     title: Text(item),
-//                     controlAffinity: ListTileControlAffinity.leading,
-//                     onChanged: (isChecked) => _itemChange(item, isChecked!),
-//                   ))
-//               .toList(),
-//         ),
-//       ),
-//       actions: [
-//         TextButton(
-//           onPressed: _cancel,
-//           child: const Text('Cancel'),
-//         ),
-//         ElevatedButton(
-//           onPressed: _submit,
-//           child: const Text('Submit'),
-//         ),
-//       ],
-//     );
-//   }
-// }
-
-// // Implement a multi select on the Home screen
-// class HomePage extends StatefulWidget {
-//   const HomePage({Key? key}) : super(key: key);
-
-//   @override
-//   State<HomePage> createState() => _HomePageState();
-// }
-
-// class _HomePageState extends State<HomePage> {
-//   List<String> _selectedItems = [];
-
-//   void _showMultiSelect() async {
-//     // a list of selectable items
-//     // these items can be hard-coded or dynamically fetched from a database/API
-//     final List<String> items = [
-//       'Flutter',
-//       'Node.js',
-//       'React Native',
-//       'Java',
-//       'Docker',
-//       'MySQL'
-//     ];
-
-//     final List<String>? results = await showDialog(
-//       context: context,
-//       builder: (BuildContext context) {
-//         return MultiSelect(items: items);
-//       },
-//     );
-
-//     // Update UI
-//     if (results != null) {
-//       setState(() {
-//         _selectedItems = results;
-//       });
-//     }
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: const Text('KindaCode.com'),
-//       ),
-//       body: Padding(
-//         padding: const EdgeInsets.all(20),
-//         child: Column(
-//           crossAxisAlignment: CrossAxisAlignment.start,
-//           children: [
-//             // use this button to open the multi-select dialog
-//             ElevatedButton(
-//               onPressed: _showMultiSelect,
-//               child: const Text('Select Your Favorite Topics'),
-//             ),
-//             const Divider(
-//               height: 30,
-//             ),
-//             // display selected items
-//             Wrap(
-//               children: _selectedItems
-//                   .map((e) => Chip(
-//                         label: Text(e),
-//                       ))
-//                   .toList(),
-//             )
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }

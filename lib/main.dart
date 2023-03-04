@@ -33,7 +33,7 @@ void main() {
           providers: [
             ChangeNotifierProvider(create: (_) => LedgerSearchController(_)),
             ChangeNotifierProvider(create: (_) => LedgerReportController()),
-            ChangeNotifierProvider(create: (_) => LoginPageController(_)),
+            ChangeNotifierProvider(create: (_) => LoginPageController()),
             ChangeNotifierProvider(create: (_) => BottomNavigationController()),
           ],
           child: MultiBlocProvider(

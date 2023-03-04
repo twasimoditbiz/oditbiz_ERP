@@ -6,6 +6,8 @@ import 'package:oditbiz/app/controller/ledger_report.dart';
 import 'package:oditbiz/app/controller/ledger_search.dart';
 import 'package:oditbiz/app/controller/login_page.dart';
 import 'package:oditbiz/app/custom/textshadow.dart';
+import 'package:oditbiz/app/page/login/bloc/app_login/app_login_cubit.dart';
+import 'package:oditbiz/app/page/login/bloc/import/import_cubit.dart';
 import 'package:oditbiz/app/page/login/bloc/location/location_cubit.dart';
 import 'package:oditbiz/app/routes/page_routes.dart';
 import 'package:provider/provider.dart';
@@ -38,7 +40,11 @@ void main() {
           ],
           child: MultiBlocProvider(
             providers: [
-              BlocProvider.value(value: di.getIt.get<LocationCubit>())
+              BlocProvider.value(value: di.getIt.get<LocationCubit>()),
+              BlocProvider.value(value: di.getIt.get<ImportCubit>()),
+              BlocProvider.value(value: di.getIt.get<AppLoginCubit>()),
+
+              
             ],
             child: const MyApp(),
           ));

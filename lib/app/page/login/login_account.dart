@@ -1,12 +1,17 @@
 import 'dart:developer';
 import 'package:animated_custom_dropdown/custom_dropdown.dart';
+import 'package:drift_db_viewer/drift_db_viewer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:oditbiz/app/controller/login_page.dart';
+import 'package:oditbiz/app/db/database_helper.dart';
+
+import 'package:oditbiz/app/page/login/bloc/import/import_cubit.dart';
 import 'package:oditbiz/app/page/login/bloc/location/location_cubit.dart';
 import 'package:oditbiz/app/page/recipts/receipt_field.dart';
 import 'package:oditbiz/app/routes/page_routes.dart';
+import 'package:oditbiz/di/di.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -22,7 +27,7 @@ class _LoginPageState extends State<LoginPage> {
     context.read<LocationCubit>().getLocation(context);
   }
 
-    final List<String> _selectedItems = [];
+  final List<String> _selectedItems = [];
 
   void _itemChange(String itemValue, bool isSelected) {
     setState(() {
@@ -48,6 +53,14 @@ class _LoginPageState extends State<LoginPage> {
     final controllerRead = context.read<LoginPageController>();
     final controllerWatch = context.watch<LoginPageController>();
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () async {
+          final db = getIt<MyDatabase>();
+         await  BlocProvider.of<ImportCubit>(context).getImport(context);
+          Get.to(() => DriftDbViewer(db));
+
+        },
+      ),
       body: Form(
         key: controllerWatch.formKey,
         child: Center(
@@ -243,8 +256,6 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
   }
-
-
 }
 
 

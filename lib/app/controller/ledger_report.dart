@@ -4,8 +4,8 @@ import 'package:intl/intl.dart';
 import 'package:oditbiz/app/controller/ledger_search.dart';
 import 'package:oditbiz/app/controller/state_update.dart';
 import 'package:oditbiz/app/custom/loading.dart';
-import 'package:oditbiz/app/model/ledger_report_model.dart' as ledger;
-import 'package:oditbiz/app/model/ledger_table.dart';
+import 'package:oditbiz/app/page/ledger/model/ledger_report_model.dart' as ledger;
+import 'package:oditbiz/app/page/ledger/model/ledger_table.dart';
 import 'package:oditbiz/app/services/repository/ledger_report.dart';
 
 

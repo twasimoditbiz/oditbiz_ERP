@@ -4,8 +4,8 @@ import 'package:get/get_navigation/src/routes/transitions_type.dart'
     as transitions_type;
 import 'package:oditbiz/app/page/bottom_nav/bottom_nav.dart';
 import 'package:oditbiz/app/page/home/homepage.dart';
-import 'package:oditbiz/app/page/ledger/ledger_registration.dart';
-import 'package:oditbiz/app/page/ledger/ledger_table_screen.dart';
+import 'package:oditbiz/app/page/ledger/view/ledger_registration.dart';
+import 'package:oditbiz/app/page/ledger/view/ledger_table_screen.dart';
 import 'package:oditbiz/app/page/login/view/login_account.dart';
 import 'package:oditbiz/app/page/login/view/login_app.dart';
 import 'package:oditbiz/app/page/payment/payment_screen.dart';

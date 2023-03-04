@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:lottie/lottie.dart';
 import 'package:oditbiz/app/controller/ledger_report.dart';
 import 'package:oditbiz/app/custom/table_heading.dart';
-import 'package:oditbiz/app/model/ledger_table.dart';
+import 'package:oditbiz/app/page/ledger/model/ledger_table.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 import 'package:zoom_widget/zoom_widget.dart';

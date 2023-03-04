@@ -34,7 +34,7 @@ class _CustomLoactionAreaState extends State<CustomLoactionArea>
   late double animatedHeight = 10.w;
 
   final List<String> _selectedItems = [];
-  
+
   final List<String> _ = [];
 
   void _itemChange(itemValue, bool isSelected) {

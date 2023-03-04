@@ -2,7 +2,7 @@ import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:oditbiz/app/custom/sncakbar.dart';
-import 'package:oditbiz/app/model/ledger_search_model.dart';
+import 'package:oditbiz/app/page/ledger/model/ledger_search_model.dart';
 import 'package:oditbiz/app/services/url/url_page.dart';
 
 class ApiserviceLedgerSearch extends Endpoints {

@@ -1,7 +1,7 @@
 import 'dart:developer';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:oditbiz/app/model/login_app_model.dart';
+import 'package:oditbiz/app/page/login/model/login_app_model.dart';
 import 'package:oditbiz/app/page/login/model/login_user_model.dart';
 import 'package:oditbiz/app/services/repository/login_app.dart';
 import 'package:oditbiz/app/services/repository/login_user.dart';

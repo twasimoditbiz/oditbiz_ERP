@@ -211,10 +211,10 @@ class _LoginPageState extends State<LoginPage> {
                             height: MediaQuery.of(context).size.height * 0.068,
                             minWidth: MediaQuery.of(context).size.width * 1,
                             onPressed: () {
-                              if (controllerWatch.formKey.currentState!
-                                  .validate()) {
-                                // controllerRead.userLoginFuncation(context);
-                              }
+                              // if (controllerWatch.formKey.currentState!
+                              //     .validate()) {
+                                controllerRead.userLoginFuncation(context);
+                              // }
                             },
                             child: const Text(
                               'Login',

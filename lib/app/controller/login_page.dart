@@ -5,7 +5,6 @@ import 'package:oditbiz/app/page/login/model/login_app_model.dart';
 import 'package:oditbiz/app/page/login/model/login_user_model.dart';
 import 'package:oditbiz/app/services/repository/login_app.dart';
 import 'package:oditbiz/app/services/repository/login_user.dart';
-import 'package:oditbiz/app/services/repository/login_user_location.dart';
 
 class LoginPageController with ChangeNotifier {
   final formKey = GlobalKey<FormState>();
@@ -52,28 +51,23 @@ class LoginPageController with ChangeNotifier {
   TextEditingController selectBrachController = TextEditingController();
   TextEditingController areaController = TextEditingController();
 
-  // void userLoginFuncation(context) {
-  //   ApiserviceloginUser().loginUserFunction(
-  //     context,
-  //     LoginUserModel(
-  //       username: usernamecontroller.text,
-  //       password: passwordcontroller.text,
-  //       location: selectedLocationid.toString(),
-  //       area: ,
-  //       macId: ,
-  //     ),
-  //   );
-  //   log("USER NAME => ${usernamecontroller.text}");
-  //   log("PASSWORD=> ${passwordcontroller.text}");
-  //   log("LOCATION=> $selectedLocationid");
-  // }
+  void userLoginFuncation(context) {
+    ApiserviceloginUser().loginUserFunction(
+      context,
+      LoginUserModel(
+        username: usernamecontroller.text,
+        password: passwordcontroller.text,
+        location: selectedLocationid.toString(),
+        area: "",
+        macId: "",
+      ),
+    );
+    log("USER NAME => ${usernamecontroller.text}");
+    log("PASSWORD=> ${passwordcontroller.text}");
+    log("LOCATION=> $selectedLocationid");
+  }
 
-  getLoginUserLocation(context) {
-    ApiserviceLoginUserLocation().loginUserLoctionFunction(context);
-    }
-
-      List<String> location = [""];
+  List<String> location = [""];
   String? chosenlocation;
   String? selectedLocationid;
-
 }

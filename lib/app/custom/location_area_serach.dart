@@ -35,8 +35,6 @@ class _CustomLoactionAreaState extends State<CustomLoactionArea>
 
   final List<String> _selectedItems = [];
 
-  final List<String> _ = [];
-
   void _itemChange(itemValue, bool isSelected) {
     setState(() {
       if (isSelected) {

@@ -4,19 +4,26 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:oditbiz/app/controller/login_page.dart';
+import 'package:oditbiz/app/custom/custom_loader.dart';
 import 'package:oditbiz/app/model/login_app_model.dart';
 import 'package:oditbiz/app/page/login/bloc/app_login/app_login_cubit.dart';
 import 'package:oditbiz/app/page/recipts/receipt_field.dart';
 import 'package:oditbiz/app/routes/page_routes.dart';
 import 'package:provider/provider.dart';
 
-class LoginApp extends StatelessWidget {
-  LoginApp({Key? key}) : super(key: key);
+class LoginApp extends StatefulWidget {
+  const LoginApp({Key? key}) : super(key: key);
 
+  @override
+  State<LoginApp> createState() => _LoginAppState();
+}
+
+class _LoginAppState extends State<LoginApp> {
   final formKeys = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
+    final controllerWatch = context.watch<LoginPageController>();
     final controllerRead = context.read<LoginPageController>();
     return Scaffold(
       body: Form(
@@ -112,15 +119,21 @@ class LoginApp extends StatelessWidget {
                               height:
                                   MediaQuery.of(context).size.height * 0.068,
                               minWidth: MediaQuery.of(context).size.width * 1,
-                              onPressed: () {
+                              onPressed: () async {
                                 log("===${controllerRead.clientController.text} secret ${controllerRead.secretController.text.trim()}");
                                 if (formKeys.currentState!.validate()) {
-                                  BlocProvider.of<AppLoginCubit>(context)
+                                  SquareLoader.show(context);
+                                  await BlocProvider.of<AppLoginCubit>(context)
                                       .getAppLogin(
                                           context,
                                           LoginAppModel(
-                                              clientId: controllerRead.clientController.text.trim(),
-                                              secret: controllerRead.secretController.text.trim()));
+                                              clientId: controllerRead
+                                                  .clientController.text
+                                                  .trim(),
+                                              secret: controllerRead
+                                                  .secretController.text
+                                                  .trim()));
+                                  SquareLoader.dismiss();
                                 }
                               },
                               child: const Text(

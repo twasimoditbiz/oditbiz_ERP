@@ -25,7 +25,7 @@ class ApiserviceloginApp extends Endpoints {
       );
       log('ledger response => ${response.statusCode}');
       if (response.statusCode! >= 200 || response.statusCode! <= 299) {
-        log("response.data ${response.data}");
+        
 
         return AppLoginModel.fromJson(response.data);
       }

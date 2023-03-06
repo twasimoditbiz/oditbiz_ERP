@@ -3,7 +3,8 @@ import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:get/get.dart';
 import 'package:oditbiz/app/custom/sncakbar.dart';
-import 'package:oditbiz/app/model/login_user_model.dart';
+import 'package:oditbiz/app/page/login/bloc/model/user_login_model.dart';
+import 'package:oditbiz/app/page/login/model/login_user_model.dart';
 import 'package:oditbiz/app/routes/page_routes.dart';
 import 'package:oditbiz/app/services/url/url_page.dart';
 import 'package:oditbiz/app/services/user_service_user.dart';
@@ -29,12 +30,12 @@ class ApiserviceloginUser extends Endpoints {
       );
       log('login response => ${response.statusCode}');
       if (response.statusCode! >= 200 || response.statusCode! <= 299) {
-        log(response.data.toString());
-        Get.offAllNamed(PageRoutes.bottomNavigationScreen);
+        log("user_login==" + response.data.toString());
+
         showSnackBar(context, "Authentication Success");
-        return 
+        return UserLoginModel.fromJson(response.data);
         // LoginUserModel.fromJson(json.decode(response.data));
-        await UserServicesUser().setUserDataUser(response.data["tokens"]);
+        
       }
     } on DioError catch (e) {
       log(e.toString());

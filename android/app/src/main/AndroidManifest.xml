@@ -1,5 +1,4 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.oditbiz">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.example.oditbiz">
    <application
         android:label="oditbiz"
         android:name="${applicationName}"

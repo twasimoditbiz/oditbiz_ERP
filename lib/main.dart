@@ -9,6 +9,7 @@ import 'package:oditbiz/app/custom/textshadow.dart';
 import 'package:oditbiz/app/page/login/bloc/app_login/app_login_cubit.dart';
 import 'package:oditbiz/app/page/login/bloc/import/import_cubit.dart';
 import 'package:oditbiz/app/page/login/bloc/location/location_cubit.dart';
+import 'package:oditbiz/app/page/login/bloc/user_login/user_login_cubit.dart';
 import 'package:oditbiz/app/routes/page_routes.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
@@ -35,7 +36,7 @@ void main() {
           providers: [
             ChangeNotifierProvider(create: (_) => LedgerSearchController(_)),
             ChangeNotifierProvider(create: (_) => LedgerReportController()),
-            ChangeNotifierProvider(create: (_) => LoginPageController(_)),
+            ChangeNotifierProvider(create: (_) => LoginPageController()),
             ChangeNotifierProvider(create: (_) => BottomNavigationController()),
           ],
           child: MultiBlocProvider(
@@ -43,6 +44,7 @@ void main() {
               BlocProvider.value(value: di.getIt.get<LocationCubit>()),
               BlocProvider.value(value: di.getIt.get<ImportCubit>()),
               BlocProvider.value(value: di.getIt.get<AppLoginCubit>()),
+              BlocProvider.value(value: di.getIt.get<UserLoginCubit>()),
 
               
             ],

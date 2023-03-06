@@ -8,10 +8,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:meta/meta.dart';
 import 'package:oditbiz/app/db/database_helper.dart';
 import 'package:oditbiz/app/model/import_model.dart';
-import 'package:oditbiz/app/model/login_user_location_model.dart';
 import 'package:oditbiz/app/services/repository/import_all.dart';
 import 'package:oditbiz/app/services/repository/login_user_location.dart';
 import 'package:oditbiz/di/di.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 part 'import_state.dart';
 
 class ImportCubit extends Cubit<ImportState> {
@@ -22,11 +22,12 @@ class ImportCubit extends Cubit<ImportState> {
     emit(ImportLoading());
     // try {
     ImportModel? data = await ApiserviceImport().importAllFunction(context);
-    log("ledger length ${data!.ledger!.length}");
+
     if (data != null) {
       final db = getIt<MyDatabase>();
 
-      await db.insersettingsTableData(SettingsTableCompanion(
+      final importStatus =
+          await db.checkAndInsersettingsTableData(SettingsTableCompanion(
         ledger: Value(data.ledger),
         group: Value(data.group),
         location: Value(data.location),
@@ -60,9 +61,11 @@ class ImportCubit extends Cubit<ImportState> {
         deliverystatus: Value(data.deliverystatus),
         formControls: Value(data.formControls!),
       ));
+      if (importStatus != 0) {
+        Fluttertoast.showToast(msg: "Data imported successfully");
+      }
+      emit(ImportLoaded(data));
     }
-
-    emit(ImportLoaded(data));
   }
   // } catch (ex) {
   // emit(ImportError("Sorry! We Couldn't connect to our servers"));

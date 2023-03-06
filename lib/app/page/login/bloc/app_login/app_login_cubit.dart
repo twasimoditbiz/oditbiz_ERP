@@ -35,7 +35,6 @@ class AppLoginCubit extends Cubit<AppLoginState> {
       if (data.status!) {
         await UserServices()
             .setUserDataApp("${json.decode(data.token!)[0]['value']}");
-        await BlocProvider.of<ImportCubit>(context).getImport(context);
       }
       emit(AppLoginLoaded(data));
     }

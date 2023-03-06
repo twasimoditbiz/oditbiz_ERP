@@ -5,11 +5,13 @@ import 'dart:developer';
 import 'package:bloc/bloc.dart';
 import 'package:drift/drift.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:oditbiz/app/db/database_helper.dart';
 import 'package:oditbiz/app/model/app_login_model.dart';
 import 'package:oditbiz/app/model/import_model.dart';
 import 'package:oditbiz/app/model/login_app_model.dart';
+import 'package:oditbiz/app/page/login/bloc/import/import_cubit.dart';
 import 'package:oditbiz/app/page/login/bloc/model/user_login_model.dart';
 import 'package:oditbiz/app/page/login/model/login_user_model.dart';
 import 'package:oditbiz/app/resources/pref_resources.dart';
@@ -35,6 +37,7 @@ class UserLoginCubit extends Cubit<UserLoginState> {
     if (data != null) {
       if (data.status!) {
         await UserServicesUser().setUserDataUser(data.token!);
+        await BlocProvider.of<ImportCubit>(context).getImport(context);
       }
 
       emit(UserLoginLoaded(data));

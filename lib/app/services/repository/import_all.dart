@@ -12,7 +12,7 @@ class ApiserviceImport extends Endpoints {
   Future importAllFunction(context) async {
     try {
       final sp = await SharedPreferences.getInstance();
-      final token = sp.getString(PrefResources.TOKENAPP);
+      final token = sp.getString(PrefResources.TOKENUSER);
       log('USER TOKEN ==> $token');
       final response = await Dio().get(
         "$baseurl$importAll",

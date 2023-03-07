@@ -1,13 +1,12 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:lottie/lottie.dart';
-import 'package:oditbiz/app/controller/ledger_report.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:oditbiz/app/custom/table_heading.dart';
 import 'package:oditbiz/app/page/ledger/model/ledger_table.dart';
-import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 import 'package:zoom_widget/zoom_widget.dart';
+import '../bloc/ledger_cubit.dart';
 
 class LedgerTableScreen extends StatefulWidget {
   const LedgerTableScreen({super.key});
@@ -26,13 +25,19 @@ class _LedgerTableScreenState extends State<LedgerTableScreen> {
     super.dispose();
   }
 
-  List<String> list = <String>['100', '200', '300', '400','500'];
-  String dropdownValue = "100";
+  List<String> list = <String>[
+    '50',
+    '100',
+    '200',
+    '300',
+    '400',
+  ];
+  String dropdownValue = "50";
 
   @override
   Widget build(BuildContext context) {
     final hegth = MediaQuery.of(context).size.height;
-    final ctrl = context.watch<LedgerReportController>();
+    final bloc = BlocProvider.of<LedgerCubit>(context);
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -52,16 +57,15 @@ class _LedgerTableScreenState extends State<LedgerTableScreen> {
         backgroundColor: Colors.white,
         elevation: 0,
       ),
-      body: ctrl.ledgerTableData.isEmpty
+      body: bloc.ledgerTableData.isEmpty
           ? SingleChildScrollView(
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.only(
-                        left: 20, right: 20, bottom: 20, top: 50),
-                    child: Lottie.asset(
-                        "assets/animation/97434-no-data-available.json"),
-                  ),
+                  const Text("No Data"),
+                  // Lottie.asset(
+                  //     "assets/animation/97434-no-data-available.json"),
                   InkWell(
                     onTap: () {
                       Navigator.pop(context);
@@ -128,7 +132,7 @@ class _LedgerTableScreenState extends State<LedgerTableScreen> {
                                   ),
                                 ),
                                 Text(
-                                  "From : ${ctrl.fromTimeController.text.isEmpty ? ctrl.fromAndTo : ctrl.fromTimeController.text}",
+                                  "From : ${bloc.fromTimeController.text.isEmpty ? bloc.fromAndTo : bloc.fromTimeController.text}",
                                   style: const TextStyle(
                                     fontSize: 15,
                                     color: Color.fromARGB(255, 87, 86, 84),
@@ -147,7 +151,7 @@ class _LedgerTableScreenState extends State<LedgerTableScreen> {
                                   ),
                                 ),
                                 Text(
-                                  "To : ${ctrl.toTimeController.text.isEmpty ? ctrl.fromAndTo : ctrl.toTimeController.text}",
+                                  "To : ${bloc.toTimeController.text.isEmpty ? bloc.fromAndTo : bloc.toTimeController.text}",
                                   style: const TextStyle(
                                     fontSize: 15,
                                     color: Color.fromARGB(255, 87, 86, 84),
@@ -158,7 +162,7 @@ class _LedgerTableScreenState extends State<LedgerTableScreen> {
                           ],
                         ),
                       ),
-                      tablePagination(ctrl.ledgerTableData),
+                      tablePagination(bloc.ledgerTableData),
                       SizedBox(
                         height: 67.1.h,
                         width: double.infinity,
@@ -181,7 +185,7 @@ class _LedgerTableScreenState extends State<LedgerTableScreen> {
                                 scrollWeight: 10,
                                 backgroundColor: Colors.transparent,
                                 child: _createDataTable(
-                                    context, ctrl.ledgerTableData),
+                                    context, bloc.ledgerTableData),
                               ),
                             ),
                           ),
@@ -192,7 +196,7 @@ class _LedgerTableScreenState extends State<LedgerTableScreen> {
                 } else {
                   return Column(
                     children: [
-                      tablePagination(ctrl.ledgerTableData),
+                      tablePagination(bloc.ledgerTableData),
                       SizedBox(
                         height: MediaQuery.of(context).size.height * 0.59,
                         child: Padding(
@@ -212,7 +216,7 @@ class _LedgerTableScreenState extends State<LedgerTableScreen> {
                                 scrollWeight: 10,
                                 backgroundColor: Colors.transparent,
                                 child: _createDataTable(
-                                    context, ctrl.ledgerTableData),
+                                    context, bloc.ledgerTableData),
                               ),
                             ),
                           ),
@@ -228,10 +232,10 @@ class _LedgerTableScreenState extends State<LedgerTableScreen> {
         child: FloatingActionButton(
           onPressed: () {
             setState(() {
-              ctrl.isRotation = !ctrl.isRotation;
-              ctrl.isRotation
-                  ? ctrl.rotationFunction()
-                  : ctrl.rotationOFFfunction();
+              bloc.isRotation = !bloc.isRotation;
+              bloc.isRotation
+                  ? bloc.rotationFunction()
+                  : bloc.rotationOFFfunction();
             });
           },
           backgroundColor: const Color(0xFF680E2A),
@@ -259,7 +263,7 @@ class _LedgerTableScreenState extends State<LedgerTableScreen> {
 
   List<DataRow> _createRows(List<LedgerReportResponseModel> ledgerTableData) {
     log('Ledger datas => $ledgerTableData');
-    log(ledgerTableData.length.toString());
+    log("Ledger Table Items Length => ${ledgerTableData.length}");
     return ledgerTableData
         .map(
           (e) => DataRow(
@@ -299,7 +303,7 @@ class _LedgerTableScreenState extends State<LedgerTableScreen> {
                 padding: const EdgeInsets.only(left: 10),
                 child: Row(
                   children: [
-                    const Text("Rows Per Page :    "),
+                    const Text("Rows Per Page :  "),
                     DropdownButton<String>(
                       value: dropdownValue,
                       icon: const Icon(Icons.arrow_drop_down),

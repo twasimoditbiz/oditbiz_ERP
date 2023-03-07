@@ -1,12 +1,15 @@
+import 'package:bloc/bloc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:oditbiz/app/page/entries/entries_screen.dart';
+import 'package:oditbiz/app/page/home/homepage.dart';
+import 'package:oditbiz/app/page/profile/profile_screen.dart';
+import 'package:oditbiz/app/page/reports/reports_screen.dart';
+part 'bottom_state.dart';
 
-import '../page/entries/entries_screen.dart';
-import '../page/home/homepage.dart';
-import '../page/profile/profile_screen.dart';
-import '../page/reports/reports_screen.dart';
+class BottomCubit extends Cubit<BottomState> {
+  BottomCubit() : super(BottomInitial());
 
-class BottomNavigationController with ChangeNotifier {
   int selectedIndex = 0;
   int currentIndex = 0;
   List<IconData> data = [
@@ -37,8 +40,9 @@ class BottomNavigationController with ChangeNotifier {
   ];
 
   selectecdIndexUpdate(int index) {
+    emit(BottomInitial());
     selectedIndex = index;
     currentIndex = index;
-    notifyListeners();
+    emit(BottomLoaded());
   }
 }

@@ -3,15 +3,15 @@ import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:oditbiz/app/custom/sncakbar.dart';
+// import 'package:oditbiz/app/custom/sncakbar.dart';
 import 'package:oditbiz/app/page/ledger/model/ledger_report_model.dart';
 import 'package:oditbiz/app/page/ledger/model/ledger_table.dart';
 import 'package:oditbiz/app/routes/page_routes.dart';
 import 'package:oditbiz/app/services/url/url_page.dart';
 
 class ApiserviceLedgerReport extends Endpoints {
-  Future postLedgerReportFunction(
-      BuildContext context, LedgerReportModel object) async {
+  Future postLedgerReportFunction({
+      required LedgerReportModel object}) async {
     try {
       log('Report url => ${baseurl + ledgerReport}');
       final response = await Dio().post(
@@ -34,7 +34,7 @@ class ApiserviceLedgerReport extends Endpoints {
     } on DioError catch (e) {
       log(e.toString());
       if (e.error.toString().contains('SocketException')) {
-        return showSnackBar(context, 'Connection refused !');
+        // return showSnackBar(context, 'Connection refused !');
       } else {
         log(' =>$e');
       }

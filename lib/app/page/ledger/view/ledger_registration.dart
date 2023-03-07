@@ -1,10 +1,10 @@
 import 'dart:developer';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:oditbiz/app/controller/ledger_report.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:oditbiz/app/controller/ledger_search.dart';
 import 'package:oditbiz/app/custom/ledger_search.dart';
-import 'package:provider/provider.dart';
+import 'package:oditbiz/app/page/ledger/bloc/ledger_cubit.dart';
 
 class LedgerRegistration extends StatefulWidget {
   const LedgerRegistration({Key? key}) : super(key: key);
@@ -19,8 +19,7 @@ class _LedgerRegistrationState extends State<LedgerRegistration> {
     final heigth = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.height;
     final ledgerSearchController = context.watch<LedgerSearchController>();
-    final controllerRead = context.read<LedgerReportController>();
-    final controllerWatch = context.read<LedgerReportController>();
+    final bloc = BlocProvider.of<LedgerCubit>(context);
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -43,7 +42,7 @@ class _LedgerRegistrationState extends State<LedgerRegistration> {
       ),
       body: SingleChildScrollView(
         child: Form(
-          key: controllerWatch.formKee,
+          key: bloc.formKee,
           child: Column(
             children: [
               Padding(
@@ -154,13 +153,13 @@ class _LedgerRegistrationState extends State<LedgerRegistration> {
                                     firstDate: DateTime(1800),
                                     lastDate: DateTime(2100));
                                 if (pickedDate != null) {
-                                  controllerRead.updateFromDate(pickedDate);
-                                  log(controllerWatch.fromTimeController.text);
+                                  bloc.updateFromDate(pickedDate);
+                                  log(bloc.fromTimeController.text);
                                 } else {
                                   log("Date is not selected");
                                 }
                               },
-                              controller: controllerWatch.fromTimeController,
+                              controller: bloc.fromTimeController,
                               decoration: InputDecoration(
                                 suffixIcon: const Icon(
                                   Icons.calendar_today_rounded,
@@ -169,7 +168,7 @@ class _LedgerRegistrationState extends State<LedgerRegistration> {
                                 ),
                                 contentPadding:
                                     const EdgeInsets.only(left: 10, top: 5),
-                                hintText: controllerWatch.fromAndTo.toString(),
+                                hintText: bloc.fromAndTo.toString(),
                                 hintStyle: const TextStyle(
                                   color: Colors.black,
                                 ),
@@ -219,13 +218,13 @@ class _LedgerRegistrationState extends State<LedgerRegistration> {
                                       firstDate: DateTime(1800),
                                       lastDate: DateTime(2100));
                                   if (pickedDated != null) {
-                                    controllerRead.updateToDate(pickedDated);
-                                    log(controllerWatch.toTimeController.text);
+                                    bloc.updateToDate(pickedDated);
+                                    log(bloc.toTimeController.text);
                                   } else {
                                     log("Date is not selected");
                                   }
                                 },
-                                controller: controllerWatch.toTimeController,
+                                controller: bloc.toTimeController,
                                 decoration: InputDecoration(
                                   suffixIcon: const Icon(
                                     Icons.calendar_today_rounded,
@@ -235,7 +234,7 @@ class _LedgerRegistrationState extends State<LedgerRegistration> {
                                   contentPadding:
                                       const EdgeInsets.only(left: 10, top: 5),
                                   hintText:
-                                      controllerWatch.fromAndTo.toString(),
+                                      bloc.fromAndTo.toString(),
                                   hintStyle: const TextStyle(
                                     color: Colors.black,
                                   ),
@@ -250,10 +249,10 @@ class _LedgerRegistrationState extends State<LedgerRegistration> {
                     Row(
                       children: [
                         Checkbox(
-                          value: controllerWatch.agree,
+                          value: bloc.agree,
                           onChanged: (value) {
                             setState(() {
-                              controllerWatch.agree = value ?? false;
+                              bloc.agree = value ?? false;
                             });
                           },
                         ),
@@ -279,9 +278,8 @@ class _LedgerRegistrationState extends State<LedgerRegistration> {
                           height: MediaQuery.of(context).size.height * 0.05,
                           minWidth: width * 0.2,
                           onPressed: () {
-                            if (controllerWatch.formKee.currentState!
-                                .validate()) {
-                              controllerRead.getLedgerDataTable(context);
+                            if (bloc.formKee.currentState!.validate()) {
+                              bloc.getPaginatedLedgerReport();
                             }
                           },
                           child: const Text(

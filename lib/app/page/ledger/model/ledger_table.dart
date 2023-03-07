@@ -1,8 +1,6 @@
 import 'dart:convert';
-import 'dart:developer';
 
 List<LedgerReportResponseModel> ledgerReportResponseModelFromJson(List data) {
-  log(data.toString());
   return data.map((x) => LedgerReportResponseModel.fromJson(x)).toList();
 }
 
@@ -56,4 +54,8 @@ class LedgerReportResponseModel {
         "Balance": balance,
         "Remarks": remarks,
       };
+
+  @override
+  String toString() =>
+      'EntryNo: $entryNo , InvNo: $invNo, DDate:$dDate, EntryName: $entryName, Particulars: $particulars Debit: $debit, Credit: $credit, Balance: $balance, Remarks: $remarks,';
 }

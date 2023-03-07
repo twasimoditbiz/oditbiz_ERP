@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:sizer/sizer.dart';
 import '../controller/ledger_search.dart';
 
 class CustomAlertDialog extends StatefulWidget {
@@ -41,22 +42,25 @@ class _CustomAlertDialogState extends State<CustomAlertDialog>
             padding: const EdgeInsets.only(left: 16, right: 16, top: 10),
             child: Column(
               children: [
-                TextFormField(
-                  onChanged: (value) {
-                    setState(() {
-                      ledgerSearchController.legerSearch(context, value);
-                    });
-                  },
-                  decoration: InputDecoration(
-                    hintText: "Search...",
-                    fillColor: const Color.fromARGB(255, 239, 237, 237),
-                    filled: true,
-                    suffixIcon: const Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: Icon(CupertinoIcons.search),
-                    ),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(20),
+                SizedBox(
+                  height: 7.h,
+                  child: TextFormField(
+                    onChanged: (value) {
+                      setState(() {
+                        ledgerSearchController.legerSearch(context, value);
+                      });
+                    },
+                    decoration: InputDecoration(
+                      hintText: "Search...",
+                      fillColor: const Color.fromARGB(255, 239, 237, 237),
+                      filled: true,
+                      suffixIcon: const Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Icon(CupertinoIcons.search),
+                      ),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
                     ),
                   ),
                 ),

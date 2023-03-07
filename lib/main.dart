@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:oditbiz/app/controller/bottom_controller.dart';
-import 'package:oditbiz/app/controller/ledger_report.dart';
 import 'package:oditbiz/app/controller/ledger_search.dart';
 import 'package:oditbiz/app/controller/login_page.dart';
 import 'package:oditbiz/app/custom/textshadow.dart';
+import 'package:oditbiz/app/page/bottom_nav/bloc/bottom_cubit.dart';
+import 'package:oditbiz/app/page/ledger/bloc/ledger_cubit.dart';
 import 'package:oditbiz/app/page/login/bloc/location/location_cubit.dart';
 import 'package:oditbiz/app/routes/page_routes.dart';
 import 'package:provider/provider.dart';
@@ -32,13 +32,13 @@ void main() {
       return MultiProvider(
           providers: [
             ChangeNotifierProvider(create: (_) => LedgerSearchController(_)),
-            ChangeNotifierProvider(create: (_) => LedgerReportController()),
             ChangeNotifierProvider(create: (_) => LoginPageController()),
-            ChangeNotifierProvider(create: (_) => BottomNavigationController()),
           ],
           child: MultiBlocProvider(
             providers: [
-              BlocProvider.value(value: di.getIt.get<LocationCubit>())
+              BlocProvider.value(value: di.getIt.get<LocationCubit>()),
+              BlocProvider.value(value: di.getIt.get<LedgerCubit>()),
+              BlocProvider.value(value: di.getIt.get<BottomCubit>()),
             ],
             child: const MyApp(),
           ));

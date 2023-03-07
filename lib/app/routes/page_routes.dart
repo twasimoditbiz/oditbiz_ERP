@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_navigation/src/routes/transitions_type.dart'
-    as transitions_type;
-import 'package:oditbiz/app/page/bottom_nav/bottom_nav.dart';
+import 'package:get/get_navigation/src/routes/transitions_type.dart' as transitions_type;
+import 'package:oditbiz/app/page/bottom_nav/view/bottom_nav.dart';
 import 'package:oditbiz/app/page/home/homepage.dart';
 import 'package:oditbiz/app/page/ledger/view/ledger_registration.dart';
 import 'package:oditbiz/app/page/ledger/view/ledger_table_screen.dart';
 import 'package:oditbiz/app/page/login/view/login_account.dart';
 import 'package:oditbiz/app/page/login/view/login_app.dart';
-import 'package:oditbiz/app/page/payment/payment_screen.dart';
 import 'package:oditbiz/app/page/payment/payment_search.dart';
 import 'package:oditbiz/app/page/recipts/receipt_page.dart';
 import 'package:oditbiz/app/page/recipts/recipts_serach_screen.dart';
@@ -27,18 +25,18 @@ import 'package:oditbiz/app/page/sales_order/sales_order_detalis.dart';
 import 'package:oditbiz/app/page/sales_order/sales_order_search.dart';
 
 final navigationTransition = transitions_type.Transition.fadeIn;
-final GlobalKey<NavigatorState> navigatorKey = new GlobalKey<NavigatorState>();
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 class Routes {
   static final routes = [
     GetPage(
       name: PageRoutes.bottomNavigationScreen,
-      page: () => const BottomNavigationScreen(),
+      page: () => BottomNavigationScreen(),
       transition: navigationTransition,
     ),
     GetPage(
       name: PageRoutes.login,
-      page: () =>  LoginPage(),
+      page: () => LoginPage(),
       transition: navigationTransition,
     ),
     GetPage(
@@ -145,28 +143,28 @@ class Routes {
 }
 
 class PageRoutes {
-  static const String bottomNavigationScreen = "/bottomNavigationScreen";
-  static const String login = "/login";
+  static String bottomNavigationScreen = "/bottomNavigationScreen";
+  static String login = "/login";
 
-  static const String home = '/home';
-  static const String loginApp = "/loginApp";
-  static const String ledgerRegistration = '/ledgerRegistration';
-  static const String receiptScreen = '/receiptScreen';
-  static const String paymentScreen = '/paymentScreen';
-  static const String addSalesOrderScreen = '/AddSalesOrderScreen';
-  static const String addProductScreen = '/AddProductScreen';
-  static const String reciptsSearchScreen = '/ReciptsSearchScreen';
-  static const String paymentSearchScreen = '/PaymentSearchScreen';
-  static const String saleOrderSearchScreen = '/SaleOrderSearchScreen';
-  static const String cartScreen = '/CartScreen';
-  static const String saleOrderDetalisScreen = "/SaleOrderDetalisScreen";
-  static const String groupReportScreen = "/GroupReportScreen";
-  static const String cashBookScreen = "/CashBookScreen";
-  static const String balanceSheetScreen = "/BalanceSheetScreen";
-  static const String profitandLossScreen = "/ProfitandLossScreen";
-  static const String dayBookScreen = "/DayBookScreen";
-  static const String stockReportScreen = "/stockReportScreen";
-  static const String salesReportScreen = "/salesReportScreen";
-  static const String daySheetScreen = "/daySheetScreen";
-  static const String ledgerTableScreen = "/ledgerTableScreen";
+  static String home = '/home';
+  static String loginApp = "/loginApp";
+  static String ledgerRegistration = '/ledgerRegistration';
+  static String receiptScreen = '/receiptScreen';
+  static String paymentScreen = '/paymentScreen';
+  static String addSalesOrderScreen = '/AddSalesOrderScreen';
+  static String addProductScreen = '/AddProductScreen';
+  static String reciptsSearchScreen = '/ReciptsSearchScreen';
+  static String paymentSearchScreen = '/PaymentSearchScreen';
+  static String saleOrderSearchScreen = '/SaleOrderSearchScreen';
+  static String cartScreen = '/CartScreen';
+  static String saleOrderDetalisScreen = "/SaleOrderDetalisScreen";
+  static String groupReportScreen = "/GroupReportScreen";
+  static String cashBookScreen = "/CashBookScreen";
+  static String balanceSheetScreen = "/BalanceSheetScreen";
+  static String profitandLossScreen = "/ProfitandLossScreen";
+  static String dayBookScreen = "/DayBookScreen";
+  static String stockReportScreen = "/stockReportScreen";
+  static String salesReportScreen = "/salesReportScreen";
+  static String daySheetScreen = "/daySheetScreen";
+  static String ledgerTableScreen = "/ledgerTableScreen";
 }

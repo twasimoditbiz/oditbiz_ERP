@@ -26,6 +26,9 @@ class _LedgerTableScreenState extends State<LedgerTableScreen> {
     super.dispose();
   }
 
+  List<String> list = <String>['100', '200', '300', '400','500'];
+  String dropdownValue = "100";
+
   @override
   Widget build(BuildContext context) {
     final hegth = MediaQuery.of(context).size.height;
@@ -155,11 +158,13 @@ class _LedgerTableScreenState extends State<LedgerTableScreen> {
                           ],
                         ),
                       ),
+                      tablePagination(ctrl.ledgerTableData),
                       SizedBox(
-                        height: 75.6.h,
+                        height: 67.1.h,
                         width: double.infinity,
                         child: Padding(
-                          padding: const EdgeInsets.all(8.0),
+                          padding: const EdgeInsets.only(
+                              left: 8, right: 8, bottom: 8),
                           child: SizedBox(
                             height: hegth * 1,
                             width: hegth * 2,
@@ -185,15 +190,15 @@ class _LedgerTableScreenState extends State<LedgerTableScreen> {
                     ],
                   );
                 } else {
-                  return SizedBox(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
+                  return Column(
+                    children: [
+                      tablePagination(ctrl.ledgerTableData),
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.59,
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                              left: 8, right: 8, bottom: 8),
                           child: SizedBox(
-                            height: 40.h,
                             child: InteractiveViewer(
                               boundaryMargin: const EdgeInsets.all(20),
                               minScale: 0.1,
@@ -212,8 +217,8 @@ class _LedgerTableScreenState extends State<LedgerTableScreen> {
                             ),
                           ),
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   );
                 }
               },
@@ -254,6 +259,7 @@ class _LedgerTableScreenState extends State<LedgerTableScreen> {
 
   List<DataRow> _createRows(List<LedgerReportResponseModel> ledgerTableData) {
     log('Ledger datas => $ledgerTableData');
+    log(ledgerTableData.length.toString());
     return ledgerTableData
         .map(
           (e) => DataRow(
@@ -271,5 +277,71 @@ class _LedgerTableScreenState extends State<LedgerTableScreen> {
           ),
         )
         .toList();
+  }
+
+  tablePagination(List<LedgerReportResponseModel> ledgerTableData) {
+    return Column(
+      children: [
+        const Padding(
+          padding: EdgeInsets.only(left: 10, right: 10),
+          child: Divider(
+            color: Colors.black,
+            thickness: 1,
+          ),
+        ),
+        SizedBox(
+          height: 6.5.h,
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(left: 10),
+                child: Row(
+                  children: [
+                    const Text("Rows Per Page :    "),
+                    DropdownButton<String>(
+                      value: dropdownValue,
+                      icon: const Icon(Icons.arrow_drop_down),
+                      onChanged: (String? value) {
+                        setState(() {
+                          dropdownValue = value!;
+                        });
+                      },
+                      items: list.map<DropdownMenuItem<String>>((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(value),
+                        );
+                      }).toList(),
+                    ),
+                  ],
+                ),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Text("01 - 20 / ${ledgerTableData.length}"),
+                  IconButton(
+                    onPressed: () {},
+                    icon: const Icon(
+                      Icons.arrow_back_ios_new,
+                      size: 15,
+                    ),
+                  ),
+                  IconButton(
+                    onPressed: () {},
+                    icon: const Icon(
+                      Icons.arrow_forward_ios,
+                      size: 15,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
   }
 }

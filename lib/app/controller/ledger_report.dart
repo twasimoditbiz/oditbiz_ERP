@@ -1,12 +1,14 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:oditbiz/app/controller/ledger_search.dart';
 import 'package:oditbiz/app/controller/state_update.dart';
-import 'package:oditbiz/app/page/ledger/model/ledger_report_model.dart' as ledger;
+import 'package:oditbiz/app/page/ledger/model/ledger_report_model.dart'
+    as ledger;
 import 'package:oditbiz/app/page/ledger/model/ledger_table.dart';
 import 'package:oditbiz/app/services/repository/ledger_report.dart';
-
 
 class LedgerReportController extends StateProvider {
   TextEditingController fromTimeController = TextEditingController();
@@ -31,7 +33,6 @@ class LedgerReportController extends StateProvider {
       toTimeController.text = formattedDated;
     });
   }
-
 
   getLedgerDataTable(BuildContext context) async {
     update(() => isLoading = true);

@@ -27,12 +27,12 @@ class BottomNavigationScreenState extends State<BottomNavigationScreen> {
             width: double.infinity,
             child: ListView.builder(
               itemCount: watchController.data.length,
-              itemBuilder: (ctx, i) => GestureDetector(
-                onTap: () {
-                  readController.selectecdIndexUpdate(i);
-                },
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 15),
+              itemBuilder: (ctx, index) => Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 15),
+                child: GestureDetector(
+                  onTap: () {
+                    readController.selectecdIndexUpdate(index);
+                  },
                   child: AnimatedContainer(
                     duration: const Duration(milliseconds: 250),
                     width: MediaQuery.of(context).size.width * 0.145,
@@ -40,17 +40,18 @@ class BottomNavigationScreenState extends State<BottomNavigationScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Icon(
-                          i == watchController.selectedIndex
-                              ? watchController.selectedIcon[i]
-                              : watchController.data[i],
-                          size: 35,
+                          index == watchController.selectedIndex
+                              ? watchController.selectedIcon[index]
+                              : watchController.data[index],
+                          size: 31,
                           color: Colors.black,
                         ),
                         Text(
-                          watchController.items[i],
+                          watchController.items[index],
                           style: TextStyle(
                             fontWeight: FontWeight.w500,
-                            color: i == watchController.selectedIndex
+                            fontSize: 12,
+                            color: index == watchController.selectedIndex
                                 ? Colors.black
                                 : Colors.grey.shade600,
                           ),

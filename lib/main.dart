@@ -53,7 +53,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      initialRoute: PageRoutes.login,
+      initialRoute: PageRoutes.bottomNavigationScreen,
       getPages: Routes.routes,
       theme: ThemeData(
         fontFamily: "poppins",

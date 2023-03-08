@@ -3,7 +3,9 @@ import 'dart:developer';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:oditbiz/app/controller/login_page.dart';
 import 'package:oditbiz/app/page/login/bloc/location/location_cubit.dart';
+import 'package:oditbiz/app/page/login/view/login_account.dart';
 import 'package:sizer/sizer.dart';
 
 class CustomLoactionArea extends StatefulWidget {
@@ -35,18 +37,24 @@ class _CustomLoactionAreaState extends State<CustomLoactionArea>
 
   final List<String> _selectedItems = [];
 
-  void _itemChange(itemValue, bool isSelected) {
+  // final List<String> _selectedId = [];
+
+  void _itemChange(itemId, itemValue, bool isSelected) {
     setState(() {
       if (isSelected) {
-        _selectedItems.add(itemValue);
+        selectedItems.add(itemValue);
+        selectedAreaId.add(itemId);
       } else {
-        _selectedItems.remove(itemValue);
+        selectedItems.remove(itemValue);
+        selectedAreaId.remove(itemId);
       }
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    final controllerWatch = context.watch<LoginPageController>();
+
     return ScaleTransition(
       scale: _animation,
       child: Dialog(
@@ -60,7 +68,7 @@ class _CustomLoactionAreaState extends State<CustomLoactionArea>
                 Row(
                   children: [
                     SizedBox(
-                      width: _selectedItems.isEmpty ? 77.w : 69.w,
+                      width: selectedItems.isEmpty ? 70.w : 65.w,
                       height: 6.h,
                       child: TextFormField(
                         onChanged: (value) {},
@@ -80,7 +88,7 @@ class _CustomLoactionAreaState extends State<CustomLoactionArea>
                         ),
                       ),
                     ),
-                    _selectedItems.isEmpty
+                    selectedItems.isEmpty
                         ? const SizedBox.shrink()
                         : AnimatedContainer(
                             duration: const Duration(milliseconds: 500),
@@ -131,17 +139,34 @@ class _CustomLoactionAreaState extends State<CustomLoactionArea>
                                 child: Column(
                                   children: [
                                     ListBody(
-                                      children: locationName
+                                      children: locationArea.area
                                           .map(
                                             (locationName) => CheckboxListTile(
-                                              title: Text(locationName),
-                                              value: _selectedItems
-                                                  .contains(locationName),
+                                              title: Text(locationName.label),
+                                              value: selectedItems
+                                                  .contains(locationName.label),
                                               onChanged: (isChecked) {
                                                 log(locationName.toString());
                                                 log(locationid.toString());
                                                 _itemChange(
-                                                    locationName, isChecked!);
+                                                    int.parse(
+                                                        locationName.value),
+                                                    locationName.label,
+                                                    isChecked!);
+                                                controllerWatch.selectedAreaid =
+                                                    selectedAreaId
+                                                        .map((number) =>
+                                                            number.toString())
+                                                        .join(",")
+                                                        .toString();
+
+                                                controllerWatch
+                                                        .areaController.text =
+                                                    selectedItems
+                                                        .map((number) =>
+                                                            number.toString())
+                                                        .join(",")
+                                                        .toString();
                                               },
                                             ),
                                           )

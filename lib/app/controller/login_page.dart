@@ -70,4 +70,8 @@ class LoginPageController with ChangeNotifier {
   List<String> location = [""];
   String? chosenlocation;
   String? selectedLocationid;
+  String? selectedAreaid;
+  String? selectedAreaName;
+
+
 }

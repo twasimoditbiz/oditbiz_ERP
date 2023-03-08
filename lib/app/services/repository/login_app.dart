@@ -5,6 +5,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:oditbiz/app/custom/sncakbar.dart';
+import 'package:oditbiz/app/page/ledger/model/app_login_model.dart';
 import 'package:oditbiz/app/page/login/model/login_app_model.dart';
 import 'package:oditbiz/app/routes/page_routes.dart';
 import 'package:oditbiz/app/services/url/url_page.dart';
@@ -24,12 +25,9 @@ class ApiserviceloginApp extends Endpoints {
       );
       log('ledger response => ${response.statusCode}');
       if (response.statusCode! >= 200 || response.statusCode! <= 299) {
-        Get.offAllNamed(PageRoutes.login);
-        log(response.data.toString());
-        final responseData = jsonDecode(response.data["token"]);
-        return await UserServices().setUserDataApp(responseData[0]["value"])
-            ? "success"
-            : "false";
+        
+
+        return AppLoginModel.fromJson(response.data);
       }
     } on DioError catch (e) {
       log(e.toString());
@@ -38,7 +36,7 @@ class ApiserviceloginApp extends Endpoints {
         showSnackBar(context, "Username and Password don't Match");
       } else {
         log("${e.message}".toString());
-        
+
         log(e.requestOptions.toString());
       }
 

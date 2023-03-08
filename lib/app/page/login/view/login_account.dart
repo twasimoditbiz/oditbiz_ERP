@@ -1,15 +1,29 @@
 import 'dart:developer';
 import 'package:animated_custom_dropdown/custom_dropdown.dart';
+import 'package:drift_db_viewer/drift_db_viewer.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
+// import 'package:get_mac_address/get_mac_address.dart';
 import 'package:oditbiz/app/controller/login_page.dart';
 import 'package:oditbiz/app/custom/location_area_serach.dart';
 import 'package:oditbiz/app/custom/sncakbar.dart';
+import 'package:oditbiz/app/db/database_helper.dart';
+import 'package:oditbiz/app/page/login/bloc/import/import_cubit.dart';
 import 'package:oditbiz/app/page/login/bloc/location/location_cubit.dart';
+import 'package:oditbiz/app/page/login/bloc/user_login/user_login_cubit.dart';
+import 'package:oditbiz/app/page/login/model/login_user_model.dart';
 import 'package:oditbiz/app/page/recipts/receipt_field.dart';
+import 'package:oditbiz/app/resources/pref_resources.dart';
 import 'package:oditbiz/app/routes/page_routes.dart';
+import 'package:oditbiz/di/di.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../../services/repository/login_user_location.dart';
+
+List<String> selectedItems = [];
+
+List<int> selectedAreaId = [];
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -19,11 +33,17 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  String macAddress = "";
   @override
   void initState() {
     super.initState();
-    ApiserviceLoginUserLocation().loginUserLoctionFunction(context);
-    context.read<LocationCubit>().getLocation(context);
+    init();
+    BlocProvider.of<LocationCubit>(context).getLocation(context);
+  }
+
+  init() async {
+    // macAddress = await getMacAddress();
+    log("macAddress $macAddress");
   }
 
   @override
@@ -31,6 +51,14 @@ class _LoginPageState extends State<LoginPage> {
     final controllerRead = context.read<LoginPageController>();
     final controllerWatch = context.watch<LoginPageController>();
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () async {
+          SharedPreferences sharedPreferences= await SharedPreferences.getInstance();
+          sharedPreferences.remove(PrefResources.TOKENAPP);
+          final db = getIt<MyDatabase>();
+          Get.to(() => DriftDbViewer(db));
+        },
+      ),
       body: Form(
         key: controllerWatch.formKey,
         child: Center(
@@ -57,176 +85,207 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(17.0),
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding:
-                            const EdgeInsets.only(right: 10, left: 10, top: 15),
-                        child: TextFormField(
-                          validator: validation,
-                          controller: controllerWatch.usernamecontroller,
-                          decoration: const InputDecoration(
-                            fillColor: Colors.white,
-                            filled: true,
-                            contentPadding: EdgeInsets.all(13),
-                            hintText: "Username",
-                            hintStyle: TextStyle(
-                              fontSize: 14,
-                              color: Color(0xFF838383),
-                            ),
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding:
-                            const EdgeInsets.only(right: 10, left: 10, top: 15),
-                        child: TextFormField(
-                          validator: validation,
-                          obscureText: controllerWatch.isHidden,
-                          controller: controllerWatch.passwordcontroller,
-                          decoration: InputDecoration(
-                            filled: true,
-                            fillColor: Colors.white,
-                            contentPadding: const EdgeInsets.all(13),
-                            hintText: "Password",
-                            hintStyle: const TextStyle(
-                              fontSize: 14,
-                              color: Color(0xFF838383),
-                            ),
-                            suffixIcon: InkWell(
-                              onTap: controllerRead.togglePasswordView,
-                              child: Icon(
-                                controllerWatch.isHidden
-                                    ? Icons.visibility
-                                    : Icons.visibility_off,
-                                color: Colors.black,
+                BlocListener<UserLoginCubit, UserLoginState>(
+                  listener: (context, userLoginState) {
+                    if (userLoginState is UserLoginLoaded) {
+                      if (userLoginState.userLoginModel.status!) {
+                        Get.offAllNamed(PageRoutes.bottomNavigationScreen);
+                      }
+                    }
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.all(17.0),
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(
+                              right: 10, left: 10, top: 15),
+                          child: TextFormField(
+                            validator: validation,
+                            controller: controllerWatch.usernamecontroller,
+                            decoration: const InputDecoration(
+                              fillColor: Colors.white,
+                              filled: true,
+                              contentPadding: EdgeInsets.all(13),
+                              hintText: "Username",
+                              hintStyle: TextStyle(
+                                fontSize: 14,
+                                color: Color(0xFF838383),
                               ),
                             ),
                           ),
                         ),
-                      ),
-                      Padding(
-                        padding:
-                            const EdgeInsets.only(right: 10, left: 10, top: 15),
-                        child: Container(
-                          decoration: const BoxDecoration(
-                            boxShadow: [
-                              BoxShadow(
-                                color: Color.fromARGB(255, 214, 210, 210),
-                                blurRadius: 4.0,
-                                spreadRadius: 0.9,
+                        Padding(
+                          padding: const EdgeInsets.only(
+                              right: 10, left: 10, top: 15),
+                          child: TextFormField(
+                            validator: validation,
+                            obscureText: controllerWatch.isHidden,
+                            controller: controllerWatch.passwordcontroller,
+                            decoration: InputDecoration(
+                              filled: true,
+                              fillColor: Colors.white,
+                              contentPadding: const EdgeInsets.all(13),
+                              hintText: "Password",
+                              hintStyle: const TextStyle(
+                                fontSize: 14,
+                                color: Color(0xFF838383),
                               ),
-                            ],
+                              suffixIcon: InkWell(
+                                onTap: controllerRead.togglePasswordView,
+                                child: Icon(
+                                  controllerWatch.isHidden
+                                      ? Icons.visibility
+                                      : Icons.visibility_off,
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ),
                           ),
-                          child: BlocBuilder<LocationCubit, LocationState>(
-                            builder: (context, state) {
-                              log(state.toString());
-                              if (state is LocationLoaded) {
-                                final locationdata =
-                                    state.loginLocationModel.loactions;
-                                return CustomDropdown.search(
-                                  errorBorderSide: const BorderSide(
-                                    color: Color.fromARGB(255, 237, 99, 89),
-                                    width: 1,
-                                  ),
-                                  selectedStyle: const TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w500,
-                                    color: Colors.black,
-                                  ),
-                                  borderRadius: BorderRadius.circular(0),
-                                  fillColor: Colors.white,
-                                  hintText: 'Select Branch',
-                                  hintStyle: const TextStyle(
-                                    fontSize: 14,
-                                    color: Color(0xFF838383),
-                                  ),
-                                  items: locationdata
-                                      .map((e) => e.glName)
-                                      .toList(),
-                                  controller:
-                                      controllerWatch.selectBrachController,
-                                  onChanged: (String? value) {
-                                    controllerWatch.chosenlocation = value;
-                                    final data = locationdata.singleWhere(
-                                        (element) => element.glName == value);
-                                    controllerWatch.selectedLocationid =
-                                        data.glId;
-                                    log("chosen location id ===> ${controllerWatch.selectedLocationid}");
-                                    setState(() {});
-                                  },
-                                );
-                              }
-                              if (state is LocationError) {
-                                if (state.error
-                                    .toString()
-                                    .contains('SocketException')) {
-                                  showSnackBar(context, 'Connection refused !');
-                                } else {
-                                  log(state.error..toString());
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(
+                              right: 10, left: 10, top: 15),
+                          child: Container(
+                            decoration: const BoxDecoration(
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Color.fromARGB(255, 214, 210, 210),
+                                  blurRadius: 4.0,
+                                  spreadRadius: 0.9,
+                                ),
+                              ],
+                            ),
+                            child: BlocBuilder<LocationCubit, LocationState>(
+                              builder: (context, state) {
+                                log(state.toString());
+                                if (state is LocationLoaded) {
+                                  final locationdata =
+                                      state.loginLocationModel.loactions;
+                                  return CustomDropdown.search(
+                                    errorBorderSide: const BorderSide(
+                                      color: Color.fromARGB(255, 237, 99, 89),
+                                      width: 1,
+                                    ),
+                                    selectedStyle: const TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w500,
+                                      color: Colors.black,
+                                    ),
+                                    borderRadius: BorderRadius.circular(0),
+                                    fillColor: Colors.white,
+                                    hintText: 'Select Branch',
+                                    hintStyle: const TextStyle(
+                                      fontSize: 14,
+                                      color: Color(0xFF838383),
+                                    ),
+                                    items: locationdata
+                                        .map((e) => e.glName)
+                                        .toList(),
+                                    controller:
+                                        controllerWatch.selectBrachController,
+                                    onChanged: (String? value) {
+                                      controllerWatch.chosenlocation = value;
+                                      final data = locationdata.singleWhere(
+                                          (element) => element.glName == value);
+                                      controllerWatch.selectedLocationid =
+                                          data.glId;
+                                      log("chosen location id ===> ${controllerWatch.selectedLocationid}");
+                                      setState(() {});
+                                    },
+                                  );
                                 }
-                              }
-                              return const SizedBox.shrink();
-                            },
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding:
-                            const EdgeInsets.only(right: 10, left: 10, top: 15),
-                        child: TextFormField(
-                          validator: validation,
-                          readOnly: true,
-                          onTap: () {
-                                showDialog(
-                              context: context,
-                              builder: (context) => const CustomLoactionArea(),
-                            );
-                          },
-                          controller: controllerWatch.areaController,
-                          decoration: const InputDecoration(
-                            filled: true,
-                            fillColor: Colors.white,
-                            contentPadding: EdgeInsets.all(13),
-                            hintText: "Select Area",
-                            hintStyle: TextStyle(
-                              fontSize: 14,
-                              color: Color(0xFF838383),
+                                if (state is LocationError) {
+                                  if (state.error
+                                      .toString()
+                                      .contains('SocketException')) {
+                                    showSnackBar(
+                                        context, 'Connection refused !');
+                                  } else {
+                                    log(state.error..toString());
+                                  }
+                                }
+                                return const SizedBox.shrink();
+                              },
                             ),
                           ),
                         ),
-                      ),
-                      const SizedBox(height: 20),
-                      Padding(
-                        padding:
-                            const EdgeInsets.only(right: 10, left: 10, top: 15),
-                        child: Material(
-                          color: const Color(0xFF680E2A),
-                          elevation: 7,
-                          shadowColor: Colors.black,
-                          borderRadius: BorderRadius.circular(3),
-                          child: MaterialButton(
-                            height: MediaQuery.of(context).size.height * 0.068,
-                            minWidth: MediaQuery.of(context).size.width * 1,
-                            onPressed: () {
-                              // if (controllerWatch.formKey.currentState!
-                              //     .validate()) {
-                                controllerRead.userLoginFuncation(context);
-                              // }
+                        Padding(
+                          padding: const EdgeInsets.only(
+                              right: 10, left: 10, top: 15),
+                          child: TextFormField(
+                            validator: validation,
+                            readOnly: true,
+                            onTap: () {
+                              selectedItems = [];
+                              selectedAreaId = [];
+                              showDialog(
+                                context: context,
+                                builder: (context) =>
+                                    const CustomLoactionArea(),
+                              );
                             },
-                            child: const Text(
-                              'Login',
-                              style: TextStyle(
-                                fontWeight: FontWeight.w600,
-                                color: Colors.white,
+                            controller: controllerWatch.areaController,
+                            decoration: const InputDecoration(
+                              filled: true,
+                              fillColor: Colors.white,
+                              contentPadding: EdgeInsets.all(13),
+                              hintText: "Select Area",
+                              hintStyle: TextStyle(
+                                fontSize: 14,
+                                color: Color(0xFF838383),
                               ),
                             ),
                           ),
                         ),
-                      ),
-                    ],
+                        const SizedBox(height: 20),
+                        Padding(
+                          padding: const EdgeInsets.only(
+                              right: 10, left: 10, top: 15),
+                          child: Material(
+                            color: const Color(0xFF680E2A),
+                            elevation: 7,
+                            shadowColor: Colors.black,
+                            borderRadius: BorderRadius.circular(3),
+                            child: MaterialButton(
+                              height:
+                                  MediaQuery.of(context).size.height * 0.068,
+                              minWidth: MediaQuery.of(context).size.width * 1,
+                              onPressed: () async {
+                                if (controllerWatch.formKey.currentState!
+                                    .validate()) {
+                                  log("selectedLocationid====${controllerWatch.selectedAreaid}");
+                                  await BlocProvider.of<UserLoginCubit>(context)
+                                      .getUserLogin(
+                                          context,
+                                          LoginUserModel(
+                                            username: controllerRead
+                                                .usernamecontroller.text
+                                                .trim(),
+                                            password: controllerRead
+                                                .usernamecontroller.text
+                                                .trim(),
+                                            location: controllerWatch
+                                                .selectedLocationid
+                                                .toString(),
+                                            area: controllerWatch.selectedAreaid
+                                                .toString(),
+                                            macId: macAddress,
+                                          ));
+                                }
+                              },
+                              child: const Text(
+                                'Login',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
                 const SizedBox(height: 40),
@@ -237,4 +296,17 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
   }
+
+  // getMacAddress() async {
+  //   try {
+  //     macAddress =
+  //         await GetMacAddress().getMacAddress() ?? 'Unknown mac address';
+  //   } on PlatformException {
+  //     macAddress = 'Failed to get mac address.';
+  //   }
+
+  //   log('MAC Address: $macAddress');
+
+  //   return macAddress;
+  // }
 }

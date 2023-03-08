@@ -6,7 +6,10 @@ import 'package:oditbiz/app/controller/login_page.dart';
 import 'package:oditbiz/app/custom/textshadow.dart';
 import 'package:oditbiz/app/page/bottom_nav/bloc/bottom_cubit.dart';
 import 'package:oditbiz/app/page/ledger/bloc/ledger_cubit.dart';
+import 'package:oditbiz/app/page/login/bloc/app_login/app_login_cubit.dart';
+import 'package:oditbiz/app/page/login/bloc/import/import_cubit.dart';
 import 'package:oditbiz/app/page/login/bloc/location/location_cubit.dart';
+import 'package:oditbiz/app/page/login/bloc/user_login/user_login_cubit.dart';
 import 'package:oditbiz/app/routes/page_routes.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
@@ -39,6 +42,11 @@ void main() {
               BlocProvider.value(value: di.getIt.get<LocationCubit>()),
               BlocProvider.value(value: di.getIt.get<LedgerCubit>()),
               BlocProvider.value(value: di.getIt.get<BottomCubit>()),
+              BlocProvider.value(value: di.getIt.get<ImportCubit>()),
+              BlocProvider.value(value: di.getIt.get<AppLoginCubit>()),
+              BlocProvider.value(value: di.getIt.get<UserLoginCubit>()),
+
+              
             ],
             child: const MyApp(),
           ));
@@ -53,7 +61,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      initialRoute: PageRoutes.bottomNavigationScreen,
+      initialRoute: PageRoutes.login,
       getPages: Routes.routes,
       theme: ThemeData(
         fontFamily: "poppins",

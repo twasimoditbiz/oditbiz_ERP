@@ -143,28 +143,27 @@ class Routes {
 }
 
 class PageRoutes {
-  static String bottomNavigationScreen = "/bottomNavigationScreen";
-  static String login = "/login";
-
-  static String home = '/home';
-  static String loginApp = "/loginApp";
-  static String ledgerRegistration = '/ledgerRegistration';
-  static String receiptScreen = '/receiptScreen';
-  static String paymentScreen = '/paymentScreen';
-  static String addSalesOrderScreen = '/AddSalesOrderScreen';
-  static String addProductScreen = '/AddProductScreen';
-  static String reciptsSearchScreen = '/ReciptsSearchScreen';
-  static String paymentSearchScreen = '/PaymentSearchScreen';
-  static String saleOrderSearchScreen = '/SaleOrderSearchScreen';
-  static String cartScreen = '/CartScreen';
-  static String saleOrderDetalisScreen = "/SaleOrderDetalisScreen";
-  static String groupReportScreen = "/GroupReportScreen";
-  static String cashBookScreen = "/CashBookScreen";
-  static String balanceSheetScreen = "/BalanceSheetScreen";
-  static String profitandLossScreen = "/ProfitandLossScreen";
-  static String dayBookScreen = "/DayBookScreen";
-  static String stockReportScreen = "/stockReportScreen";
-  static String salesReportScreen = "/salesReportScreen";
-  static String daySheetScreen = "/daySheetScreen";
-  static String ledgerTableScreen = "/ledgerTableScreen";
+  static const String bottomNavigationScreen = "/bottomNavigationScreen";
+  static const String login = "/login";
+  static const String home = '/home';
+  static const String loginApp = "/loginApp";
+  static const String ledgerRegistration = '/ledgerRegistration';
+  static const String receiptScreen = '/receiptScreen';
+  static const String paymentScreen = '/paymentScreen';
+  static const String addSalesOrderScreen = '/addSalesOrderScreen';
+  static const String addProductScreen = '/addProductScreen';
+  static const String reciptsSearchScreen = '/reciptsSearchScreen';
+  static const String paymentSearchScreen = '/paymentSearchScreen';
+  static const String saleOrderSearchScreen = '/saleOrderSearchScreen';
+  static const String cartScreen = '/cartScreen';
+  static const String saleOrderDetalisScreen = "/saleOrderDetalisScreen";
+  static const String groupReportScreen = "/groupReportScreen";
+  static const String cashBookScreen = "/cashBookScreen";
+  static const String balanceSheetScreen = "/balanceSheetScreen";
+  static const String profitandLossScreen = "/profitandLossScreen";
+  static const String dayBookScreen = "/DayBookScreen";
+  static const String stockReportScreen = "/stockReportScreen";
+  static const String salesReportScreen = "/salesReportScreen";
+  static const String daySheetScreen = "/daySheetScreen";
+  static const String ledgerTableScreen = "/ledgerTableScreen";
 }

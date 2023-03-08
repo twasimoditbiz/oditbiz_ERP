@@ -5,4 +5,5 @@ abstract class Endpoints {
   String loginApp = 'app-auth';
   String loginUser = 'user-auth';
   String userLocation = 'user-locations';
+  String importAll = 'import-all';
 }

@@ -1,9 +1,10 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.oditbiz">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.example.oditbiz">
    <application
         android:label="oditbiz"
         android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/ic_launcher"
+       android:requestLegacyExternalStorage="true" 
+        >
         <activity
             android:name=".MainActivity"
             android:exported="true"

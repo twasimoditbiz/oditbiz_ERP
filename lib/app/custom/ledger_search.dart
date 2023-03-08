@@ -49,7 +49,7 @@ class _CustomAlertDialogState extends State<CustomAlertDialog>
                   child: TextFormField(
                     onChanged: (value) {
                       setState(() {
-                        ledgerSearchController.getPaginatedLedgerSearchReport (
+                        ledgerSearchController.getPaginatedLedgerSearchReport(
                             context, value);
                       });
                     },
@@ -135,7 +135,9 @@ class _CustomAlertDialogState extends State<CustomAlertDialog>
                                 ),
                         );
                       }
-                      return Container();
+                      return Container(
+                        height: MediaQuery.of(context).size.height,
+                      );
                     },
                   ),
                 )

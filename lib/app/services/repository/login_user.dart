@@ -1,15 +1,10 @@
-import 'dart:convert';
 import 'dart:developer';
 import 'package:dio/dio.dart';
-import 'package:get/get.dart';
 import 'package:oditbiz/app/custom/sncakbar.dart';
 import 'package:oditbiz/app/page/login/bloc/model/user_login_model.dart';
 import 'package:oditbiz/app/page/login/model/login_user_model.dart';
-import 'package:oditbiz/app/routes/page_routes.dart';
 import 'package:oditbiz/app/services/url/url_page.dart';
-import 'package:oditbiz/app/services/user_service_user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import '../../resources/pref_resources.dart';
 
 class ApiserviceloginUser extends Endpoints {
@@ -35,7 +30,7 @@ class ApiserviceloginUser extends Endpoints {
         showSnackBar(context, "Authentication Success");
         return UserLoginModel.fromJson(response.data);
         // LoginUserModel.fromJson(json.decode(response.data));
-        
+
       }
     } on DioError catch (e) {
       log(e.toString());

@@ -24,7 +24,7 @@ class ApiserviceLedgerSearch extends Endpoints {
         ),
         data: {'value': ledger},
       );
-      log('ledger response => ${response.statusCode}');
+      log('ledger search response => ${response.statusCode}');
       if (response.statusCode! >= 200 || response.statusCode! <= 299) {
         log(response.data);
         return ledgerSearchModelFromJson(response.data);

@@ -51,14 +51,21 @@ class SettingsTable extends Table {
   TextColumn get lenditems => text().nullable()();
 }
 
+class LedgerTable extends Table {
+  IntColumn get id => integer().autoIncrement()();
+  TextColumn get ledgerData => text().nullable()();
+}
+
 @DataClassName("SettingsTable")
+@DataClassName("LedgerTable")
 
 // this annotation tells drift to prepare a database class that uses both of the
 // tables we just defined. We'll see how to use that database class in a moment.
 @DriftDatabase(tables: [
   SettingsTable,
+  LedgerTable,
 ], queries: {
-  'getMaxUserId': 'SELECT max(id) FROM company_table',
+  'getMaxUserId': 'SELECT max(id) FROM ledger_table',
 })
 class MyDatabase extends _$MyDatabase {
   MyDatabase() : super(_openConnection());
@@ -81,13 +88,17 @@ class MyDatabase extends _$MyDatabase {
   Future<int> checkAndInsersettingsTableData(
       SettingsTableCompanion settingsTableData) async {
     List<SettingsTableData> settingsData = await (select(settingsTable)).get();
-log("settingsData.isEmpty=== ${settingsData.isEmpty}");
+
     if (settingsData.isEmpty) {
       return await into(settingsTable).insert(settingsTableData);
     } else {
       return await (update(settingsTable)..where((tbl) => tbl.id.equals(1)))
           .write(settingsTableData);
     }
+  }
+
+  Future<int> inserLedgerData(LedgerTableCompanion ledgerData) async {
+    return await into(ledgerTable).insert(ledgerData);
   }
 }
 

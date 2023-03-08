@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:oditbiz/app/page/ledger/bloc/ledger_rearch/ledger_search_cubit.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 import '../controller/ledger_search.dart';
@@ -31,7 +33,7 @@ class _CustomAlertDialogState extends State<CustomAlertDialog>
 
   @override
   Widget build(BuildContext context) {
-    final ledgerSearchController = context.read<LedgerSearchController>();
+    final ledgerSearchController = context.read<LedgerSearchCubit>();
     return ScaleTransition(
       scale: _animation,
       child: Dialog(
@@ -47,7 +49,8 @@ class _CustomAlertDialogState extends State<CustomAlertDialog>
                   child: TextFormField(
                     onChanged: (value) {
                       setState(() {
-                        ledgerSearchController.legerSearch(context, value);
+                        ledgerSearchController.getPaginatedLedgerSearchReport (
+                            context, value);
                       });
                     },
                     decoration: InputDecoration(
@@ -65,63 +68,75 @@ class _CustomAlertDialogState extends State<CustomAlertDialog>
                   ),
                 ),
                 SingleChildScrollView(
-                  child: SizedBox(
-                    width: double.infinity,
-                    height: MediaQuery.of(context).size.height,
-                    child: ledgerSearchController.ledgers.isEmpty
-                        ? Column(
-                            children: const [
-                              SizedBox(height: 169),
-                              Text(
-                                'Couldn\'t found !',
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                            ],
-                          )
-                        : ListView.builder(
-                            itemCount: ledgerSearchController.ledgers.length,
-                            shrinkWrap: true,
-                            itemBuilder: (BuildContext context, int index) {
-                              return GestureDetector(
-                                onTap: () {
-                                  ledgerSearchController.seletedLedger(index);
-                                  Navigator.pop(context);
-                                },
-                                child: Column(
-                                  children: [
-                                    // Text(
-                                    //   ledgerSearchController
-                                    //       .ledgers[index].label,
-                                    //   style: const TextStyle(
-                                    //     color: Colors.black,
-                                    //     fontSize: 16,
-                                    //   ),
-                                    // ),
-                                    ListTile(
-                                      contentPadding:
-                                          const EdgeInsets.symmetric(
-                                              vertical: -9),
-                                      visualDensity: const VisualDensity(
-                                          horizontal: 4, vertical: -4),
-                                      title: Text(
-                                        ledgerSearchController
-                                            .ledgers[index].label,
-                                        style: const TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 16,
-                                        ),
+                  child:
+                      BlocBuilder<LedgerSearchCubit, LedgerSearchResponseState>(
+                    builder: (context, ledgerSearchState) {
+                      if (ledgerSearchState is LedgerSearchResponseLoaded) {
+                        return SizedBox(
+                          width: double.infinity,
+                          height: MediaQuery.of(context).size.height,
+                          child: ledgerSearchState.ledgerSearchModel.isEmpty
+                              ? Column(
+                                  children: const [
+                                    SizedBox(height: 169),
+                                    Text(
+                                      'Couldn\'t found !',
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.w600,
                                       ),
                                     ),
-                                    const Divider(thickness: 2),
                                   ],
+                                )
+                              : ListView.builder(
+                                  itemCount: ledgerSearchState
+                                      .ledgerSearchModel.length,
+                                  shrinkWrap: true,
+                                  itemBuilder:
+                                      (BuildContext context, int index) {
+                                    return GestureDetector(
+                                      onTap: () {
+                                        ledgerSearchController
+                                            .seletedLedger(index);
+                                        Navigator.pop(context);
+                                      },
+                                      child: Column(
+                                        children: [
+                                          // Text(
+                                          //   ledgerSearchController
+                                          //       .ledgers[index].label,
+                                          //   style: const TextStyle(
+                                          //     color: Colors.black,
+                                          //     fontSize: 16,
+                                          //   ),
+                                          // ),
+                                          ListTile(
+                                            contentPadding:
+                                                const EdgeInsets.symmetric(
+                                                    vertical: -9),
+                                            visualDensity: const VisualDensity(
+                                                horizontal: 4, vertical: -4),
+                                            title: Text(
+                                              ledgerSearchState
+                                                  .ledgerSearchModel[index]
+                                                  .label,
+                                              style: const TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 16,
+                                              ),
+                                            ),
+                                          ),
+                                          const Divider(thickness: 2),
+                                        ],
+                                      ),
+                                    );
+                                  },
                                 ),
-                              );
-                            },
-                          ),
+                        );
+                      }
+                      return Container();
+                    },
                   ),
                 )
               ],

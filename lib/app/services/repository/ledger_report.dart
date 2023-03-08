@@ -27,7 +27,7 @@ class ApiserviceLedgerReport extends Endpoints {
         ),
         data: object.toJson(),
       );
-      log('ledger response => ${response.statusCode}');
+      log('ledger Report response => ${response.statusCode}');
       if (response.statusCode! >= 200 || response.statusCode! <= 299) {
         Get.toNamed(PageRoutes.ledgerTableScreen);
         return ledgerReportResponseModelFromJson(

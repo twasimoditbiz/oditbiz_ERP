@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:oditbiz/app/controller/ledger_search.dart';
 import 'package:oditbiz/app/custom/ledger_search.dart';
 import 'package:oditbiz/app/page/ledger/bloc/ledger_cubit.dart';
+import 'package:oditbiz/app/page/ledger/bloc/ledger_rearch/ledger_search_cubit.dart';
 
 class LedgerRegistration extends StatefulWidget {
   const LedgerRegistration({Key? key}) : super(key: key);
@@ -15,11 +16,19 @@ class LedgerRegistration extends StatefulWidget {
 
 class _LedgerRegistrationState extends State<LedgerRegistration> {
   @override
+  void initState() {
+    super.initState();
+    BlocProvider.of<LedgerSearchCubit>(context)
+        .getPaginatedLedgerSearchReport(context, "");
+  }
+
+  @override
   Widget build(BuildContext context) {
     final heigth = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.height;
-    final ledgerSearchController = context.watch<LedgerSearchController>();
+    final ledgerSearchController = context.watch<LedgerSearchCubit>();
     final bloc = BlocProvider.of<LedgerCubit>(context);
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -233,8 +242,7 @@ class _LedgerRegistrationState extends State<LedgerRegistration> {
                                   ),
                                   contentPadding:
                                       const EdgeInsets.only(left: 10, top: 5),
-                                  hintText:
-                                      bloc.fromAndTo.toString(),
+                                  hintText: bloc.fromAndTo.toString(),
                                   hintStyle: const TextStyle(
                                     color: Colors.black,
                                   ),

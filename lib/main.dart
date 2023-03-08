@@ -6,6 +6,7 @@ import 'package:oditbiz/app/controller/login_page.dart';
 import 'package:oditbiz/app/custom/textshadow.dart';
 import 'package:oditbiz/app/page/bottom_nav/bloc/bottom_cubit.dart';
 import 'package:oditbiz/app/page/ledger/bloc/ledger_cubit.dart';
+import 'package:oditbiz/app/page/ledger/bloc/ledger_rearch/ledger_search_cubit.dart';
 import 'package:oditbiz/app/page/login/bloc/app_login/app_login_cubit.dart';
 import 'package:oditbiz/app/page/login/bloc/import/import_cubit.dart';
 import 'package:oditbiz/app/page/login/bloc/location/location_cubit.dart';
@@ -45,6 +46,7 @@ void main() {
               BlocProvider.value(value: di.getIt.get<ImportCubit>()),
               BlocProvider.value(value: di.getIt.get<AppLoginCubit>()),
               BlocProvider.value(value: di.getIt.get<UserLoginCubit>()),
+              BlocProvider.value(value: di.getIt.get<LedgerSearchCubit>()),
 
               
             ],

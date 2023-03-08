@@ -1453,18 +1453,200 @@ class SettingsTableCompanion extends UpdateCompanion<SettingsTableData> {
   }
 }
 
+class $LedgerTableTable extends LedgerTable
+    with TableInfo<$LedgerTableTable, LedgerTableData> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $LedgerTableTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+      'id', aliasedName, false,
+      hasAutoIncrement: true,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
+  static const VerificationMeta _ledgerDataMeta =
+      const VerificationMeta('ledgerData');
+  @override
+  late final GeneratedColumn<String> ledgerData = GeneratedColumn<String>(
+      'ledger_data', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
+  @override
+  List<GeneratedColumn> get $columns => [id, ledgerData];
+  @override
+  String get aliasedName => _alias ?? 'ledger_table';
+  @override
+  String get actualTableName => 'ledger_table';
+  @override
+  VerificationContext validateIntegrity(Insertable<LedgerTableData> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('ledger_data')) {
+      context.handle(
+          _ledgerDataMeta,
+          ledgerData.isAcceptableOrUnknown(
+              data['ledger_data']!, _ledgerDataMeta));
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  LedgerTableData map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return LedgerTableData(
+      id: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
+      ledgerData: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}ledger_data']),
+    );
+  }
+
+  @override
+  $LedgerTableTable createAlias(String alias) {
+    return $LedgerTableTable(attachedDatabase, alias);
+  }
+}
+
+class LedgerTableData extends DataClass implements Insertable<LedgerTableData> {
+  final int id;
+  final String? ledgerData;
+  const LedgerTableData({required this.id, this.ledgerData});
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    if (!nullToAbsent || ledgerData != null) {
+      map['ledger_data'] = Variable<String>(ledgerData);
+    }
+    return map;
+  }
+
+  LedgerTableCompanion toCompanion(bool nullToAbsent) {
+    return LedgerTableCompanion(
+      id: Value(id),
+      ledgerData: ledgerData == null && nullToAbsent
+          ? const Value.absent()
+          : Value(ledgerData),
+    );
+  }
+
+  factory LedgerTableData.fromJson(Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return LedgerTableData(
+      id: serializer.fromJson<int>(json['id']),
+      ledgerData: serializer.fromJson<String?>(json['ledgerData']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'ledgerData': serializer.toJson<String?>(ledgerData),
+    };
+  }
+
+  LedgerTableData copyWith(
+          {int? id, Value<String?> ledgerData = const Value.absent()}) =>
+      LedgerTableData(
+        id: id ?? this.id,
+        ledgerData: ledgerData.present ? ledgerData.value : this.ledgerData,
+      );
+  @override
+  String toString() {
+    return (StringBuffer('LedgerTableData(')
+          ..write('id: $id, ')
+          ..write('ledgerData: $ledgerData')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(id, ledgerData);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is LedgerTableData &&
+          other.id == this.id &&
+          other.ledgerData == this.ledgerData);
+}
+
+class LedgerTableCompanion extends UpdateCompanion<LedgerTableData> {
+  final Value<int> id;
+  final Value<String?> ledgerData;
+  const LedgerTableCompanion({
+    this.id = const Value.absent(),
+    this.ledgerData = const Value.absent(),
+  });
+  LedgerTableCompanion.insert({
+    this.id = const Value.absent(),
+    this.ledgerData = const Value.absent(),
+  });
+  static Insertable<LedgerTableData> custom({
+    Expression<int>? id,
+    Expression<String>? ledgerData,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (ledgerData != null) 'ledger_data': ledgerData,
+    });
+  }
+
+  LedgerTableCompanion copyWith({Value<int>? id, Value<String?>? ledgerData}) {
+    return LedgerTableCompanion(
+      id: id ?? this.id,
+      ledgerData: ledgerData ?? this.ledgerData,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (ledgerData.present) {
+      map['ledger_data'] = Variable<String>(ledgerData.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('LedgerTableCompanion(')
+          ..write('id: $id, ')
+          ..write('ledgerData: $ledgerData')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$MyDatabase extends GeneratedDatabase {
   _$MyDatabase(QueryExecutor e) : super(e);
   late final $SettingsTableTable settingsTable = $SettingsTableTable(this);
-  Selectable<String?> getMaxUserId() {
-    return customSelect('SELECT max(id) AS _c0 FROM company_table',
+  late final $LedgerTableTable ledgerTable = $LedgerTableTable(this);
+  Selectable<int?> getMaxUserId() {
+    return customSelect('SELECT max(id) AS _c0 FROM ledger_table',
         variables: [],
-        readsFrom: {}).map((QueryRow row) => row.readNullable<String>('_c0'));
+        readsFrom: {
+          ledgerTable,
+        }).map((QueryRow row) => row.readNullable<int>('_c0'));
   }
 
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
   @override
-  List<DatabaseSchemaEntity> get allSchemaEntities => [settingsTable];
+  List<DatabaseSchemaEntity> get allSchemaEntities =>
+      [settingsTable, ledgerTable];
 }

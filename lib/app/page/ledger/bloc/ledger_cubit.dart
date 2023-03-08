@@ -22,7 +22,7 @@ class LedgerCubit extends Cubit<LegerResponseState> {
           asId: LedgerSearchController.selectedLedgerValue!.toInt(),
           fromDate: fromTimeController.text.isEmpty
               ? fromAndTo
-              : fromTimeController.text,
+              : fromTimeController.text,  
           toDate:
               toTimeController.text.isEmpty ? fromAndTo : toTimeController.text,
           ledgerExcludePending: agree,

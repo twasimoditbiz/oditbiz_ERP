@@ -2,9 +2,14 @@ import 'dart:developer';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
 import 'package:oditbiz/app/controller/ledger_search.dart';
+import 'package:oditbiz/app/custom/custom_loader.dart';
 import 'package:oditbiz/app/custom/ledger_search.dart';
+import 'package:oditbiz/app/custom/loading.dart';
 import 'package:oditbiz/app/page/ledger/bloc/ledger_cubit.dart';
+import 'package:oditbiz/app/page/ledger/model/ledger_table.dart';
+import 'package:oditbiz/app/routes/page_routes.dart';
 
 class LedgerRegistration extends StatefulWidget {
   const LedgerRegistration({Key? key}) : super(key: key);
@@ -233,8 +238,7 @@ class _LedgerRegistrationState extends State<LedgerRegistration> {
                                   ),
                                   contentPadding:
                                       const EdgeInsets.only(left: 10, top: 5),
-                                  hintText:
-                                      bloc.fromAndTo.toString(),
+                                  hintText: bloc.fromAndTo.toString(),
                                   hintStyle: const TextStyle(
                                     color: Colors.black,
                                   ),
@@ -264,29 +268,42 @@ class _LedgerRegistrationState extends State<LedgerRegistration> {
                             fontSize: heigth * 0.0188,
                             color: const Color(0xFF838383),
                           ),
-                        )
+                        ),
                       ],
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(20.0),
-                      child: Material(
-                        color: const Color(0xFF680E2A),
-                        elevation: 7,
-                        shadowColor: const Color(0xFF000000),
-                        borderRadius: BorderRadius.circular(8),
-                        child: MaterialButton(
-                          height: MediaQuery.of(context).size.height * 0.05,
-                          minWidth: width * 0.2,
-                          onPressed: () {
-                            if (bloc.formKee.currentState!.validate()) {
-                              bloc.getPaginatedLedgerReport();
-                            }
-                          },
-                          child: const Text(
-                            'Search',
-                            style: TextStyle(
-                              fontWeight: FontWeight.w600,
-                              color: Colors.white,
+                    BlocListener<LedgerCubit, LegerResponseState>(
+                      listener: (context, ledgerState) {
+                        log("........${ledgerState}");
+                        if (ledgerState is LegerResponseLoading) {
+                          // LedgerLoader.show(context);
+                          SquareLoader.show(context);
+                        }
+                        if (ledgerState is LegerResponseLoaded) {
+                          SquareLoader.dismiss();
+                          Get.toNamed(PageRoutes.ledgerTableScreen);
+                        }
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.all(20.0),
+                        child: Material(
+                          color: const Color(0xFF680E2A),
+                          elevation: 7,
+                          shadowColor: const Color(0xFF000000),
+                          borderRadius: BorderRadius.circular(8),
+                          child: MaterialButton(
+                            height: MediaQuery.of(context).size.height * 0.05,
+                            minWidth: width * 0.2,
+                            onPressed: () async {
+                              if (bloc.formKee.currentState!.validate()) {
+                                bloc.getLedgerReport();
+                              }
+                            },
+                            child: const Text(
+                              'Search',
+                              style: TextStyle(
+                                fontWeight: FontWeight.w600,
+                                color: Colors.white,
+                              ),
                             ),
                           ),
                         ),

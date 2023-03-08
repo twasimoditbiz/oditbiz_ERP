@@ -9,7 +9,6 @@ import 'package:oditbiz/app/page/login/bloc/app_login/app_login_cubit.dart';
 import 'package:oditbiz/app/page/login/model/login_app_model.dart';
 import 'package:oditbiz/app/page/recipts/receipt_field.dart';
 import 'package:oditbiz/app/routes/page_routes.dart';
-import 'package:provider/provider.dart';
 
 class LoginApp extends StatefulWidget {
   const LoginApp({Key? key}) : super(key: key);
@@ -23,7 +22,6 @@ class _LoginAppState extends State<LoginApp> {
 
   @override
   Widget build(BuildContext context) {
-    final controllerWatch = context.watch<LoginPageController>();
     final controllerRead = context.read<LoginPageController>();
     return Scaffold(
       body: Form(
@@ -125,14 +123,16 @@ class _LoginAppState extends State<LoginApp> {
                                   SquareLoader.show(context);
                                   await BlocProvider.of<AppLoginCubit>(context)
                                       .getAppLogin(
-                                          context,
-                                          LoginAppModel(
-                                              clientId: controllerRead
-                                                  .clientController.text
-                                                  .trim(),
-                                              secret: controllerRead
-                                                  .secretController.text
-                                                  .trim()));
+                                    context,
+                                    LoginAppModel(
+                                      clientId: controllerRead
+                                          .clientController.text
+                                          .trim(),
+                                      secret: controllerRead
+                                          .secretController.text
+                                          .trim(),
+                                    ),
+                                  );
                                   SquareLoader.dismiss();
                                 }
                               },

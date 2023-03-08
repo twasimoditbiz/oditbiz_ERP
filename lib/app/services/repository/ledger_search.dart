@@ -17,8 +17,7 @@ class ApiserviceLedgerSearch extends Endpoints {
         "$baseurl$ledgerSearch",
         options: Options(
           headers: {
-            'Authorization':
-                'Bearer $token',
+            'Authorization': 'Bearer $token',
             'Content-Type': 'application/json',
           },
         ),
@@ -32,7 +31,6 @@ class ApiserviceLedgerSearch extends Endpoints {
     } on DioError catch (e) {
       log(e.toString());
       if (e.error.toString().contains('SocketException')) {
-        showSnackBar(context, 'Connection refused !');
         return showSnackBar(context, 'Something went wrong try again');
       } else {
         log(' =>$e');

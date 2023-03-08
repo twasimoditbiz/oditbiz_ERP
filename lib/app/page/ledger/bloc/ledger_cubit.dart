@@ -11,10 +11,19 @@ part 'leger_state.dart';
 
 class LedgerCubit extends Cubit<LegerResponseState> {
   LedgerCubit() : super(LegerResponseInitial());
+  List<LedgerReportResponseModel> paginatedLedgerReport = [];
+  TextEditingController fromTimeController = TextEditingController();
+  TextEditingController toTimeController = TextEditingController();
+  bool agree = false;
+  bool isRotation = true;
+  bool isLoading = false;
+  int lastCount = 0;
+  int totalRowsPerPage = 0;
+  String fromAndTo = DateFormat('yyyy-MM-dd').format(DateTime.now());
+  final formKee = GlobalKey<FormState>();
+  List<LedgerReportResponseModel> ledgerTableData = [];
 
-
-  getPaginatedLedgerReport() async {
-    emit(LegerResponseInitial());
+  getLedgerReport() async {
     emit(LegerResponseLoading());
     try {
       final response = await ApiserviceLedgerReport().postLedgerReportFunction(
@@ -31,22 +40,30 @@ class LedgerCubit extends Cubit<LegerResponseState> {
       ledgerTableData
         ..clear()
         ..addAll(response);
-      log("Response => $response");
+      paginatedLedgerReport.clear();
+      for (var i = 0; i < 50; i++) {
+        paginatedLedgerReport.add(ledgerTableData[i]);
+      }
+      emit(LegerResponseLoaded(
+          ledgerReportResponseModel: paginatedLedgerReport));
     } catch (e) {
       log(e.toString());
     }
   }
 
-
-
-  TextEditingController fromTimeController = TextEditingController();
-  TextEditingController toTimeController = TextEditingController();
-  bool agree = false;
-  bool isRotation = true;
-  bool isLoading = false;
-  String fromAndTo = DateFormat('yyyy-MM-dd').format(DateTime.now());
-  final formKee = GlobalKey<FormState>();
-  List<LedgerReportResponseModel> ledgerTableData = [];
+  getPaginatedDataNext() {
+    emit(LegerResponseInitial());
+    emit(LegerResponseLoading());
+    paginatedLedgerReport.clear();
+    int toCount = lastCount + totalRowsPerPage;
+    paginatedLedgerReport.clear();
+    for (int i = lastCount; i < toCount; i++) {
+      paginatedLedgerReport.add(ledgerTableData[i]);
+    }
+    log('paginatedData => ${paginatedLedgerReport.length}');
+    lastCount = toCount;
+    emit(LegerResponseLoaded(ledgerReportResponseModel: paginatedLedgerReport));
+  }
 
   updateFromDate(pickedDate) {
     String formattedDate = DateFormat('yyyy-MM-dd').format(pickedDate);
@@ -58,7 +75,7 @@ class LedgerCubit extends Cubit<LegerResponseState> {
     toTimeController.text = formattedDated;
   }
 
-    void rotationFunction() {
+  void rotationFunction() {
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.landscapeRight,
       DeviceOrientation.landscapeLeft,
@@ -71,5 +88,4 @@ class LedgerCubit extends Cubit<LegerResponseState> {
       DeviceOrientation.portraitDown,
     ]);
   }
-
 }

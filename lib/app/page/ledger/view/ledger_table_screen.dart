@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:ffi';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -32,7 +33,8 @@ class _LedgerTableScreenState extends State<LedgerTableScreen> {
     '300',
     '400',
   ];
-  String dropdownValue = "50";
+
+  String rowsPerPage = "50";
 
   @override
   Widget build(BuildContext context) {
@@ -163,33 +165,40 @@ class _LedgerTableScreenState extends State<LedgerTableScreen> {
                         ),
                       ),
                       tablePagination(bloc.ledgerTableData),
-                      SizedBox(
-                        height: 67.1.h,
-                        width: double.infinity,
-                        child: Padding(
-                          padding: const EdgeInsets.only(
-                              left: 8, right: 8, bottom: 8),
-                          child: SizedBox(
-                            height: hegth * 1,
-                            width: hegth * 2,
-                            child: InteractiveViewer(
-                              boundaryMargin: const EdgeInsets.all(20),
-                              minScale: 0.1,
-                              maxScale: 1.6,
-                              child: Zoom(
-                                centerOnScale: false,
-                                initTotalZoomOut: false,
-                                enableScroll: true,
-                                doubleTapZoom: true,
-                                opacityScrollBars: 0,
-                                scrollWeight: 10,
-                                backgroundColor: Colors.transparent,
-                                child: _createDataTable(
-                                    context, bloc.ledgerTableData),
+                      BlocBuilder<LedgerCubit, LegerResponseState>(
+                        builder: (context, state) {
+                          if (state is LegerResponseLoaded) {
+                            return SizedBox(
+                              height: 67.1.h,
+                              width: double.infinity,
+                              child: Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 8, right: 8, bottom: 8),
+                                child: SizedBox(
+                                  height: hegth * 1,
+                                  width: hegth * 2,
+                                  child: InteractiveViewer(
+                                    boundaryMargin: const EdgeInsets.all(20),
+                                    minScale: 0.1,
+                                    maxScale: 1.6,
+                                    child: Zoom(
+                                      centerOnScale: false,
+                                      initTotalZoomOut: false,
+                                      enableScroll: true,
+                                      doubleTapZoom: true,
+                                      opacityScrollBars: 0,
+                                      scrollWeight: 10,
+                                      backgroundColor: Colors.transparent,
+                                      child: _createDataTable(context,
+                                          state.ledgerReportResponseModel),
+                                    ),
+                                  ),
+                                ),
                               ),
-                            ),
-                          ),
-                        ),
+                            );
+                          }
+                          return const SizedBox.shrink();
+                        },
                       ),
                     ],
                   );
@@ -197,30 +206,37 @@ class _LedgerTableScreenState extends State<LedgerTableScreen> {
                   return Column(
                     children: [
                       tablePagination(bloc.ledgerTableData),
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.59,
-                        child: Padding(
-                          padding: const EdgeInsets.only(
-                              left: 8, right: 8, bottom: 8),
-                          child: SizedBox(
-                            child: InteractiveViewer(
-                              boundaryMargin: const EdgeInsets.all(20),
-                              minScale: 0.1,
-                              maxScale: 1.6,
-                              child: Zoom(
-                                centerOnScale: false,
-                                initTotalZoomOut: false,
-                                enableScroll: true,
-                                doubleTapZoom: true,
-                                opacityScrollBars: 0,
-                                scrollWeight: 10,
-                                backgroundColor: Colors.transparent,
-                                child: _createDataTable(
-                                    context, bloc.ledgerTableData),
+                      BlocBuilder<LedgerCubit, LegerResponseState>(
+                        builder: (context, state) {
+                          if (state is LegerResponseLoaded) {
+                            return SizedBox(
+                              height: MediaQuery.of(context).size.height * 0.59,
+                              child: Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 8, right: 8, bottom: 8),
+                                child: SizedBox(
+                                  child: InteractiveViewer(
+                                    boundaryMargin: const EdgeInsets.all(20),
+                                    minScale: 0.1,
+                                    maxScale: 1.6,
+                                    child: Zoom(
+                                      centerOnScale: false,
+                                      initTotalZoomOut: false,
+                                      enableScroll: true,
+                                      doubleTapZoom: true,
+                                      opacityScrollBars: 0,
+                                      scrollWeight: 10,
+                                      backgroundColor: Colors.transparent,
+                                      child: _createDataTable(context,
+                                          state.ledgerReportResponseModel),
+                                    ),
+                                  ),
+                                ),
                               ),
-                            ),
-                          ),
-                        ),
+                            );
+                          }
+                          return const SizedBox.shrink();
+                        },
                       ),
                     ],
                   );
@@ -283,7 +299,10 @@ class _LedgerTableScreenState extends State<LedgerTableScreen> {
         .toList();
   }
 
+  int pagecount = 1;
+
   tablePagination(List<LedgerReportResponseModel> ledgerTableData) {
+    final totalrowcount = ledgerTableData.length / int.parse(rowsPerPage);
     return Column(
       children: [
         const Padding(
@@ -305,11 +324,11 @@ class _LedgerTableScreenState extends State<LedgerTableScreen> {
                   children: [
                     const Text("Rows Per Page :  "),
                     DropdownButton<String>(
-                      value: dropdownValue,
+                      value: rowsPerPage,
                       icon: const Icon(Icons.arrow_drop_down),
                       onChanged: (String? value) {
                         setState(() {
-                          dropdownValue = value!;
+                          rowsPerPage = value!;
                         });
                       },
                       items: list.map<DropdownMenuItem<String>>((String value) {
@@ -325,16 +344,35 @@ class _LedgerTableScreenState extends State<LedgerTableScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  Text("01 - 20 / ${ledgerTableData.length}"),
+                  Text(
+                      "$pagecount - ${totalrowcount.toInt()} / ${ledgerTableData.length}"),
                   IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      setState(() {
+                        if (pagecount > 1) {
+                          pagecount--;
+                        } else {
+                          return;
+                        }
+                      });
+                    },
                     icon: const Icon(
                       Icons.arrow_back_ios_new,
                       size: 15,
                     ),
                   ),
                   IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      if (pagecount < totalrowcount.toInt()) {
+                        pagecount++;
+                        setState(() {});
+                      } else {
+                        return;
+                      }
+                      context.read<LedgerCubit>().totalRowsPerPage =
+                          int.parse(rowsPerPage);
+                      context.read<LedgerCubit>().getPaginatedDataNext();
+                    },
                     icon: const Icon(
                       Icons.arrow_forward_ios,
                       size: 15,

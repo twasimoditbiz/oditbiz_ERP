@@ -54,7 +54,6 @@ class _CustomLoactionAreaState extends State<CustomLoactionArea>
   @override
   Widget build(BuildContext context) {
     final controllerWatch = context.watch<LoginPageController>();
-
     return ScaleTransition(
       scale: _animation,
       child: Dialog(
@@ -68,7 +67,7 @@ class _CustomLoactionAreaState extends State<CustomLoactionArea>
                 Row(
                   children: [
                     SizedBox(
-                      width: selectedItems.isEmpty ? 70.w : 65.w,
+                      width: selectedItems.isEmpty ? 78.w : 65.w,
                       height: 6.h,
                       child: TextFormField(
                         onChanged: (value) {},
@@ -83,7 +82,7 @@ class _CustomLoactionAreaState extends State<CustomLoactionArea>
                             child: Icon(CupertinoIcons.search),
                           ),
                           border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(15),
+                            borderRadius: BorderRadius.circular(5),
                           ),
                         ),
                       ),
@@ -96,7 +95,7 @@ class _CustomLoactionAreaState extends State<CustomLoactionArea>
                             width: animatedHeight,
                             child: IconButton(
                               onPressed: () {
-                                log("SELECTED ITEMS");
+                                Navigator.pop(context);
                               },
                               icon: Icon(
                                 CupertinoIcons.checkmark_circle_fill,

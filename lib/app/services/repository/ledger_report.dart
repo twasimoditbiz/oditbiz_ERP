@@ -7,7 +7,6 @@ import 'package:get/get.dart';
 import 'package:oditbiz/app/page/ledger/model/ledger_report_model.dart';
 import 'package:oditbiz/app/page/ledger/model/ledger_table.dart';
 import 'package:oditbiz/app/resources/pref_resources.dart';
-import 'package:oditbiz/app/routes/page_routes.dart';
 import 'package:oditbiz/app/services/url/url_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -29,7 +28,6 @@ class ApiserviceLedgerReport extends Endpoints {
       );
       log('ledger response => ${response.statusCode}');
       if (response.statusCode! >= 200 || response.statusCode! <= 299) {
-        Get.toNamed(PageRoutes.ledgerTableScreen);
         return ledgerReportResponseModelFromJson(
             jsonDecode(response.toString())['table'] as List);
       }

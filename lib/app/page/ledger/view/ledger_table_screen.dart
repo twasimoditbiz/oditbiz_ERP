@@ -1,5 +1,4 @@
 import 'dart:developer';
-import 'dart:ffi';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -355,6 +354,9 @@ class _LedgerTableScreenState extends State<LedgerTableScreen> {
                           return;
                         }
                       });
+                      context.read<LedgerCubit>().totalRowsPerPage =
+                          int.parse(rowsPerPage);
+                      context.read<LedgerCubit>().getPaginatedDataPrevious();
                     },
                     icon: const Icon(
                       Icons.arrow_back_ios_new,

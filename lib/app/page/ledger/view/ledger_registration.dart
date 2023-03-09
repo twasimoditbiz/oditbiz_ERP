@@ -4,11 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:oditbiz/app/controller/ledger_search.dart';
-import 'package:oditbiz/app/custom/custom_loader.dart';
 import 'package:oditbiz/app/custom/ledger_search.dart';
 import 'package:oditbiz/app/custom/loading.dart';
 import 'package:oditbiz/app/page/ledger/bloc/ledger_cubit.dart';
-import 'package:oditbiz/app/page/ledger/model/ledger_table.dart';
 import 'package:oditbiz/app/routes/page_routes.dart';
 
 class LedgerRegistration extends StatefulWidget {
@@ -273,13 +271,12 @@ class _LedgerRegistrationState extends State<LedgerRegistration> {
                     ),
                     BlocListener<LedgerCubit, LegerResponseState>(
                       listener: (context, ledgerState) {
-                        log("........${ledgerState}");
+                        log(ledgerState.toString());
                         if (ledgerState is LegerResponseLoading) {
-                          // LedgerLoader.show(context);
-                          SquareLoader.show(context);
+                          LedgerLoader.show(context);
                         }
                         if (ledgerState is LegerResponseLoaded) {
-                          SquareLoader.dismiss();
+                          LedgerLoader.dismiss();
                           Get.toNamed(PageRoutes.ledgerTableScreen);
                         }
                       },

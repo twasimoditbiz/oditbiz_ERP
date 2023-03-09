@@ -65,6 +65,19 @@ class LedgerCubit extends Cubit<LegerResponseState> {
     emit(LegerResponseLoaded(ledgerReportResponseModel: paginatedLedgerReport));
   }
 
+  getPaginatedDataPrevious() {
+    emit(LegerResponseLoading());
+    paginatedLedgerReport.clear();
+    int toCount = lastCount + totalRowsPerPage;
+    paginatedLedgerReport.clear();
+    for (int i = toCount; i < lastCount; i++) {
+      paginatedLedgerReport.add(ledgerTableData[i]);
+    }
+    log('paginatedData => ${paginatedLedgerReport.length}');
+    lastCount = toCount;
+    emit(LegerResponseLoaded(ledgerReportResponseModel: paginatedLedgerReport));
+  }
+
   updateFromDate(pickedDate) {
     String formattedDate = DateFormat('yyyy-MM-dd').format(pickedDate);
     fromTimeController.text = formattedDate;

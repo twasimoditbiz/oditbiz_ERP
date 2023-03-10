@@ -9,8 +9,8 @@ import '../../../controller/ledger_search.dart';
 import '../model/ledger_report_model.dart' as ledger;
 part 'leger_state.dart';
 
-class LedgerCubit extends Cubit<LegerResponseState> {
-  LedgerCubit() : super(LegerResponseInitial());
+class LedgerCubit extends Cubit<LedgerState> {
+  LedgerCubit() : super(LedgerInitial());
   List<LedgerReportResponseModel> paginatedLedgerReport = [];
   TextEditingController fromTimeController = TextEditingController();
   TextEditingController toTimeController = TextEditingController();
@@ -18,11 +18,10 @@ class LedgerCubit extends Cubit<LegerResponseState> {
   bool isRotation = true;
   bool isLoading = false;
   int lastCount = 0;
-  int totalRowsPerPage = 0;
+  int totalRowsPerPage = 50;
   String fromAndTo = DateFormat('yyyy-MM-dd').format(DateTime.now());
   final formKee = GlobalKey<FormState>();
   List<LedgerReportResponseModel> ledgerTableData = [];
-
   getLedgerReport() async {
     emit(LegerResponseLoading());
     try {
@@ -41,8 +40,14 @@ class LedgerCubit extends Cubit<LegerResponseState> {
         ..clear()
         ..addAll(response);
       paginatedLedgerReport.clear();
-      for (var i = 0; i < 50; i++) {
-        paginatedLedgerReport.add(ledgerTableData[i]);
+      if (ledgerTableData.length < 50) {
+        for (var i = 0; i < ledgerTableData.length; i++) {
+          paginatedLedgerReport.add(ledgerTableData[i]);
+        }
+      } else {
+        for (var i = 0; i < totalRowsPerPage; i++) {
+          paginatedLedgerReport.add(ledgerTableData[i]);
+        }
       }
       emit(LegerResponseLoaded(
           ledgerReportResponseModel: paginatedLedgerReport));
@@ -52,7 +57,7 @@ class LedgerCubit extends Cubit<LegerResponseState> {
   }
 
   getPaginatedDataNext() {
-    emit(LegerResponseInitial());
+    emit(LedgerInitial());
     emit(LegerResponseLoading());
     paginatedLedgerReport.clear();
     int toCount = lastCount + totalRowsPerPage;
@@ -66,9 +71,10 @@ class LedgerCubit extends Cubit<LegerResponseState> {
   }
 
   getPaginatedDataPrevious() {
+    emit(LedgerInitial());
     emit(LegerResponseLoading());
     paginatedLedgerReport.clear();
-    int toCount = lastCount + totalRowsPerPage;
+    int toCount = lastCount - totalRowsPerPage;
     paginatedLedgerReport.clear();
     for (int i = toCount; i < lastCount; i++) {
       paginatedLedgerReport.add(ledgerTableData[i]);

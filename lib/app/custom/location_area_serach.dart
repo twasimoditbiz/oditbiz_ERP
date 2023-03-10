@@ -35,10 +35,6 @@ class _CustomLoactionAreaState extends State<CustomLoactionArea>
 
   late double animatedHeight = 10.w;
 
-  final List<String> _selectedItems = [];
-
-  // final List<String> _selectedId = [];
-
   void _itemChange(itemId, itemValue, bool isSelected) {
     setState(() {
       if (isSelected) {
@@ -67,7 +63,7 @@ class _CustomLoactionAreaState extends State<CustomLoactionArea>
                 Row(
                   children: [
                     SizedBox(
-                      width: selectedItems.isEmpty ? 78.w : 65.w,
+                      width: selectedItems.isEmpty ? 78.w : 68.w,
                       height: 6.h,
                       child: TextFormField(
                         onChanged: (value) {},

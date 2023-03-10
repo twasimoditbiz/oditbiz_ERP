@@ -164,7 +164,7 @@ class _LedgerTableScreenState extends State<LedgerTableScreen> {
                         ),
                       ),
                       tablePagination(bloc.ledgerTableData),
-                      BlocBuilder<LedgerCubit, LegerResponseState>(
+                      BlocBuilder<LedgerCubit, LedgerState>(
                         builder: (context, state) {
                           if (state is LegerResponseLoaded) {
                             return SizedBox(
@@ -205,7 +205,7 @@ class _LedgerTableScreenState extends State<LedgerTableScreen> {
                   return Column(
                     children: [
                       tablePagination(bloc.ledgerTableData),
-                      BlocBuilder<LedgerCubit, LegerResponseState>(
+                      BlocBuilder<LedgerCubit, LedgerState>(
                         builder: (context, state) {
                           if (state is LegerResponseLoaded) {
                             return SizedBox(
@@ -345,41 +345,49 @@ class _LedgerTableScreenState extends State<LedgerTableScreen> {
                 children: [
                   Text(
                       "$pagecount - ${totalrowcount.toInt()} / ${ledgerTableData.length}"),
-                  IconButton(
-                    onPressed: () {
-                      setState(() {
-                        if (pagecount > 1) {
-                          pagecount--;
-                        } else {
-                          return;
-                        }
-                      });
-                      context.read<LedgerCubit>().totalRowsPerPage =
-                          int.parse(rowsPerPage);
-                      context.read<LedgerCubit>().getPaginatedDataPrevious();
-                    },
-                    icon: const Icon(
-                      Icons.arrow_back_ios_new,
-                      size: 15,
-                    ),
-                  ),
-                  IconButton(
-                    onPressed: () {
-                      if (pagecount < totalrowcount.toInt()) {
-                        pagecount++;
-                        setState(() {});
-                      } else {
-                        return;
-                      }
-                      context.read<LedgerCubit>().totalRowsPerPage =
-                          int.parse(rowsPerPage);
-                      context.read<LedgerCubit>().getPaginatedDataNext();
-                    },
-                    icon: const Icon(
-                      Icons.arrow_forward_ios,
-                      size: 15,
-                    ),
-                  ),
+                  pagecount > 1
+                      ? IconButton(
+                          onPressed: () {
+                            setState(() {
+                              if (pagecount > 1) {
+                                pagecount--;
+                              } else {
+                                return;
+                              }
+                            });
+                            context.read<LedgerCubit>().totalRowsPerPage =
+                                int.parse(rowsPerPage);
+                            context
+                                .read<LedgerCubit>()
+                                .getPaginatedDataPrevious();
+                          },
+                          icon: const Icon(
+                            Icons.arrow_back_ios_new,
+                            size: 15,
+                            color: Colors.blue,
+                          ),
+                        )
+                      : const SizedBox.shrink(),
+                  pagecount < totalrowcount.toInt()
+                      ? IconButton(
+                          onPressed: () {
+                            if (pagecount < totalrowcount.toInt()) {
+                              pagecount++;
+                              setState(() {});
+                            } else {
+                              return;
+                            }
+                            context.read<LedgerCubit>().totalRowsPerPage =
+                                int.parse(rowsPerPage);
+                            context.read<LedgerCubit>().getPaginatedDataNext();
+                          },
+                          icon: const Icon(
+                            Icons.arrow_forward_ios,
+                            color: Colors.blue,
+                            size: 15,
+                          ),
+                        )
+                      : const SizedBox(width: 30),
                 ],
               ),
             ],

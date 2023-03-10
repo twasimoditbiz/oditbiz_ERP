@@ -25,8 +25,6 @@ class ApiserviceloginApp extends Endpoints {
       );
       log('ledger response => ${response.statusCode}');
       if (response.statusCode! >= 200 || response.statusCode! <= 299) {
-        
-
         return AppLoginModel.fromJson(response.data);
       }
     } on DioError catch (e) {
@@ -41,7 +39,6 @@ class ApiserviceloginApp extends Endpoints {
       }
 
       if (e.error.toString().contains('SocketException')) {
-        showSnackBar(context, 'Connection refused !');
         return showSnackBar(context, 'Something went wrong try again');
       } else {
         log(' =>$e');

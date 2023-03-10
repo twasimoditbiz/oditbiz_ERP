@@ -269,7 +269,7 @@ class _LedgerRegistrationState extends State<LedgerRegistration> {
                         ),
                       ],
                     ),
-                    BlocListener<LedgerCubit, LegerResponseState>(
+                    BlocListener<LedgerCubit, LedgerState>(
                       listener: (context, ledgerState) {
                         log(ledgerState.toString());
                         if (ledgerState is LegerResponseLoading) {

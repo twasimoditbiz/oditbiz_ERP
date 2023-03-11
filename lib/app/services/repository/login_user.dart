@@ -43,7 +43,7 @@ class ApiserviceloginUser extends Endpoints {
       }
 
       if (e.error.toString().contains('SocketException')) {
-        showSnackBar(context, 'Connection refused !');
+        showSnackBar(context, 'Connection refused ! user login repos');
         return showSnackBar(context, 'Something went wrong try again');
       } else {
         log(' =>$e');

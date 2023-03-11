@@ -1,20 +1,22 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:oditbiz/app/page/group/bloc/group_rearch/group_cubit.dart';
+import 'package:oditbiz/app/page/group/bloc/route/route_cubit.dart';
 import 'package:oditbiz/app/page/ledger/bloc/ledger_rearch/ledger_search_cubit.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 import '../controller/ledger_search.dart';
 
-class CustomAlertDialog extends StatefulWidget {
-  const CustomAlertDialog({super.key});
+class RouteSearchDialog extends StatefulWidget {
+  const RouteSearchDialog({super.key});
 
   @override
   // ignore: library_private_types_in_public_api
-  _CustomAlertDialogState createState() => _CustomAlertDialogState();
+  _RouteSearchDialogState createState() => _RouteSearchDialogState();
 }
 
-class _CustomAlertDialogState extends State<CustomAlertDialog>
+class _RouteSearchDialogState extends State<RouteSearchDialog>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _animation;
@@ -33,7 +35,7 @@ class _CustomAlertDialogState extends State<CustomAlertDialog>
 
   @override
   Widget build(BuildContext context) {
-    final ledgerSearchController = context.watch<LedgerSearchCubit>();
+    final routeCubit = context.read<RouteCubit>();
     return ScaleTransition(
       scale: _animation,
       child: Dialog(
@@ -49,8 +51,7 @@ class _CustomAlertDialogState extends State<CustomAlertDialog>
                   child: TextFormField(
                     onChanged: (value) {
                       setState(() {
-                        ledgerSearchController.getPaginatedLedgerSearchReport(
-                            context, value);
+                        routeCubit.searchRoute(value);
                       });
                     },
                     decoration: InputDecoration(
@@ -69,13 +70,13 @@ class _CustomAlertDialogState extends State<CustomAlertDialog>
                 ),
                 SingleChildScrollView(
                   child:
-                      BlocBuilder<LedgerSearchCubit, LedgerSearchResponseState>(
-                    builder: (context, ledgerSearchState) {
-                      if (ledgerSearchState is LedgerSearchResponseLoaded) {
+                      BlocBuilder<RouteCubit, RouteState>(
+                    builder: (context, routeState) {
+                      if (routeState is RouteLoaded) {
                         return SizedBox(
                           width: double.infinity,
                           height: MediaQuery.of(context).size.height,
-                          child: ledgerSearchState.ledgerSearchModel.isEmpty
+                          child: routeState.routeModel.isEmpty
                               ? Column(
                                   children: const [
                                     SizedBox(height: 169),
@@ -90,14 +91,14 @@ class _CustomAlertDialogState extends State<CustomAlertDialog>
                                   ],
                                 )
                               : ListView.builder(
-                                  itemCount: ledgerSearchState
-                                      .ledgerSearchModel.length,
+                                  itemCount: routeState
+                                      .routeModel.length,
                                   shrinkWrap: true,
                                   itemBuilder:
                                       (BuildContext context, int index) {
                                     return GestureDetector(
                                       onTap: () {
-                                        ledgerSearchController
+                                        routeCubit
                                             .seletedLedger(index);
                                         Navigator.pop(context);
                                       },
@@ -118,8 +119,8 @@ class _CustomAlertDialogState extends State<CustomAlertDialog>
                                             visualDensity: const VisualDensity(
                                                 horizontal: 4, vertical: -4),
                                             title: Text(
-                                              ledgerSearchState
-                                                  .ledgerSearchModel[index]
+                                              routeState
+                                                  .routeModel[index]
                                                   .label!,
                                               style: const TextStyle(
                                                 color: Colors.black,

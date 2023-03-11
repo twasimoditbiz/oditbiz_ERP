@@ -1,10 +1,12 @@
 // ignore_for_file: depend_on_referenced_packages
 
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
 import 'package:drift/drift.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 import 'package:oditbiz/app/db/database_helper.dart';
 import 'package:oditbiz/app/page/ledger/model/import_model.dart';
@@ -61,8 +63,15 @@ class ImportCubit extends Cubit<ImportState> {
         deliverystatus: Value(data.deliverystatus),
         formControls: Value(data.formControls!),
       ));
+
+      // await db.inserLedgerData(
+      //     LedgerTableCompanion(ledgerData: Value(data.ledger)));
       if (importStatus != 0) {
-        Fluttertoast.showToast(msg: "Data imported successfully");
+        Fluttertoast.showToast(
+          msg: "Data imported successfully",
+          backgroundColor: Colors.white,
+          textColor: Colors.black,
+        );
       }
       emit(ImportLoaded(data));
     }

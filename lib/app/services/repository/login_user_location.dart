@@ -33,7 +33,7 @@ class ApiserviceLoginUserLocation extends Endpoints {
     } on DioError catch (e) {
       log(e.toString());
       if (e.error.toString().contains('SocketException')) {
-        showSnackBar(context, 'Connection refused !');
+        showSnackBar(context, 'Connection refused ! user login');
         return showSnackBar(context, 'Something went wrong try again!');
       } else {
         log(e.toString());

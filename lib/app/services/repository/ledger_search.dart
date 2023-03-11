@@ -28,12 +28,7 @@ class ApiserviceLedgerSearch extends Endpoints {
       );
       log('ledger search response => ${response.statusCode}');
       if (response.statusCode! >= 200 || response.statusCode! <= 299) {
-        log(response.data);
-        if (ledger == "") {
-          final db = getIt<MyDatabase>();
-          await db.inserLedgerData(LedgerTableCompanion(
-              ledgerData: Value(response.data.toString())));
-        }
+       
         return ledgerSearchModelFromJson(response.data);
       }
     } on DioError catch (e) {

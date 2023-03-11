@@ -20,16 +20,19 @@ class LedgerSearchCubit extends Cubit<LedgerSearchResponseState> {
     emit(LedgerSearchResponseLoading());
     try {
       final db = getIt<MyDatabase>();
-      List<LedgerTableData> ledgerData = await db.getLedgers();
+      List<SettingsTableData> ledgerData = await db.getSettigns();
       if (ledgerData.isNotEmpty) {
-        emit(LedgerSearchResponseLoaded(
-            ledgerSearchModel:
-                ledgerSearchModelFromJson(ledgerData.first.ledgerData!)));
+        ledgerSearchData = ledgerSearchModelFromJson(ledgerData.first.ledger!)
+            .where((element) =>
+                element.label!.toLowerCase().contains(ledger.toLowerCase()))
+            .toList();
+
+        emit(LedgerSearchResponseLoaded(ledgerSearchModel: ledgerSearchData));
       }
+
       ledgerSearchData = await ApiserviceLedgerSearch()
           .postLedgerSearchFunction(context, ledger);
 
-      log("Response => $ledgerSearchData");
       emit(LedgerSearchResponseLoaded(ledgerSearchModel: ledgerSearchData));
     } catch (e) {
       log(e.toString());

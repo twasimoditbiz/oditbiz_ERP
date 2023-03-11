@@ -15,17 +15,17 @@ class LedgerSearchModel {
     required this.tin,
   });
 
-  String label;
-  double value;
-  String asRateType;
-  String tin;
+  String? label;
+  double? value;
+  String? asRateType;
+  String? tin;
 
   factory LedgerSearchModel.fromJson(Map<String, dynamic> json) =>
       LedgerSearchModel(
-        label: json["label"],
-        value: json["value"],
-        asRateType: json["as_rate_type"],
-        tin: json["tin"],
+        label: json["label"] ?? "",
+        value: (json["value"] ?? 0).toDouble(),
+        asRateType: json["as_rate_type"] ?? "",
+        tin: json["tin"] ?? "",
       );
 
   Map<String, dynamic> toJson() => {

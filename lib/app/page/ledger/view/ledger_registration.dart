@@ -31,7 +31,7 @@ class _LedgerRegistrationState extends State<LedgerRegistration> {
   Widget build(BuildContext context) {
     final heigth = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.height;
-    final ledgerSearchController = context.watch<LedgerSearchCubit>();
+    final ledgerSearchController = context.read<LedgerSearchCubit>();
     final bloc = BlocProvider.of<LedgerCubit>(context);
 
     return Scaffold(
@@ -73,11 +73,12 @@ class _LedgerRegistrationState extends State<LedgerRegistration> {
                       ),
                     ),
                     InkWell(
-                      onTap: () {
-                        showDialog(
+                      onTap: () async {
+                        await showDialog(
                           context: context,
                           builder: (context) => const CustomAlertDialog(),
                         );
+                        setState(() {});
                       },
                       child: Container(
                         height: heigth * 0.056,

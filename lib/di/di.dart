@@ -1,5 +1,9 @@
 import 'package:get_it/get_it.dart';
 import 'package:oditbiz/app/page/bottom_nav/bloc/bottom_cubit.dart';
+import 'package:oditbiz/app/page/group/bloc/group_rearch/group_cubit.dart';
+import 'package:oditbiz/app/page/group/bloc/group_report/group_report_cubit.dart';
+import 'package:oditbiz/app/page/group/bloc/route/route_cubit.dart';
+import 'package:oditbiz/app/page/group/bloc/salesman/salesman_cubit.dart';
 import 'package:oditbiz/app/page/ledger/bloc/ledger_cubit.dart';
 import 'package:oditbiz/app/db/database_helper.dart';
 import 'package:oditbiz/app/page/ledger/bloc/ledger_rearch/ledger_search_cubit.dart';
@@ -20,6 +24,11 @@ void setup() {
   getIt.registerSingleton<AppLoginCubit>(AppLoginCubit());
   getIt.registerSingleton<UserLoginCubit>(UserLoginCubit());
   getIt.registerSingleton<LedgerSearchCubit>(LedgerSearchCubit());
+  getIt.registerSingleton<GroupCubit>(GroupCubit());
+  getIt.registerSingleton<RouteCubit>(RouteCubit());
+  getIt.registerSingleton<SalesManCubit>(SalesManCubit());
+  getIt.registerSingleton<GroupReportCubit>(GroupReportCubit());
+  
   
   
 }

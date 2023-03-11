@@ -41,7 +41,7 @@ class ApiserviceloginApp extends Endpoints {
       }
 
       if (e.error.toString().contains('SocketException')) {
-        showSnackBar(context, 'Connection refused !');
+        showSnackBar(context, 'Connection refused ! login app');
         return showSnackBar(context, 'Something went wrong try again');
       } else {
         log(' =>$e');

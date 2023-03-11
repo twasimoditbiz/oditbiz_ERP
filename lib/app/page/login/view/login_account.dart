@@ -7,6 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 // import 'package:get_mac_address/get_mac_address.dart';
 import 'package:oditbiz/app/controller/login_page.dart';
+import 'package:oditbiz/app/custom/custom_loader.dart';
 import 'package:oditbiz/app/custom/location_area_serach.dart';
 import 'package:oditbiz/app/custom/sncakbar.dart';
 import 'package:oditbiz/app/db/database_helper.dart';
@@ -43,6 +44,7 @@ class _LoginPageState extends State<LoginPage> {
 
   init() async {
     // macAddress = await getMacAddress();
+
     log("macAddress $macAddress");
   }
 
@@ -53,7 +55,8 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          SharedPreferences sharedPreferences= await SharedPreferences.getInstance();
+          SharedPreferences sharedPreferences =
+              await SharedPreferences.getInstance();
           sharedPreferences.remove(PrefResources.TOKENAPP);
           final db = getIt<MyDatabase>();
           Get.to(() => DriftDbViewer(db));
@@ -87,7 +90,11 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 BlocListener<UserLoginCubit, UserLoginState>(
                   listener: (context, userLoginState) {
+                    if (userLoginState is UserLoginLoading) {
+                      SquareLoader.show(context);
+                    }
                     if (userLoginState is UserLoginLoaded) {
+                      SquareLoader.dismiss();
                       if (userLoginState.userLoginModel.status!) {
                         Get.offAllNamed(PageRoutes.bottomNavigationScreen);
                       }
@@ -199,8 +206,8 @@ class _LoginPageState extends State<LoginPage> {
                                   if (state.error
                                       .toString()
                                       .contains('SocketException')) {
-                                    showSnackBar(
-                                        context, 'Connection refused !');
+                                    showSnackBar(context,
+                                        'Connection refused ! location');
                                   } else {
                                     log(state.error..toString());
                                   }

@@ -1,20 +1,21 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:oditbiz/app/page/group/bloc/group_rearch/group_cubit.dart';
 import 'package:oditbiz/app/page/ledger/bloc/ledger_rearch/ledger_search_cubit.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 import '../controller/ledger_search.dart';
 
-class CustomAlertDialog extends StatefulWidget {
-  const CustomAlertDialog({super.key});
+class GroupSearchDialog extends StatefulWidget {
+  const GroupSearchDialog({super.key});
 
   @override
   // ignore: library_private_types_in_public_api
-  _CustomAlertDialogState createState() => _CustomAlertDialogState();
+  _GroupSearchDialogState createState() => _GroupSearchDialogState();
 }
 
-class _CustomAlertDialogState extends State<CustomAlertDialog>
+class _GroupSearchDialogState extends State<GroupSearchDialog>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _animation;
@@ -33,7 +34,7 @@ class _CustomAlertDialogState extends State<CustomAlertDialog>
 
   @override
   Widget build(BuildContext context) {
-    final ledgerSearchController = context.watch<LedgerSearchCubit>();
+    final groupController = context.watch<GroupCubit>();
     return ScaleTransition(
       scale: _animation,
       child: Dialog(
@@ -49,8 +50,7 @@ class _CustomAlertDialogState extends State<CustomAlertDialog>
                   child: TextFormField(
                     onChanged: (value) {
                       setState(() {
-                        ledgerSearchController.getPaginatedLedgerSearchReport(
-                            context, value);
+                        groupController.searchGroup(value);
                       });
                     },
                     decoration: InputDecoration(
@@ -69,13 +69,13 @@ class _CustomAlertDialogState extends State<CustomAlertDialog>
                 ),
                 SingleChildScrollView(
                   child:
-                      BlocBuilder<LedgerSearchCubit, LedgerSearchResponseState>(
-                    builder: (context, ledgerSearchState) {
-                      if (ledgerSearchState is LedgerSearchResponseLoaded) {
+                      BlocBuilder<GroupCubit, GroupState>(
+                    builder: (context, groupSearchState) {
+                      if (groupSearchState is GroupLoaded) {
                         return SizedBox(
                           width: double.infinity,
                           height: MediaQuery.of(context).size.height,
-                          child: ledgerSearchState.ledgerSearchModel.isEmpty
+                          child: groupSearchState.groupModel.isEmpty
                               ? Column(
                                   children: const [
                                     SizedBox(height: 169),
@@ -90,14 +90,14 @@ class _CustomAlertDialogState extends State<CustomAlertDialog>
                                   ],
                                 )
                               : ListView.builder(
-                                  itemCount: ledgerSearchState
-                                      .ledgerSearchModel.length,
+                                  itemCount: groupSearchState
+                                      .groupModel.length,
                                   shrinkWrap: true,
                                   itemBuilder:
                                       (BuildContext context, int index) {
                                     return GestureDetector(
                                       onTap: () {
-                                        ledgerSearchController
+                                        groupController
                                             .seletedLedger(index);
                                         Navigator.pop(context);
                                       },
@@ -118,8 +118,8 @@ class _CustomAlertDialogState extends State<CustomAlertDialog>
                                             visualDensity: const VisualDensity(
                                                 horizontal: 4, vertical: -4),
                                             title: Text(
-                                              ledgerSearchState
-                                                  .ledgerSearchModel[index]
+                                              groupSearchState
+                                                  .groupModel[index]
                                                   .label!,
                                               style: const TextStyle(
                                                 color: Colors.black,

@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:drift/drift.dart';
@@ -104,11 +105,24 @@ class MyDatabase extends _$MyDatabase {
       return await (update(ledgerTable)..where((tbl) => tbl.id.equals(1)))
           .write(ledgerServerData);
     }
-    
   }
 
-  Future<List<LedgerTableData>> getLedgers() async {
-    return await select(ledgerTable).get();
+  Future<List<SettingsTableData>> getSettigns() async {
+    return await select(settingsTable).get();
+  }
+
+  Future<String> statementType() async {
+    final settingsData = await getSettigns();
+    final salesManLength = jsonDecode(settingsData.first.salesman!).length;
+    final routeLength = jsonDecode(settingsData.first.allRoutes!).length;
+    log("salesManLength ${salesManLength} routeLength ${settingsData.first.allRoutes} ${routeLength}");
+    if (salesManLength != 0 && routeLength == 0) {
+      return 'salesmanwisegroup';
+    } else if (salesManLength != 0 && routeLength != 0) {
+      return 'rout_and_salesman';
+    } else {
+      return '';
+    }
   }
 }
 

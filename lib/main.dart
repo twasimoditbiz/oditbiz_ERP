@@ -5,6 +5,10 @@ import 'package:oditbiz/app/controller/ledger_search.dart';
 import 'package:oditbiz/app/controller/login_page.dart';
 import 'package:oditbiz/app/custom/textshadow.dart';
 import 'package:oditbiz/app/page/bottom_nav/bloc/bottom_cubit.dart';
+import 'package:oditbiz/app/page/group/bloc/group_rearch/group_cubit.dart';
+import 'package:oditbiz/app/page/group/bloc/group_report/group_report_cubit.dart';
+import 'package:oditbiz/app/page/group/bloc/route/route_cubit.dart';
+import 'package:oditbiz/app/page/group/bloc/salesman/salesman_cubit.dart';
 import 'package:oditbiz/app/page/ledger/bloc/ledger_cubit.dart';
 import 'package:oditbiz/app/page/ledger/bloc/ledger_rearch/ledger_search_cubit.dart';
 import 'package:oditbiz/app/page/login/bloc/app_login/app_login_cubit.dart';
@@ -47,6 +51,10 @@ void main() {
               BlocProvider.value(value: di.getIt.get<AppLoginCubit>()),
               BlocProvider.value(value: di.getIt.get<UserLoginCubit>()),
               BlocProvider.value(value: di.getIt.get<LedgerSearchCubit>()),
+              BlocProvider.value(value: di.getIt.get<GroupCubit>()),
+              BlocProvider.value(value: di.getIt.get<RouteCubit>()),
+              BlocProvider.value(value: di.getIt.get<SalesManCubit>()),
+              BlocProvider.value(value: di.getIt.get<GroupReportCubit>()),
 
               
             ],
@@ -63,7 +71,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      initialRoute: PageRoutes.login,
+      initialRoute: PageRoutes.splashScreen,
       getPages: Routes.routes,
       theme: ThemeData(
         fontFamily: "poppins",

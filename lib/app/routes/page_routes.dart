@@ -1,20 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_navigation/src/routes/transitions_type.dart' as transitions_type;
+import 'package:get/get_navigation/src/routes/transitions_type.dart'
+    as transitions_type;
 import 'package:oditbiz/app/page/bottom_nav/view/bottom_nav.dart';
+import 'package:oditbiz/app/page/group/view/group_report_from.dart';
+import 'package:oditbiz/app/page/group/view/group_report_table_screen.dart';
 import 'package:oditbiz/app/page/home/homepage.dart';
 import 'package:oditbiz/app/page/ledger/view/ledger_registration.dart';
 import 'package:oditbiz/app/page/ledger/view/ledger_table_screen.dart';
 import 'package:oditbiz/app/page/login/view/login_account.dart';
 import 'package:oditbiz/app/page/login/view/login_app.dart';
+import 'package:oditbiz/app/page/login/view/spash_screen.dart';
 import 'package:oditbiz/app/page/payment/payment_search.dart';
 import 'package:oditbiz/app/page/recipts/receipt_page.dart';
 import 'package:oditbiz/app/page/recipts/recipts_serach_screen.dart';
 import 'package:oditbiz/app/page/reports/balancesheet_screen.dart';
-import 'package:oditbiz/app/page/reports/cashbook_screen.dart';
+import 'package:oditbiz/app/page/group/view/widgets/group_report_table.dart';
 import 'package:oditbiz/app/page/reports/daybook_screen.dart';
 import 'package:oditbiz/app/page/reports/daysheet_screen.dart';
-import 'package:oditbiz/app/page/reports/group_report.dart';
 import 'package:oditbiz/app/page/reports/profitandloss.dart';
 import 'package:oditbiz/app/page/reports/salesreport_screen.dart';
 import 'package:oditbiz/app/page/reports/stockreport_screen.dart';
@@ -37,6 +40,11 @@ class Routes {
     GetPage(
       name: PageRoutes.login,
       page: () => LoginPage(),
+      transition: navigationTransition,
+    ),
+    GetPage(
+      name: PageRoutes.splashScreen,
+      page: () => SplashScreen(),
       transition: navigationTransition,
     ),
     GetPage(
@@ -94,16 +102,7 @@ class Routes {
       page: () => SaleOrderDetalisScreen(),
       transition: navigationTransition,
     ),
-    GetPage(
-      name: PageRoutes.groupReportScreen,
-      page: () => GroupReportScreen(),
-      transition: navigationTransition,
-    ),
-    GetPage(
-      name: PageRoutes.cashBookScreen,
-      page: () => CashBookScreen(),
-      transition: navigationTransition,
-    ),
+    
     GetPage(
       name: PageRoutes.balanceSheetScreen,
       page: () => BalanceSheetScreen(),
@@ -139,6 +138,19 @@ class Routes {
       page: () => LedgerTableScreen(),
       transition: navigationTransition,
     ),
+    GetPage(
+      name: PageRoutes.groupReportScreen,
+      page: () => GroupReportForm(),
+      transition: navigationTransition,
+    ),
+    GetPage(
+      name: PageRoutes.gropReportTableScreen,
+      page: () => GropReportTableScreen(),
+      // page: () => CashBookScreen(),
+      transition: navigationTransition,
+
+    ),
+    
   ];
 }
 
@@ -147,6 +159,8 @@ class PageRoutes {
   static const String login = "/login";
   static const String home = '/home';
   static const String loginApp = "/loginApp";
+  static const String splashScreen = "/splashScreen";
+
   static const String ledgerRegistration = '/ledgerRegistration';
   static const String receiptScreen = '/receiptScreen';
   static const String paymentScreen = '/paymentScreen';
@@ -166,4 +180,6 @@ class PageRoutes {
   static const String salesReportScreen = "/salesReportScreen";
   static const String daySheetScreen = "/daySheetScreen";
   static const String ledgerTableScreen = "/ledgerTableScreen";
+  static const String gropReportTableScreen = "/gropReportTableScreen";
+  
 }

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 class ImportModel {
   String? ledger;
   String? group;
@@ -21,12 +23,12 @@ class ImportModel {
   String? permissions;
   String? gnlUsers;
   String? bank;
-   String? company_;
+  String? company_;
   String? receivingcondition;
   String? servicetype;
   String? complaints;
   String? fixtype;
-   String? workorderstatus;
+  String? workorderstatus;
   String? color;
   String? collecteditems;
   String? deliverystatus;
@@ -68,131 +70,100 @@ class ImportModel {
 
   ImportModel.fromJson(Map<String, dynamic> json) {
     if (json['ledger'] != null) {
-      ledger =   json['ledger'].toString();
+      ledger = jsonEncode(json['ledger']).toString();
     }
     if (json['group'] != null) {
-      group = 
-      json['group'].toString();
+      group = jsonEncode(json['group']).toString();
     }
     if (json['location'] != null) {
-      location = 
-      json['location'].toString();
+      location = jsonEncode(json['location']).toString();
     }
     if (json['category'] != null) {
-      category = 
-      json['category'].toString();
+      category = jsonEncode(json['category']).toString();
     }
     if (json['brand'] != null) {
-      brand =
-      json['brand'].toString();
+      brand = jsonEncode(json['brand']).toString();
     }
     if (json['itemCode'] != null) {
-      itemCode = 
-      json['itemCode'].toString();
+      itemCode = jsonEncode(json['itemCode']).toString();
     }
     if (json['itemName'] != null) {
-      itemName =
-      json['itemName'].toString();
+      itemName = jsonEncode(json['itemName']).toString();
     }
     if (json['subcategory'] != null) {
-      subcategory =
-      json['subcategory'].toString();
+      subcategory = jsonEncode(json['subcategory']).toString();
     }
     if (json['customer'] != null) {
-      customer = 
-      json['customer'].toString();
+      customer = jsonEncode(json['customer']).toString();
     }
     if (json['salesman'] != null) {
-      salesman =
-      json['salesman'].toString();
+      salesman = jsonEncode(json['salesman']).toString();
     }
     if (json['area'] != null) {
-      area =
-      json['area'].toString();
+      area = jsonEncode(json['area']).toString();
     }
     if (json['district'] != null) {
-      district =
-      json['district'].toString();
+      district = jsonEncode(json['district']).toString();
     }
     if (json['salesType'] != null) {
-      salesType = 
-      json['salesType'].toString();
+      salesType = jsonEncode(json['salesType']).toString();
     }
     if (json['cash'] != null) {
-      cash =
-      json['cash'].toString();
+      cash = jsonEncode(json['cash']).toString();
     }
     if (json['company'] != null) {
-      company = 
-      json['company'].toString();
+      company = jsonEncode(json['company']).toString();
     }
     if (json['allSalesType'] != null) {
-      allSalesType = 
-      json['allSalesType'].toString();
+      allSalesType = jsonEncode(json['allSalesType']).toString();
     }
     if (json['allRateType'] != null) {
-      allRateType = 
-      json['allRateType'].toString();
+      allRateType = jsonEncode(json['allRateType']).toString();
     }
     if (json['android'] != null) {
-      android =
-      json['android'].toString();
+      android = jsonEncode(json['android']).toString();
     }
     if (json['allRoutes'] != null) {
-      allRoutes = 
-      json['allRoutes'].toString();
+      allRoutes = jsonEncode(json['allRoutes']).toString();
     }
     if (json['permissions'] != null) {
-      permissions =
-      json['permissions'].toString();
+      permissions = jsonEncode(json['permissions']).toString();
     }
     if (json['gnl_users'] != null) {
-      gnlUsers = 
-      json['gnl_users'].toString();
+      gnlUsers = jsonEncode(json['gnl_users']).toString();
     }
     if (json['bank'] != null) {
-      bank = 
-      json['bank'].toString();
+      bank = jsonEncode(json['bank']).toString();
     }
     if (json['company_'] != null) {
-      company = 
-      json['company_'].toString();
+      company = jsonEncode(json['company_']).toString();
     }
     if (json['receivingcondition'] != null) {
-      receivingcondition =
-      json['receivingcondition'].toString();
+      receivingcondition = jsonEncode(json['receivingcondition']).toString();
     }
     if (json['servicetype'] != null) {
-      servicetype = 
-      json['servicetype'].toString();
+      servicetype = jsonEncode(json['servicetype']).toString();
     }
     if (json['complaints'] != null) {
-      complaints = 
-      json['complaints'].toString();
+      complaints = jsonEncode(json['complaints']).toString();
     }
     if (json['fixtype'] != null) {
-      fixtype = 
-      json['fixtype'].toString();
+      fixtype = jsonEncode(json['fixtype']).toString();
     }
     if (json['workorderstatus'] != null) {
-      workorderstatus =
-      json['workorderstatus'].toString();
+      workorderstatus = jsonEncode(json['workorderstatus']).toString();
     }
     if (json['color'] != null) {
-      color =
-      json['color'].toString();
+      color = jsonEncode(json['color']).toString();
     }
     if (json['collecteditems'] != null) {
-      collecteditems = 
-      json['collecteditems'].toString();
+      collecteditems = jsonEncode(json['collecteditems']).toString();
     }
     if (json['deliverystatus'] != null) {
-      deliverystatus = 
-      json['deliverystatus'].toString();
+      deliverystatus = jsonEncode(json['deliverystatus']).toString();
     }
     if (json['formControls'] != null) {
-      formControls = 
-      json['formControls'].toString();
+      formControls = jsonEncode(json['formControls']).toString();
     }
   }
 

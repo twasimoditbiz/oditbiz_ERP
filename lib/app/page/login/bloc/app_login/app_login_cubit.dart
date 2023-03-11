@@ -27,19 +27,19 @@ class AppLoginCubit extends Cubit<AppLoginState> {
 
   getAppLogin(context, LoginAppModel object) async {
     emit(AppLoginLoading());
-    // try {
-    AppLoginModel? data =
-        await ApiserviceloginApp().loginAppFunction(context, object);
-    if (data != null) {
-      if (data.status!) {
-        await UserServices()
-            .setUserDataApp("${json.decode(data.token!)[0]['value']}");
+    try {
+      AppLoginModel? data =
+          await ApiserviceloginApp().loginAppFunction(context, object);
+      if (data != null) {
+        if (data.status!) {
+          await UserServices()
+              .setUserDataApp("${json.decode(data.token!)[0]['value']}");
+        }
+        emit(AppLoginLoaded(data));
       }
-      emit(AppLoginLoaded(data));
+      // }
+    } catch (ex) {
+      log("Sorry! We Couldn't connect to our servers");
     }
   }
-  // } catch (ex) {
-  // emit(ImportError("Sorry! We Couldn't connect to our servers"));
-  // }
-
 }

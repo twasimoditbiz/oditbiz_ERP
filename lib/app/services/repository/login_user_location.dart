@@ -13,6 +13,7 @@ class ApiserviceLoginUserLocation extends Endpoints {
     try {
       final sp = await SharedPreferences.getInstance();
       final token = sp.getString(PrefResources.TOKENAPP);
+      
       log('location USER TOKEN ==> $token');
       final response = await Dio().get(
         "$baseurl$userLocation",

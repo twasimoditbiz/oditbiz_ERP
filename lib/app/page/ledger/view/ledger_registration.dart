@@ -96,7 +96,7 @@ class _LedgerRegistrationState extends State<LedgerRegistration> {
                                     width:
                                         MediaQuery.of(context).size.width * 0.5,
                                     child: Text(
-                                        ledgerSearchController
+                                        LedgerSearchController
                                                 .selectedLedger?.label ??
                                             "Select Ledger",
                                         overflow: TextOverflow.ellipsis),

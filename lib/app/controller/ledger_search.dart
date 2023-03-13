@@ -9,7 +9,7 @@ class LedgerSearchController extends StateProvider {
   }
   bool isLoading = true;
   List<LedgerSearchModel> ledgers = [];
-  LedgerSearchModel? selectedLedger;
+  static LedgerSearchModel? selectedLedger;
   static double? selectedLedgerValue;
 
   void legerSearch(BuildContext context, String ledger) async {

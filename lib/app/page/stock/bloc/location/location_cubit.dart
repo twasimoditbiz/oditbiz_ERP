@@ -23,9 +23,11 @@ class RouteCubit extends Cubit<RouteState> {
       final db = getIt<MyDatabase>();
       List<SettingsTableData> routeData = await db.getSettigns();
       if (routeData.isNotEmpty) {
-        if (routeData.first.allRoutes!.isNotEmpty) {
+        if (routeData.first.location!.isNotEmpty) {
+          log("${routeData.first.location}");
+
           final decodeRouteData =
-              json.decode(routeData.first.allRoutes!) as List;
+              json.decode(routeData.first.location!) as List;
 
           routeModel =
               decodeRouteData.map((x) => RouteModel.fromJson(x)).toList();
@@ -54,8 +56,8 @@ class RouteCubit extends Cubit<RouteState> {
   double? selectedRouteValue;
 
   RouteModel? selectedLedger;
-  seletedLedger(RouteModel routeModel) {
-    selectedLedger = routeModel;
+  seletedLedger(int index) {
+    selectedLedger = routeModel[index];
     selectedRouteValue = selectedLedger?.value;
   }
 

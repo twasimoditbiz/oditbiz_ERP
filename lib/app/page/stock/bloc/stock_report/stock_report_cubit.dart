@@ -17,10 +17,10 @@ import 'package:oditbiz/app/services/repository/ledger_search.dart';
 import 'package:oditbiz/di/di.dart';
 import 'package:path/path.dart';
 
-part 'group_report_state.dart';
+part 'stock_report_state.dart';
 
-class GroupReportCubit extends Cubit<GroupReportState> {
-  GroupReportCubit() : super(GroupReportInitial());
+class StockReportCubit extends Cubit<StockReportState> {
+  StockReportCubit() : super(StockReportInitial());
   late List<GropReportModel> gropReportModel;
   String? selectedGroup = "";
   TextEditingController fromTimeController = TextEditingController();
@@ -28,9 +28,9 @@ class GroupReportCubit extends Cubit<GroupReportState> {
   bool isRotation = true;
   String fromAndTo = DateFormat('yyyy-MM-dd').format(DateTime.now());
 
-  // final formKee = GlobalKey<FormState>();
+  final formKee = GlobalKey<FormState>();
   getGropReport(context, GropReportPostData gropReportPostData) async {
-    emit(GroupReportLoading());
+    emit(StockReportLoading());
     try {
       if (validateData(gropReportPostData)) {
         emit(GropReporValidationError());
@@ -40,9 +40,9 @@ class GroupReportCubit extends Cubit<GroupReportState> {
       gropReportModel = await ApiserviceGropReport()
           .getGropReportFunction(context, gropReportPostData);
       log("gropReportModel.length ${gropReportModel.length}");
-      emit(GroupReportLoaded(groupReportModel: gropReportModel));
+      emit(StockReportLoaded(stockReportModel: gropReportModel));
     } catch (e) {
-      emit(GroupReportError(""));
+      emit(StockReportError(""));
       log(e.toString());
     }
   }
@@ -78,11 +78,6 @@ class GroupReportCubit extends Cubit<GroupReportState> {
     }
 
     return isAllValid;
-  }
-
-  clearAllData() {
-    fromTimeController.dispose();
-    toTimeController.dispose();
   }
 
   void rotationFunction() {

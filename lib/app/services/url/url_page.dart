@@ -7,5 +7,6 @@ abstract class Endpoints {
   String userLocation = 'user-locations';
   String importAll = 'import-all';
   String groupReport = 'group-report';
+  String stockReport = 'stock-report';
 
 }

@@ -12,25 +12,26 @@ import 'package:oditbiz/app/services/repository/ledger_report.dart';
 import 'package:oditbiz/app/services/repository/ledger_search.dart';
 import 'package:oditbiz/di/di.dart';
 
-part 'salesman_state.dart';
+part 'brand_state.dart';
 
-class SalesManCubit extends Cubit<SalesManState> {
-  SalesManCubit() : super(SalesManInitial());
-  late List<SalesmanModel> salesManModel;
-  getSalesMan() async {
-    emit(SalesManLoading());
+class BrandCubit extends Cubit<BrandState> {
+  BrandCubit() : super(BrandInitial());
+  late List<SalesmanModel> brandModel;
+  getBrand() async {
+    emit(BrandLoading());
     try {
       final db = getIt<MyDatabase>();
       List<SettingsTableData> settingsData = await db.getSettigns();
       if (settingsData.isNotEmpty) {
-        if (settingsData.first.salesman!.isNotEmpty) {
-          final decodeSalesManData =
-              json.decode(settingsData.first.salesman!) as List;
+        if (settingsData.first.brand!.isNotEmpty) {
+          log("${settingsData.first.brand}");
+          final decodeBrandData =
+              json.decode(settingsData.first.brand!) as List;
 
-          salesManModel =
-              decodeSalesManData.map((x) => SalesmanModel.fromJson(x)).toList();
+          brandModel =
+              decodeBrandData.map((x) => SalesmanModel.fromJson(x)).toList();
 
-          emit(SalesManLoaded(salesManModel: salesManModel));
+          emit(BrandLoaded(brandModel: brandModel));
         }
       }
     } catch (e) {
@@ -38,10 +39,10 @@ class SalesManCubit extends Cubit<SalesManState> {
     }
   }
 
-  searchSalesMan(routeName) async {
+  searchBrand(routeName) async {
     try {
-      emit(SalesManLoaded(
-          salesManModel: salesManModel
+      emit(BrandLoaded(
+          brandModel: brandModel
               .where((element) => element.label!
                   .toLowerCase()
                   .contains(routeName.toLowerCase()))
@@ -51,16 +52,16 @@ class SalesManCubit extends Cubit<SalesManState> {
     }
   }
 
-  double? selectedSalesManValue;
+  double? selectedBrandValue;
 
-  SalesmanModel? selectedSalesMan;
-  seletedLedger(SalesmanModel salesManModel) {
-    selectedSalesMan = salesManModel;
-    selectedSalesManValue = selectedSalesMan?.value;
+  SalesmanModel? selectedBrand;
+  seletedLedger(int index) {
+    selectedBrand = brandModel[index];
+    selectedBrandValue = selectedBrand?.value;
   }
 
   clear() {
-    selectedSalesManValue = null;
-    selectedSalesMan = null;
+    selectedBrandValue = null;
+    selectedBrand = null;
   }
 }

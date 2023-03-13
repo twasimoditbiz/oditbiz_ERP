@@ -96,7 +96,8 @@ class _SalesManSearchDialogState extends State<SalesManSearchDialog>
                                       (BuildContext context, int index) {
                                     return GestureDetector(
                                       onTap: () {
-                                        salesManCubit.seletedLedger(index);
+                                        salesManCubit.seletedLedger(salesManState
+                                                  .salesManModel[index]);
                                         Navigator.pop(context);
                                       },
                                       child: Column(

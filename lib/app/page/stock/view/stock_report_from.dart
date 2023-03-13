@@ -44,34 +44,18 @@ class _GroupReportFormState extends State<GroupReportForm> {
     // final db = getIt<MyDatabase>();
 
     // await db.statementType();
-    clearAllFormData();
+
     BlocProvider.of<GroupCubit>(context).getGroup();
     BlocProvider.of<RouteCubit>(context).getRoute();
     BlocProvider.of<SalesManCubit>(context).getSalesMan();
   }
 
-  clearAllFormData() {
-    BlocProvider.of<GroupCubit>(context).clear();
-    BlocProvider.of<RouteCubit>(context).clear();
-    BlocProvider.of<SalesManCubit>(context).clear();
-    BlocProvider.of<GroupReportCubit>(context).updateFromDate(DateTime.now());
-    BlocProvider.of<GroupReportCubit>(context).updateToDate(DateTime.now());
-  }
-
   initStatementType() async {
     final db = getIt<MyDatabase>();
     statementType = await db.statementType();
-    
   }
 
   String statementType = "";
-
-
-  @override
-  void dispose() {
-    // BlocProvider.of<GroupReportCubit>(context).clearAllData();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -107,11 +91,9 @@ class _GroupReportFormState extends State<GroupReportForm> {
         ),
       ),
       body: SingleChildScrollView(
-        child:
-        //  Form(
-        //   key: bloc.formKee,
-        //   child:
-           Column(
+        child: Form(
+          
+          child: Column(
             children: [
               Padding(
                 padding: const EdgeInsets.only(right: 23, left: 23, top: 29),
@@ -128,7 +110,6 @@ class _GroupReportFormState extends State<GroupReportForm> {
                     ),
                     InkWell(
                       onTap: () async {
-                        await BlocProvider.of<GroupCubit>(context).getGroup();
                         await showDialog(
                           context: context,
                           builder: (context) => const GroupSearchDialog(),
@@ -196,7 +177,6 @@ class _GroupReportFormState extends State<GroupReportForm> {
                     ),
                     InkWell(
                       onTap: () async {
-                        await BlocProvider.of<RouteCubit>(context).getRoute();
                         await showDialog(
                           context: context,
                           builder: (context) => const RouteSearchDialog(),
@@ -264,9 +244,6 @@ class _GroupReportFormState extends State<GroupReportForm> {
                     ),
                     InkWell(
                       onTap: () async {
-                        await BlocProvider.of<SalesManCubit>(context)
-                            .getSalesMan();
-
                         await showDialog(
                           context: context,
                           builder: (context) => const SalesManSearchDialog(),
@@ -501,9 +478,7 @@ class _GroupReportFormState extends State<GroupReportForm> {
                                   textColor: Styles.toastText,
                                 );
                               } else {
-                                
-
-                                Get.offAndToNamed(PageRoutes.gropReportTableScreen,
+                                Get.toNamed(PageRoutes.gropReportTableScreen,
                                     arguments: {
                                       'statementType': statementType,
                                     });
@@ -530,7 +505,7 @@ class _GroupReportFormState extends State<GroupReportForm> {
                                     MediaQuery.of(context).size.height * 0.05,
                                 minWidth: width * 0.15,
                                 onPressed: () async {
-                                  // if (bloc.formKee.currentState!.validate()) {
+                                 
                                     if (bloc.fromTimeController.text.isEmpty) {
                                       bloc.updateFromDate(DateTime.now());
                                     }
@@ -561,7 +536,7 @@ class _GroupReportFormState extends State<GroupReportForm> {
                                           toDate: bloc.toTimeController.text,
                                         ));
                                     log("selectedGroupValue ${readGroupCubit.selectedGroupValue}");
-                                  // }
+                                  
                                 },
                                 child: const Text(
                                   'Search',
@@ -582,7 +557,7 @@ class _GroupReportFormState extends State<GroupReportForm> {
             ],
           ),
         ),
-      // ),
+      ),
     );
   }
 }

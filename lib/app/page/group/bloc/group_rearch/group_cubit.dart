@@ -53,8 +53,10 @@ class GroupCubit extends Cubit<GroupState> {
   double? selectedGroupValue;
 
   GroupModel? selectedLedger;
-  seletedLedger(int index) {
-    selectedLedger = groupModel[index];
+  seletedLedger(GroupModel groupModel) {
+    
+    selectedLedger = groupModel;
+    log("${selectedLedger!.label} == ${selectedLedger!.value}");
     selectedGroupValue = selectedLedger?.value;
   }
 

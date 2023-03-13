@@ -69,8 +69,7 @@ class _RouteSearchDialogState extends State<RouteSearchDialog>
                   ),
                 ),
                 SingleChildScrollView(
-                  child:
-                      BlocBuilder<RouteCubit, RouteState>(
+                  child: BlocBuilder<RouteCubit, RouteState>(
                     builder: (context, routeState) {
                       if (routeState is RouteLoaded) {
                         return SizedBox(
@@ -91,15 +90,14 @@ class _RouteSearchDialogState extends State<RouteSearchDialog>
                                   ],
                                 )
                               : ListView.builder(
-                                  itemCount: routeState
-                                      .routeModel.length,
+                                  itemCount: routeState.routeModel.length,
                                   shrinkWrap: true,
                                   itemBuilder:
                                       (BuildContext context, int index) {
                                     return GestureDetector(
                                       onTap: () {
-                                        routeCubit
-                                            .seletedLedger(index);
+                                        routeCubit.seletedLedger(
+                                            routeState.routeModel[index]);
                                         Navigator.pop(context);
                                       },
                                       child: Column(
@@ -120,8 +118,7 @@ class _RouteSearchDialogState extends State<RouteSearchDialog>
                                                 horizontal: 4, vertical: -4),
                                             title: Text(
                                               routeState
-                                                  .routeModel[index]
-                                                  .label!,
+                                                  .routeModel[index].label!,
                                               style: const TextStyle(
                                                 color: Colors.black,
                                                 fontSize: 16,

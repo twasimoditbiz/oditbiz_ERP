@@ -12,25 +12,27 @@ import 'package:oditbiz/app/services/repository/ledger_report.dart';
 import 'package:oditbiz/app/services/repository/ledger_search.dart';
 import 'package:oditbiz/di/di.dart';
 
-part 'salesman_state.dart';
+part 'category_state.dart';
 
-class SalesManCubit extends Cubit<SalesManState> {
-  SalesManCubit() : super(SalesManInitial());
-  late List<SalesmanModel> salesManModel;
-  getSalesMan() async {
-    emit(SalesManLoading());
+class CategoryCubit extends Cubit<CategoryState> {
+  CategoryCubit() : super(CategoryInitial());
+  late List<SalesmanModel> categoryModel;
+  getCategory() async {
+    emit(CategoryLoading());
     try {
       final db = getIt<MyDatabase>();
       List<SettingsTableData> settingsData = await db.getSettigns();
       if (settingsData.isNotEmpty) {
-        if (settingsData.first.salesman!.isNotEmpty) {
-          final decodeSalesManData =
+        if (settingsData.first.category!.isNotEmpty) {
+          log("${settingsData.first.category}");
+
+          final decodeCategoryData =
               json.decode(settingsData.first.salesman!) as List;
 
-          salesManModel =
-              decodeSalesManData.map((x) => SalesmanModel.fromJson(x)).toList();
+          categoryModel =
+              decodeCategoryData.map((x) => SalesmanModel.fromJson(x)).toList();
 
-          emit(SalesManLoaded(salesManModel: salesManModel));
+          emit(CategoryLoaded(categoryModel: categoryModel));
         }
       }
     } catch (e) {
@@ -38,10 +40,10 @@ class SalesManCubit extends Cubit<SalesManState> {
     }
   }
 
-  searchSalesMan(routeName) async {
+  searchCategory(routeName) async {
     try {
-      emit(SalesManLoaded(
-          salesManModel: salesManModel
+      emit(CategoryLoaded(
+          categoryModel: categoryModel
               .where((element) => element.label!
                   .toLowerCase()
                   .contains(routeName.toLowerCase()))
@@ -51,16 +53,16 @@ class SalesManCubit extends Cubit<SalesManState> {
     }
   }
 
-  double? selectedSalesManValue;
+  double? selectedCategoryValue;
 
-  SalesmanModel? selectedSalesMan;
-  seletedLedger(SalesmanModel salesManModel) {
-    selectedSalesMan = salesManModel;
-    selectedSalesManValue = selectedSalesMan?.value;
+  SalesmanModel? selectedCategory;
+  seletedLedger(int index) {
+    selectedCategory = categoryModel[index];
+    selectedCategoryValue = selectedCategory?.value;
   }
 
   clear() {
-    selectedSalesManValue = null;
-    selectedSalesMan = null;
+    selectedCategoryValue = null;
+    selectedCategory = null;
   }
 }

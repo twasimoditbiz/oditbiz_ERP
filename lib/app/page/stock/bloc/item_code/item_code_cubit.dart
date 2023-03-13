@@ -12,25 +12,25 @@ import 'package:oditbiz/app/services/repository/ledger_report.dart';
 import 'package:oditbiz/app/services/repository/ledger_search.dart';
 import 'package:oditbiz/di/di.dart';
 
-part 'salesman_state.dart';
+part 'item_code_state.dart';
 
-class SalesManCubit extends Cubit<SalesManState> {
-  SalesManCubit() : super(SalesManInitial());
-  late List<SalesmanModel> salesManModel;
-  getSalesMan() async {
-    emit(SalesManLoading());
+class ItemNameCubit extends Cubit<ItemNameState> {
+  ItemNameCubit() : super(ItemNameInitial());
+  late List<SalesmanModel> itemNameModel;
+  getItemName() async {
+    emit(ItemNameLoading());
     try {
       final db = getIt<MyDatabase>();
       List<SettingsTableData> settingsData = await db.getSettigns();
       if (settingsData.isNotEmpty) {
-        if (settingsData.first.salesman!.isNotEmpty) {
-          final decodeSalesManData =
-              json.decode(settingsData.first.salesman!) as List;
+        if (settingsData.first.itemCode!.isNotEmpty) {
+          final decodeItemNameData =
+              json.decode(settingsData.first.itemCode!) as List;
+          log("${settingsData.first.itemCode}");
+          itemNameModel =
+              decodeItemNameData.map((x) => SalesmanModel.fromJson(x)).toList();
 
-          salesManModel =
-              decodeSalesManData.map((x) => SalesmanModel.fromJson(x)).toList();
-
-          emit(SalesManLoaded(salesManModel: salesManModel));
+          emit(ItemNameLoaded(itemNameModel: itemNameModel));
         }
       }
     } catch (e) {
@@ -38,10 +38,10 @@ class SalesManCubit extends Cubit<SalesManState> {
     }
   }
 
-  searchSalesMan(routeName) async {
+  searchItemName(routeName) async {
     try {
-      emit(SalesManLoaded(
-          salesManModel: salesManModel
+      emit(ItemNameLoaded(
+          itemNameModel: itemNameModel
               .where((element) => element.label!
                   .toLowerCase()
                   .contains(routeName.toLowerCase()))
@@ -51,16 +51,16 @@ class SalesManCubit extends Cubit<SalesManState> {
     }
   }
 
-  double? selectedSalesManValue;
+  double? selectedItemNameValue;
 
-  SalesmanModel? selectedSalesMan;
-  seletedLedger(SalesmanModel salesManModel) {
-    selectedSalesMan = salesManModel;
-    selectedSalesManValue = selectedSalesMan?.value;
+  SalesmanModel? selectedItemName;
+  seletedLedger(int index) {
+    selectedItemName = itemNameModel[index];
+    selectedItemNameValue = selectedItemName?.value;
   }
 
   clear() {
-    selectedSalesManValue = null;
-    selectedSalesMan = null;
+    selectedItemNameValue = null;
+    selectedItemName = null;
   }
 }

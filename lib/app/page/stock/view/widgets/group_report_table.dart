@@ -123,38 +123,22 @@ class _DataSource extends DataTableSource {
         DataCell(Text("${row['Address1'] ?? ''}")),
         DataCell(Text("${row['Address2'] ?? ''}")),
         DataCell(Text('${row['Contact'] ?? ''}')),
-        DataCell(columnAlignRight(
-            alignment: Alignment.centerRight,
-            text: "${row['OpeningDr'] ?? '0'}")),
-        DataCell(columnAlignRight(
-            alignment: Alignment.centerRight,
-            text: "${row['OpeningCr'] ?? '0'}")),
-        DataCell(columnAlignRight(
-            alignment: Alignment.centerRight, text: "${row['Debit'] ?? '0'}")),
-        DataCell(columnAlignRight(
-            alignment: Alignment.centerRight, text: "${row['Credit'] ?? '0'}")),
-        DataCell(columnAlignRight(
-            alignment: Alignment.centerRight,
-            text: "${row['ClosingDr'] ?? '0'}")),
-        DataCell(columnAlignRight(
-            alignment: Alignment.centerRight,
-            text: "${row['ClosingCr'] ?? '0'}"))
+        DataCell(Text("${row['OpeningDr'] ?? ''}")),
+        DataCell(Text("${row['OpeningCr'] ?? ''}")),
+        DataCell(Text("${row['Debit'] ?? ''}")),
+        DataCell(Text("${row['Credit'] ?? ''}")),
+        DataCell(Text("${row['ClosingDr'] ?? ''}")),
+        DataCell(Text("${row['ClosingCr'] ?? ''}"))
       ];
     } else if (statementType == PrefResources.ROUT_AND_SALESMAN) {
       dataCell = [
         DataCell(Text("${row['Particulars'] ?? ''}")),
         DataCell(Text("${row['Salesman'] ?? ''}")),
         DataCell(Text("${row['Rout'] ?? ''}")),
-        DataCell(columnAlignRight(
-            alignment: Alignment.centerRight,
-            text: '${row['OpeningBalance'] ?? '0'}')),
-        DataCell(columnAlignRight(
-            alignment: Alignment.centerRight, text: "${row['Debit'] ?? '0'}")),
-        DataCell(columnAlignRight(
-            alignment: Alignment.centerRight, text: "${row['Credit'] ?? '0'}")),
-        DataCell(columnAlignRight(
-            alignment: Alignment.centerRight,
-            text: "${row['ClosingBalance'] ?? '0'}")),
+        DataCell(Text('${row['OpeningBalance'] ?? ''}')),
+        DataCell(Text("${row['Debit'] ?? ''}")),
+        DataCell(Text("${row['Credit'] ?? ''}")),
+        DataCell(Text("${row['ClosingBalance'] ?? ''}")),
       ];
     } else if (statementType == PrefResources.SALES_MAN_WISE_GROUP) {
       dataCell = [
@@ -184,10 +168,4 @@ class _DataSource extends DataTableSource {
 
   @override
   int get selectedRowCount => 0;
-
-  columnAlignRight({required Alignment alignment, required String text}) =>
-      Container(
-          width: double.infinity,
-          alignment: alignment,
-          child: Text(double.parse(text).toStringAsFixed(2)));
 }

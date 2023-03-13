@@ -98,19 +98,13 @@ class _GroupSearchDialogState extends State<GroupSearchDialog>
                                     return GestureDetector(
                                       onTap: () {
                                         groupController
-                                            .seletedLedger(index);
+                                            .seletedLedger(groupSearchState
+                                                  .groupModel[index]);
                                         Navigator.pop(context);
                                       },
                                       child: Column(
                                         children: [
-                                          // Text(
-                                          //   ledgerSearchController
-                                          //       .ledgers[index].label,
-                                          //   style: const TextStyle(
-                                          //     color: Colors.black,
-                                          //     fontSize: 16,
-                                          //   ),
-                                          // ),
+                                        
                                           ListTile(
                                             contentPadding:
                                                 const EdgeInsets.symmetric(

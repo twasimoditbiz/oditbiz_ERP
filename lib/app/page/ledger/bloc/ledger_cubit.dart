@@ -34,10 +34,10 @@ class LedgerCubit extends Cubit<LedgerState> {
         await ApiserviceloginUser().loginUserFunction(context, object);
     if (data != null) {
       if (data.status!) {
-        await UserServicesUser().setUserDataUser(
-            LedgerSearchController.selectedLedgerValue!.toInt().toString());
-        await UserServicesUser()
-            .setUserDataUser(LedgerSearchController.selectedLedger.toString());
+        // await UserServicesUser().setUserDataUser(
+        //     LedgerSearchController.selectedLedgerValue!.toInt().toString(), erptype: '');
+        // await UserServicesUser()
+        //     .setUserDataUser(LedgerSearchController.selectedLedger.toString());
       }
     }
   }

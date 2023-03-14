@@ -73,8 +73,9 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       initialRoute: PageRoutes.splashScreen,
       getPages: Routes.routes,
+      
       theme: ThemeData(
-        fontFamily: "poppins",
+        fontFamily: "montserratfamily",
         primarySwatch: Colors.blue,
         inputDecorationTheme: InputDecorationTheme(
           border: DecoratedInputBorder(

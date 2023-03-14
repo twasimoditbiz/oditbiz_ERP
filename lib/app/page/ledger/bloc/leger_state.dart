@@ -1,24 +1,23 @@
 part of 'ledger_cubit.dart';
 
-
 @immutable
-abstract class LegerResponseState {}
+abstract class LedgerState {}
 
-class LegerResponseInitial extends LegerResponseState {}
+class LedgerInitial extends LedgerState {}
 
-class LegerResponseLoading extends LegerResponseState {}
+class LegerResponseLoading extends LedgerState {}
 
-class LegerResponseLoaded extends LegerResponseState {
-final List<LedgerReportResponseModel> ledgerReportResponseModel;
+class LegerResponseLoaded extends LedgerState {
+  final List<LedgerReportResponseModel> ledgerReportResponseModel;
   LegerResponseLoaded({required this.ledgerReportResponseModel});
 }
 
-class LegerResponsePartiallyLoaded extends LegerResponseState {
- final List<LedgerReportResponseModel> ledgerReportResponseModel;
+class LegerResponsePartiallyLoaded extends LedgerState {
+  final List<LedgerReportResponseModel> ledgerReportResponseModel;
   LegerResponsePartiallyLoaded({required this.ledgerReportResponseModel});
 }
 
-class LegerResponseError extends LegerResponseState {
+class LedgerError extends LedgerState {
   final String error;
-  LegerResponseError(this.error);
+  LedgerError(this.error);
 }

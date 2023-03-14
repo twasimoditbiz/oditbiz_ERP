@@ -1,8 +1,12 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class SquareLoader {
+  static bool isOpen = false;
   static show(context) {
+    isOpen = true;
     showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -28,6 +32,10 @@ class SquareLoader {
   }
 
   static dismiss() {
-    Get.back();
+    if (isOpen) {
+      
+      isOpen = false;
+      Get.back();
+    }
   }
 }

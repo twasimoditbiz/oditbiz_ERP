@@ -21,11 +21,15 @@ part 'group_report_state.dart';
 
 class GroupReportCubit extends Cubit<GroupReportState> {
   GroupReportCubit() : super(GroupReportInitial());
-  late List<GropReportModel> gropReportModel;
+  List<GropReportModel> paginatedGropReportReport = [];
+
+  List<GropReportModel> gropReportModel = [];
   String? selectedGroup = "";
   TextEditingController fromTimeController = TextEditingController();
   TextEditingController toTimeController = TextEditingController();
   bool isRotation = true;
+  int lastCount = 0;
+  int totalRowsPerPage = 50;
   String fromAndTo = DateFormat('yyyy-MM-dd').format(DateTime.now());
 
   // final formKee = GlobalKey<FormState>();
@@ -37,14 +41,54 @@ class GroupReportCubit extends Cubit<GroupReportState> {
         return;
       }
 
-      gropReportModel = await ApiserviceGropReport()
+      List<GropReportModel> response = await ApiserviceGropReport()
           .getGropReportFunction(context, gropReportPostData);
       log("gropReportModel.length ${gropReportModel.length}");
       emit(GroupReportLoaded(groupReportModel: gropReportModel));
+      gropReportModel
+        ..clear()
+        ..addAll(response);
+      paginatedGropReportReport.clear();
+      if (gropReportModel.length < 50) {
+        for (var i = 0; i < gropReportModel.length; i++) {
+          paginatedGropReportReport.add(gropReportModel[i]);
+        }
+      } else {
+        for (var i = 0; i < totalRowsPerPage; i++) {
+          paginatedGropReportReport.add(gropReportModel[i]);
+        }
+      }
+      emit(GroupReportLoaded(groupReportModel: paginatedGropReportReport));
     } catch (e) {
-      emit(GroupReportError(""));
       log(e.toString());
     }
+  }
+
+  getPaginatedDataNext() {
+    emit(GroupReportInitial());
+    emit(GroupReportLoading());
+    paginatedGropReportReport.clear();
+    int toCount = lastCount + totalRowsPerPage;
+    paginatedGropReportReport.clear();
+    for (int i = lastCount; i < toCount; i++) {
+      paginatedGropReportReport.add(gropReportModel[i]);
+    }
+    log('paginatedData => ${paginatedGropReportReport.length}');
+    lastCount = toCount;
+    emit(GroupReportLoaded(groupReportModel: paginatedGropReportReport));
+  }
+
+  getPaginatedDataPrevious() {
+    emit(GroupReportLoading());
+    paginatedGropReportReport.clear();
+    int toCount = lastCount - totalRowsPerPage;
+    paginatedGropReportReport.clear();
+    for (int i = toCount; i < lastCount; i++) {
+      paginatedGropReportReport.add(gropReportModel[i]);
+    }
+    log('paginatedData => ${paginatedGropReportReport.length}');
+    lastCount = toCount;
+    emit(GroupReportLoaded(groupReportModel: paginatedGropReportReport));
   }
 
   updateFromDate(pickedDate) {

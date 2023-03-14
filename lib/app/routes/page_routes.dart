@@ -5,6 +5,7 @@ import 'package:get/get_navigation/src/routes/transitions_type.dart'
 import 'package:oditbiz/app/page/bottom_nav/view/bottom_nav.dart';
 import 'package:oditbiz/app/page/group/view/group_report_from.dart';
 import 'package:oditbiz/app/page/group/view/group_report_table_screen.dart';
+import 'package:oditbiz/app/page/group/view/group_table_screen.dart';
 import 'package:oditbiz/app/page/home/homepage.dart';
 import 'package:oditbiz/app/page/ledger/view/ledger_registration.dart';
 import 'package:oditbiz/app/page/ledger/view/ledger_table_screen.dart';

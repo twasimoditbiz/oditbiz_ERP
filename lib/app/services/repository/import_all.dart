@@ -32,7 +32,6 @@ class ApiserviceImport extends Endpoints {
     } on DioError catch (e) {
       log("import ===$e");
       if (e.error.toString().contains('SocketException')) {
-        showSnackBar(context, 'Connection refused ! import');
         return showSnackBar(context, 'Something went wrong try again!');
       } else {
         log(e.toString());

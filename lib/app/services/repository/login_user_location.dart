@@ -13,6 +13,7 @@ class ApiserviceLoginUserLocation extends Endpoints {
     try {
       final sp = await SharedPreferences.getInstance();
       final token = sp.getString(PrefResources.TOKENAPP);
+      
       log('location USER TOKEN ==> $token');
       final response = await Dio().get(
         "$baseurl$userLocation",
@@ -33,7 +34,6 @@ class ApiserviceLoginUserLocation extends Endpoints {
     } on DioError catch (e) {
       log(e.toString());
       if (e.error.toString().contains('SocketException')) {
-        showSnackBar(context, 'Connection refused ! user login');
         return showSnackBar(context, 'Something went wrong try again!');
       } else {
         log(e.toString());

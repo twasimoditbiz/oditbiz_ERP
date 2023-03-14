@@ -63,3 +63,21 @@ List<DataColumn> createColumns() {
     ),
   ];
 }
+
+List<DataColumn> createDynamicColumns({required List<String> column}) {
+  const textStyle = TextStyle(
+    fontWeight: FontWeight.bold,
+    color: Colors.white,
+    fontSize: 12,
+  );
+  List<DataColumn> dataColumn = [];
+  final data = column.map((e) => DataColumn(
+        label: Text(
+          e,
+          style: textStyle,
+        ),
+      ));
+
+  dataColumn.addAll(data);
+  return dataColumn;
+}

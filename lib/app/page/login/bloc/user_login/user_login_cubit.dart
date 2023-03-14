@@ -18,7 +18,18 @@ class UserLoginCubit extends Cubit<UserLoginState> {
         await ApiserviceloginUser().loginUserFunction(context, object);
     if (data != null) {
       if (data.status!) {
-        await UserServicesUser().setUserDataUser(data.token!);
+        await UserServicesUser().setUserDataUser(
+            erptype: '',
+            guusername: '',
+            guuserid: '',
+            saleman: '',
+            userrole: '',
+            usertoken: data.token!);
+        // await UserServicesUser().setUserDataUser(data.erpType!);
+        // await UserServicesUser().setUserDataUser(data.user!.role.toString());
+        // await UserServicesUser().setUserDataUser(data.user!.guUserId.toString());
+        // await UserServicesUser().setUserDataUser(data.user!.guName.toString());
+        // await UserServicesUser().setUserDataUser(data.salesMan!);
         await BlocProvider.of<ImportCubit>(context).getImport(context);
       }
 

@@ -3,12 +3,21 @@ import 'package:oditbiz/app/resources/pref_resources.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class UserServicesUser {
-  Future<bool> setUserDataUser(String data) async {
-    log("setUserData");
+  Future<bool> setUserDataUser(
+      {required String usertoken,
+      required String guuserid,
+      required String guusername,
+      required String userrole,
+      required String erptype,
+      required String saleman}) async {
     try {
       final prefs = await SharedPreferences.getInstance();
-      log("setUserData1");
-      return prefs.setString(PrefResources.TOKENUSER, data);
+      await prefs.setString(PrefResources.TOKENUSER, usertoken);
+      await prefs.setString(PrefResources.GU_USER_ID, guuserid);
+      await prefs.setString(PrefResources.GU_USER_NAME, guusername);
+      await prefs.setString(PrefResources.USER_ROLE, userrole);
+      await prefs.setString(PrefResources.ERP_TYPE, erptype);
+      return prefs.setString(PrefResources.SALE_MAN, saleman);
     } catch (e) {
       log(e.toString());
       return false;

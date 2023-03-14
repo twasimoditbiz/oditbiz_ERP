@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:oditbiz/app/controller/ledger_search.dart';
-import 'package:oditbiz/app/custom/custom_loader.dart';
 import 'package:oditbiz/app/custom/ledger_search.dart';
 import 'package:oditbiz/app/custom/loading.dart';
 import 'package:oditbiz/app/page/ledger/bloc/ledger_cubit.dart';
@@ -108,7 +107,7 @@ class _LedgerRegistrationState extends State<LedgerRegistration> {
                                     width:
                                         MediaQuery.of(context).size.width * 0.5,
                                     child: Text(
-                                        ledgerSearchController
+                                        LedgerSearchController
                                                 .selectedLedger?.label ??
                                             "Select Ledger",
                                         overflow: TextOverflow.ellipsis),
@@ -281,11 +280,11 @@ class _LedgerRegistrationState extends State<LedgerRegistration> {
                         ),
                       ],
                     ),
-                    BlocListener<LedgerCubit, LegerResponseState>(
+                    BlocListener<LedgerCubit, LedgerState>(
                       listener: (context, ledgerState) {
+                        log(ledgerState.toString());
                         if (ledgerState is LegerResponseLoading) {
                           LedgerLoader.show(context);
-                          // SquareLoader.show(context);
                         }
                         if (ledgerState is LegerResponseLoaded) {
                           LedgerLoader.dismiss();

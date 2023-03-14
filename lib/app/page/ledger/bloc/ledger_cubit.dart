@@ -5,13 +5,17 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:oditbiz/app/page/ledger/bloc/ledger_rearch/ledger_search_cubit.dart';
 import 'package:oditbiz/app/page/ledger/model/ledger_table.dart';
+import 'package:oditbiz/app/page/login/bloc/model/user_login_model.dart';
+import 'package:oditbiz/app/page/login/model/login_user_model.dart';
 import 'package:oditbiz/app/services/repository/ledger_report.dart';
+import 'package:oditbiz/app/services/repository/login_user.dart';
+import 'package:oditbiz/app/services/user_service_user.dart';
 import '../../../controller/ledger_search.dart';
 import '../model/ledger_report_model.dart' as ledger;
 part 'leger_state.dart';
 
-class LedgerCubit extends Cubit<LegerResponseState> {
-  LedgerCubit() : super(LegerResponseInitial());
+class LedgerCubit extends Cubit<LedgerState> {
+  LedgerCubit() : super(LedgerInitial());
   List<LedgerReportResponseModel> paginatedLedgerReport = [];
   TextEditingController fromTimeController = TextEditingController();
   TextEditingController toTimeController = TextEditingController();
@@ -19,10 +23,25 @@ class LedgerCubit extends Cubit<LegerResponseState> {
   bool isRotation = true;
   bool isLoading = false;
   int lastCount = 0;
-  int totalRowsPerPage = 0;
+  int totalRowsPerPage = 50;
   String fromAndTo = DateFormat('yyyy-MM-dd').format(DateTime.now());
   final formKee = GlobalKey<FormState>();
   List<LedgerReportResponseModel> ledgerTableData = [];
+  late UserLoginModel data;
+
+  getUserLogin(context, LoginUserModel object) async {
+    emit(LegerResponseLoading());
+    UserLoginModel? data =
+        await ApiserviceloginUser().loginUserFunction(context, object);
+    if (data != null) {
+      if (data.status!) {
+        // await UserServicesUser().setUserDataUser(
+        //     LedgerSearchController.selectedLedgerValue!.toInt().toString(), erptype: '');
+        // await UserServicesUser()
+        //     .setUserDataUser(LedgerSearchController.selectedLedger.toString());
+      }
+    }
+  }
 
   getLedgerReport(BuildContext connect) async {
     emit(LegerResponseLoading());
@@ -46,23 +65,44 @@ class LedgerCubit extends Cubit<LegerResponseState> {
         ..clear()
         ..addAll(response);
       paginatedLedgerReport.clear();
-      for (var i = 0; i < 50; i++) {
-        paginatedLedgerReport.add(ledgerTableData[i]);
+      if (ledgerTableData.length < 50) {
+        for (var i = 0; i < ledgerTableData.length; i++) {
+          paginatedLedgerReport.add(ledgerTableData[i]);
+        }
+      } else {
+        for (var i = 0; i < totalRowsPerPage; i++) {
+          paginatedLedgerReport.add(ledgerTableData[i]);
+        }
       }
       emit(LegerResponseLoaded(
           ledgerReportResponseModel: paginatedLedgerReport));
     } catch (e) {
       log(e.toString());
     }
+    // log(LedgerSearchController.selectedLedgerValue!.toInt().toString());
   }
 
   getPaginatedDataNext() {
-    emit(LegerResponseInitial());
+    emit(LedgerInitial());
     emit(LegerResponseLoading());
     paginatedLedgerReport.clear();
     int toCount = lastCount + totalRowsPerPage;
     paginatedLedgerReport.clear();
     for (int i = lastCount; i < toCount; i++) {
+      paginatedLedgerReport.add(ledgerTableData[i]);
+    }
+    log('paginatedData => ${paginatedLedgerReport.length}');
+    lastCount = toCount;
+    emit(LegerResponseLoaded(ledgerReportResponseModel: paginatedLedgerReport));
+  }
+
+  getPaginatedDataPrevious() {
+    emit(LedgerInitial());
+    emit(LegerResponseLoading());
+    paginatedLedgerReport.clear();
+    int toCount = lastCount - totalRowsPerPage;
+    paginatedLedgerReport.clear();
+    for (int i = toCount; i < lastCount; i++) {
       paginatedLedgerReport.add(ledgerTableData[i]);
     }
     log('paginatedData => ${paginatedLedgerReport.length}');

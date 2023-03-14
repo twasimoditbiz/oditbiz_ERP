@@ -1,9 +1,6 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-// import 'package:oditbiz/app/custom/sncakbar.dart';
 import 'package:oditbiz/app/page/ledger/model/ledger_report_model.dart';
 import 'package:oditbiz/app/page/ledger/model/ledger_table.dart';
 import 'package:oditbiz/app/resources/pref_resources.dart';
@@ -34,7 +31,6 @@ class ApiserviceLedgerReport extends Endpoints {
     } on DioError catch (e) {
       log(e.toString());
       if (e.error.toString().contains('SocketException')) {
-        // return showSnackBar(context, 'Connection refused !');
       } else {
         log(' =>$e');
       }
